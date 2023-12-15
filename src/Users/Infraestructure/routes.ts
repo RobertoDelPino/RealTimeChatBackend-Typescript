@@ -5,7 +5,7 @@ const router = express.Router();
 
 const getAllUsersController = createGetAllUsersController();
 
-router.get('/users', getAllUsersController.exec);
+router.get('/users', getAllUsersController.exec.bind(getAllUsersController));
 
 /*router.get('/users/:id', userController.getUserById);
 router.post('/users', userController.createUser);

@@ -1,10 +1,12 @@
+import { GetAllUsersUseCase } from "../Application/getAllUserUseCase";
 import getAllUsersController from "./Controllers/getAllUsersController";
+import { getAllUserMysqlRepository } from "./Repositories/getAllUserMysqlRepository";
 
 function createGetAllUsersController() {
-  //const repository = new UserRepository(); --> Repositorio
-  //const useCase = new GetAllUsersUseCase(repository); --> Comando
-  //const controller = new getAllUsersController(useCase); --> Controlador
-  return new getAllUsersController();
+  const repository = new getAllUserMysqlRepository();
+  const useCase = new GetAllUsersUseCase(repository);
+  const controller = new getAllUsersController(useCase);
+  return controller;
 }
 
 export { createGetAllUsersController };
