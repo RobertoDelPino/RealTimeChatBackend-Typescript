@@ -1,5 +1,5 @@
 import { User } from "../entities/User";
 
-export interface GetAllUsersInterfaceRepository {
+export interface GetAllUsersRepository {
     getAllUsers(): Promise<User[]>;
 }

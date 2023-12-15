@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { IGetAllUsersUseCase } from '../../Application/getAllUserUseCase';
+import { getAllUsersInterface } from '../../Application/getAllUsers';
 import { User } from '../../Domain/entities/User';
 
 class getAllUsersController {
 
-    private useCase: IGetAllUsersUseCase;
+    private useCase: getAllUsersInterface;
 
-    constructor(getAllUserUseCase: IGetAllUsersUseCase){
+    constructor(getAllUserUseCase: getAllUsersInterface){
         this.useCase = getAllUserUseCase
     }
 

@@ -1,7 +1,7 @@
 import { User } from "../../Domain/entities/User";
-import { GetAllUsersInterfaceRepository } from "../../Domain/repositories/getAllUsersInterfaceRepository";
+import { GetAllUsersRepository } from "../../Domain/repositories/getAllUsersRepository";
 
-export class getAllUserMysqlRepository implements GetAllUsersInterfaceRepository {
+export class getAllUserMysqlRepository implements GetAllUsersRepository {
     getAllUsers(): Promise<User[]> {
         return new Promise((resolve, _reject) => {
             resolve([
