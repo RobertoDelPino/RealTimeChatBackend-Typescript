@@ -3,9 +3,9 @@ import { createGetAllUsersController } from './controllerFactory';
 
 const router = express.Router();
 
-const getAllUsersController = createGetAllUsersController();
+//const getAllUsersController = createGetAllUsersController();
 
-router.get('/users', getAllUsersController.exec.bind(getAllUsersController));
+//router.get('/users', getAllUsersController.exec.bind(getAllUsersController));
 
 /*router.get('/users/:id', userController.getUserById);
 router.post('/users', userController.createUser);
