@@ -1,11 +1,11 @@
 import express from 'express';
-import { createGetAllUsersController } from './controllerFactory';
+import { createCreateUserController } from './Controllers/controllerFactory';
 
 const router = express.Router();
 
-//const getAllUsersController = createGetAllUsersController();
+const createUserController = createCreateUserController();
 
-//router.get('/users', getAllUsersController.exec.bind(getAllUsersController));
+router.post('/users/create', createUserController.handle.bind(createUserController));
 
 /*router.get('/users/:id', userController.getUserById);
 router.post('/users', userController.createUser);

@@ -25,7 +25,6 @@ export class CreateUserUseCase {
     }
 
     private createUser(userData: UserData): User {
-        // using value objects to validate the data
         let errors: string[] = [];
 
         let userId: UserId;
@@ -33,11 +32,11 @@ export class CreateUserUseCase {
         let email: UserEmail;
         let password: Password;
 
-        const userIdResult = UserId.create(userData.id);
+        const idResult = this.createRandomId();
         const nameResult = UserName.create(userData.name);
         const emailResult = UserEmail.create(userData.email);
         const passwordResult = Password.create(userData.password);
-        this.handleValueObject(userIdResult, (value: UserId) => userId = value, (error: string) => errors.push(error));
+        this.handleValueObject(idResult, (value: UserId) => userId = value, (error: string) => errors.push(error));
         this.handleValueObject(nameResult, (value: UserName) => name = value, (error: string) => errors.push(error));
         this.handleValueObject(emailResult, (value: UserEmail) => email = value, (error: string) => errors.push(error));
         this.handleValueObject(passwordResult, (value: Password) => password = value, (error: string) => errors.push(error));
@@ -51,6 +50,11 @@ export class CreateUserUseCase {
         return createdUser;
     }
 
+    private createRandomId(): Either<string, UserId> {
+        const randomId = Math.floor(Math.random() * 1000);
+        return UserId.create(randomId.toString());
+    }
+
     handleValueObject<T>(result: Either<string, T>, setValue: (value: T) => void, setError: (value: string) => void): void {
         const getValue = fold(
           (error: string) => setError(error),
@@ -62,7 +66,6 @@ export class CreateUserUseCase {
 }
 
 export interface UserData {
-    id: string;
     name: string;
     email: string;
     password: string;
