@@ -1,3 +1,6 @@
+import { Token } from "../valueObjects/Token";
+
 export interface ICreateToken {
-    createToken(): string;
+    createToken(): Token;
+    createEmptyToken(): Token;
 }

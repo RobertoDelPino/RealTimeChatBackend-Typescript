@@ -1,24 +1,17 @@
+import { Password } from "../valueObjects/Password";
+import { Token } from "../valueObjects/Token";
+import { UserEmail } from "../valueObjects/UserEmail";
+import { UserId } from "../valueObjects/UserId";
+import { UserName } from "../valueObjects/UserName";
+
 export class User{
     constructor(
-        private readonly id: string,
-        private readonly name: string,
-        private readonly email: string,
-        private readonly password: string
+        public id: UserId,
+        public name: UserName,
+        public email: UserEmail,
+        public password: Password,
+        public confirmAccountToken: Token,
+        public changePasswordToken: Token,
+        public confirmed: boolean,
     ){}
-
-    getId(): string{
-        return this.id;
-    }
-
-    getName(): string{
-        return this.name;
-    }
-
-    getEmail(): string{
-        return this.email;
-    }
-
-    getPassword(): string{
-        return this.password;
-    }
 }

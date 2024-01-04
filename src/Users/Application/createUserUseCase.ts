@@ -5,17 +5,27 @@ import { Either, fold } from 'fp-ts/lib/Either';
 import { UserEmail } from '../Domain/valueObjects/UserEmail';
 import { Password } from '../Domain/valueObjects/Password';
 import { UserId } from '../Domain/valueObjects/UserId';
+import { ICreateToken } from '../Domain/interfaces/createToken';
+import { IEmailSender } from '../Domain/interfaces/emailSender';
 
 export class CreateUserUseCase {
 
-    constructor(private userRepository: IUserRepository) {}
+    constructor(
+        private userRepository: IUserRepository,
+        private createToken: ICreateToken,
+        private emailSender: IEmailSender
+    ) {}
 
     async execute(userData: UserData): Promise<User> {
         try{
-            const user: User = this.createUser(userData);
+            const userExists = await this.userRepository.findByEmail(userData.email);
+            if(userExists) {
+                throw new Error('User already exists');
+            }
 
-            // Save the user to the repository
+            const user: User = this.createUser(userData);
             await this.userRepository.save(user);
+            await this.emailSender.sendEmailToConfirmAccount(user.email, user.confirmAccountToken);
 
             return user;
         }
@@ -31,6 +41,8 @@ export class CreateUserUseCase {
         let name: UserName;
         let email: UserEmail;
         let password: Password;
+        const confirmAccountTokenResult = this.createToken.createToken();
+        const changePasswordToken = this.createToken.createEmptyToken(); 
 
         const idResult = this.createRandomId();
         const nameResult = UserName.create(userData.name);
@@ -45,9 +57,7 @@ export class CreateUserUseCase {
             throw new Error(errors.join(', '));
         }
 
-        const createdUser = new User(userId!.value, name!.value, email!.value, password!.value);
-
-        return createdUser;
+        return new User(userId!, name!, email!, password!, confirmAccountTokenResult, changePasswordToken, false);
     }
 
     private createRandomId(): Either<string, UserId> {
