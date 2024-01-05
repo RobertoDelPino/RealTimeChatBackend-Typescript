@@ -25,7 +25,7 @@ export class CreateUserUseCase {
 
             const user: User = this.createUser(userData);
             await this.userRepository.save(user);
-            await this.emailSender.sendEmailToConfirmAccount(user.email, user.confirmAccountToken);
+            this.emailSender.sendEmailToConfirmAccount(user.email, user.confirmAccountToken);
 
             return user;
         }
