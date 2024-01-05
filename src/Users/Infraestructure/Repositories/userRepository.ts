@@ -18,14 +18,14 @@ export class userRepository implements IUserRepository {
         this.users.push(user);
     }
 
-    findByEmail(email: string): User {
-        const user = this.users.find((user) => user.getEmail() === email);
+    async findByEmail(email: string): Promise<User> {
+        const user = this.users.find((user) => user.email.value === email);
 
         return user!;
     }
 
     findById(id: string): User {
-        const user = this.users.find((user) => user.getId() === id);
+        const user = this.users.find((user) => user.id.value === id);
 
         return user!;
     }
