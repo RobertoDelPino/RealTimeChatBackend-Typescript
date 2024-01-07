@@ -7,18 +7,18 @@ export class createToken implements ICreateToken {
         let errors: string[] = [];
         let randomToken: Token;
 
-        const random = Math.floor(Math.random() * 1000);
-        const tokenResult = Token.create(random.toString());
+        const random = Math.random().toString(32).substring(2).toString();
+        const date = Date.now().toString(32);
+        const tokenResult = Token.create(random + date);
         this.handleValueObject(tokenResult, (value: Token) => randomToken = value, (error: string) => errors.push(error));
         return randomToken!;
     }
 
     createEmptyToken(): Token {
-        let errors: string[] = [];
         let randomToken: Token;
 
         const tokenResult = Token.create("");
-        this.handleValueObject(tokenResult, (value: Token) => randomToken = value, (error: string) => errors.push(error));
+        this.handleValueObject(tokenResult, (value: Token) => randomToken = value, () => {});
         return randomToken!;
     }
 
