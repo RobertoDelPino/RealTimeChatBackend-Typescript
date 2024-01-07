@@ -32,10 +32,10 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
             unique: true
         },
         confirmAccountToken: {
-            type: String
+            type: String,
         },
         changePasswordToken: {
-            type: String
+            type: String,
         },
         confirmed: {
             type: Boolean,
@@ -59,7 +59,7 @@ userSchema.pre<IUser>("save", async function(this: any, next: () => void) {
     this.password = await bcrypt.hash(this.password, salt);
 });
 
-userSchema.methods.checkPassword = async function(this: IUser, passwordForm: string) {
+userSchema.methods.checkPassword = async function(this: any, passwordForm: string) {
     return await bcrypt.compare(passwordForm, this.password);
 };
 

@@ -10,31 +10,27 @@ export class mongoDbUserRepository implements IUserRepository{
                     name: data.name.value,
                     email: data.email.value,
                     password: data.password.value,
-                    confirmAccountToken: data.confirmAccountToken,
-                    changePasswordToken: data.changePasswordToken,
+                    confirmAccountToken: data.confirmAccountToken.value,
+                    changePasswordToken: data.changePasswordToken.value,
                     confirmed: data.confirmed,
                     avatar: data.avatar.value
                 }
             )
-    
+
             await user.save();
         }
         catch (error: any){
-            throw new Error("Error saving user");
+            throw new Error(error);
         }
     }
 
     async findByEmail(email: string): Promise<User | null> {
-        return await MongoDbUser.findOne({email: email}, (err: any, user: any) => {
-            if(err) {
-                return null;
-            }
-            return user;
-        })
+        return await MongoDbUser.findOne({email: email})
     }
     
     
     findById(id: string): User {
+        console.log(id)
         throw new Error("Method not implemented.");
         
     }
