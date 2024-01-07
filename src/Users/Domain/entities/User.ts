@@ -1,3 +1,4 @@
+import { Avatar } from "../valueObjects/Avatar";
 import { Password } from "../valueObjects/Password";
 import { Token } from "../valueObjects/Token";
 import { UserEmail } from "../valueObjects/UserEmail";
@@ -13,5 +14,6 @@ export class User{
         public confirmAccountToken: Token,
         public changePasswordToken: Token,
         public confirmed: boolean,
+        public avatar: Avatar
     ){}
 }

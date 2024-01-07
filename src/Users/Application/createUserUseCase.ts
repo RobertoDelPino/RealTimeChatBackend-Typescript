@@ -7,6 +7,7 @@ import { Password } from '../Domain/valueObjects/Password';
 import { UserId } from '../Domain/valueObjects/UserId';
 import { ICreateToken } from '../Domain/interfaces/createToken';
 import { IEmailSender } from '../Domain/interfaces/emailSender';
+import { Avatar } from '../Domain/valueObjects/Avatar';
 
 export class CreateUserUseCase {
 
@@ -41,6 +42,7 @@ export class CreateUserUseCase {
         let name: UserName;
         let email: UserEmail;
         let password: Password;
+        let avatar: Avatar;
         const confirmAccountTokenResult = this.createToken.createToken();
         const changePasswordToken = this.createToken.createEmptyToken(); 
 
@@ -48,16 +50,18 @@ export class CreateUserUseCase {
         const nameResult = UserName.create(userData.name);
         const emailResult = UserEmail.create(userData.email);
         const passwordResult = Password.create(userData.password);
+        const avatarResult = Avatar.create('UserPhotos/defaultAvatar.jpg');
         this.handleValueObject(idResult, (value: UserId) => userId = value, (error: string) => errors.push(error));
         this.handleValueObject(nameResult, (value: UserName) => name = value, (error: string) => errors.push(error));
         this.handleValueObject(emailResult, (value: UserEmail) => email = value, (error: string) => errors.push(error));
         this.handleValueObject(passwordResult, (value: Password) => password = value, (error: string) => errors.push(error));
+        this.handleValueObject(avatarResult, (value: Avatar) => avatar = value, (error: string) => errors.push(error));
 
         if(errors.length > 0) {
             throw new Error(errors.join(', '));
         }
 
-        return new User(userId!, name!, email!, password!, confirmAccountTokenResult, changePasswordToken, false);
+        return new User(userId!, name!, email!, password!, confirmAccountTokenResult, changePasswordToken, false, avatar!);
     }
 
     private createRandomId(): Either<string, UserId> {
