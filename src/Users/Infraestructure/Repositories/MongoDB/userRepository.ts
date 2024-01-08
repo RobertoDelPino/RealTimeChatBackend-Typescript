@@ -29,10 +29,14 @@ export class mongoDbUserRepository implements IUserRepository{
     }
     
     
-    findById(id: string): User {
+    findById(id: string): Promise<User | null> {
         console.log(id)
         throw new Error("Method not implemented.");
         
+    }
+
+    async findByConfirmAccountToken(confirmAccountToken: string): Promise<User | null> {
+        return await MongoDbUser.findOne({confirmAccountToken: confirmAccountToken})
     }
     
 }
