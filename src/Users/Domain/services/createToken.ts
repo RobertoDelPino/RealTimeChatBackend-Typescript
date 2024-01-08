@@ -1,6 +1,6 @@
 import { Either, fold } from "fp-ts/lib/Either";
-import { ICreateToken } from "../../Domain/interfaces/createToken";
-import { Token } from "../../Domain/valueObjects/Token";
+import { ICreateToken } from "../interfaces/createToken";
+import { Token } from "../valueObjects/Token";
 
 export class createToken implements ICreateToken {
     createToken(): Token {

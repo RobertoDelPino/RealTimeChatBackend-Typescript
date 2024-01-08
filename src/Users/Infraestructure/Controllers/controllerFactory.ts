@@ -1,6 +1,6 @@
 import { CreateUserUseCase } from "../../Application/createUserUseCase";
 import { CreateUserController } from "./createUserController";
-import { createToken } from "../Services/createToken";
+import { createToken } from "../../Domain/services/createToken";
 import { sendEmail } from "../Services/sendEmail";
 import { mongoDbUserRepository } from "../Repositories/MongoDB/userRepository";
 
