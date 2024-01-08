@@ -14,4 +14,8 @@ export class Token {
         
         return right(new Token(value));
     }
+
+    static createFromBussiness(value: string): Token {
+        return new Token(value);
+    }
 }

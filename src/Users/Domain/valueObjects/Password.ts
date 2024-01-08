@@ -18,4 +18,8 @@ export class Password {
         
         return right(new Password(value));
     }
+
+    static createFromBussiness(value: string): Password {
+        return new Password(value);
+    }
 }

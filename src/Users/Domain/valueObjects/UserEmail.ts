@@ -14,4 +14,8 @@ export class UserEmail {
         
         return right(new UserEmail(value));
     }
+
+    static createFromBussiness(value: string): UserEmail {
+        return new UserEmail(value);
+    }
 }

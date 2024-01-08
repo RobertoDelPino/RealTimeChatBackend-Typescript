@@ -14,4 +14,8 @@ export class UserId {
         
         return right(new UserId(value));
     }
+
+    static createFromBussiness(value: string): UserId {
+        return new UserId(value);
+    }
 }

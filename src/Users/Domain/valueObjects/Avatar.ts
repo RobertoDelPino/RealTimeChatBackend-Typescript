@@ -14,4 +14,8 @@ export class Avatar {
         
         return right(new Avatar(value));
     }
+
+    static createFromBussiness(value: string): Avatar {
+        return new Avatar(value);
+    }
 }
