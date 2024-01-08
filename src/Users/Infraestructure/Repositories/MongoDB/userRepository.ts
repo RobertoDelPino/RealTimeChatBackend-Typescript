@@ -1,5 +1,5 @@
 import { User } from "../../../Domain/entities/User";
-import MongoDbUser from "./User";
+import MongoDbUser from "./Models/User";
 import { IUserRepository } from "../../../Domain/interfaces/userRepository";
 
 export class mongoDbUserRepository implements IUserRepository{
