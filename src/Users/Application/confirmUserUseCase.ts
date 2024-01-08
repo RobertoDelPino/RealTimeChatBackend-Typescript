@@ -1,4 +1,4 @@
-import { ICreateToken } from "../Domain/interfaces/createToken";
+import { User } from "../Domain/entities/User";
 import { IUserRepository } from "../Domain/interfaces/userRepository";
 
 export interface IConfirmUserUseCase {
@@ -6,20 +6,19 @@ export interface IConfirmUserUseCase {
 }
 
 export class ConfirmUserUseCase implements IConfirmUserUseCase {
-    constructor(private userRepository: IUserRepository, private createToken: ICreateToken) {}
+    constructor(private userRepository: IUserRepository) {}
 
     async execute(confirmAccountToken: string): Promise<void> {
         try{
-            const user = await this.userRepository.findByConfirmAccountToken(confirmAccountToken);
+            const user : User | null = await this.userRepository.findByConfirmAccountToken(confirmAccountToken);
 
             if (!user) throw new Error('User not found');
             if (user.confirmed) throw new Error('User is already confirmed');
 
-            user.confirmed = true;
-            user.confirmAccountToken = this.createToken.createEmptyToken();
-            user.update(user);
+            user.confirm();
+            const userUpdated = user.update(user);
 
-            await this.userRepository.save(user);
+            await this.userRepository.update(userUpdated);
         } catch(error: any) {
             throw new Error(error);
         }

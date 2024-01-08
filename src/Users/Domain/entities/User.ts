@@ -17,13 +17,21 @@ export class User{
         public avatar: Avatar
     ){}
 
-    update(User : User){
-        this.name = User.name;
-        this.email = User.email;
-        this.password = User.password;
-        this.avatar = User.avatar;
-        this.changePasswordToken = User.changePasswordToken;
-        this.confirmAccountToken = User.confirmAccountToken;
-        this.confirmed = User.confirmed;
+    public update(newUser : User) : User {
+        return new User(
+            newUser.id,
+            newUser.name,
+            newUser.email,
+            newUser.password,
+            newUser.confirmAccountToken,
+            newUser.changePasswordToken,
+            newUser.confirmed,
+            newUser.avatar
+        )
+    }
+
+    public confirm(): void {
+        this.confirmed = true;
+        this.confirmAccountToken = Token.createFromBussiness('');
     }
 }

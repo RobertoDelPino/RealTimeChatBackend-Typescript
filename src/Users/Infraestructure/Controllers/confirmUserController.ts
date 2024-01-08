@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { IConfirmUserUseCase } from '../../Application/confirmUserUseCase';
 
-export class CreateUserController {
+export class ConfirmUserController {
     private confirmUserUseCase: IConfirmUserUseCase;
 
     constructor(confirmUserUseCase: IConfirmUserUseCase) {
