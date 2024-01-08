@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { CreateUserUseCase, UserData } from '../../Application/createUserUseCase';
+import { ICreateUserUseCase, UserData } from '../../Application/createUserUseCase';
 
 export class CreateUserController {
-    private createUserUseCase: CreateUserUseCase;
+    private createUserUseCase: ICreateUserUseCase;
 
-    constructor(createUserUseCase: CreateUserUseCase) {
+    constructor(createUserUseCase: ICreateUserUseCase) {
         this.createUserUseCase = createUserUseCase;
     }
 

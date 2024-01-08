@@ -9,7 +9,11 @@ import { ICreateToken } from '../Domain/interfaces/createToken';
 import { IEmailSender } from '../Domain/interfaces/emailSender';
 import { Avatar } from '../Domain/valueObjects/Avatar';
 
-export class CreateUserUseCase {
+export interface ICreateUserUseCase {
+    execute(userData: UserData): Promise<User>;
+}
+
+export class CreateUserUseCase implements ICreateUserUseCase {
 
     constructor(
         private userRepository: IUserRepository,
