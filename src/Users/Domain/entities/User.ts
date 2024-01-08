@@ -16,4 +16,14 @@ export class User{
         public confirmed: boolean,
         public avatar: Avatar
     ){}
+
+    update(User : User){
+        this.name = User.name;
+        this.email = User.email;
+        this.password = User.password;
+        this.avatar = User.avatar;
+        this.changePasswordToken = User.changePasswordToken;
+        this.confirmAccountToken = User.confirmAccountToken;
+        this.confirmed = User.confirmed;
+    }
 }
