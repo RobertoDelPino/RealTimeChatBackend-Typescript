@@ -2,11 +2,9 @@ import { IEmailSender } from "../../Domain/interfaces/emailSender";
 import { Token } from "../../Domain/valueObjects/Token";
 import { UserEmail } from "../../Domain/valueObjects/UserEmail";
 import nodemailer from "nodemailer";
-import dotenv from 'dotenv';
 
 export class sendEmail implements IEmailSender {
     async sendEmailToConfirmAccount(email: UserEmail, confirmAccountToken: Token): Promise<void> {
-        dotenv.config();
         var transport = nodemailer.createTransport({
             service: 'gmail',
             auth: {
