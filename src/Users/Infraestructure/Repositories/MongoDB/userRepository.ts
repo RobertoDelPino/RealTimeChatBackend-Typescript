@@ -31,7 +31,22 @@ export class mongoDbUserRepository implements IUserRepository{
     }
 
     async findByEmail(email: string): Promise<User | null> {
-        return await MongoDbUser.findOne({email: email})
+        const repoUser = await MongoDbUser.findOne({email: email})
+
+        if(!repoUser) return null;
+
+        const user = new User(
+            UserId.createFromBussiness(repoUser._id),
+            UserName.createFromBussiness(repoUser.name),
+            UserEmail.createFromBussiness(repoUser.email),
+            Password.createFromBussiness(repoUser.password),
+            Token.createFromBussiness(repoUser.confirmAccountToken!),
+            Token.createFromBussiness(repoUser.changePasswordToken!),
+            repoUser.confirmed,
+            Avatar.createFromBussiness(repoUser.avatar)
+        )
+
+        return user;
     }
     
     
