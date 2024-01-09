@@ -10,9 +10,10 @@ export class checkChangePasswordTokenController {
 
     async handle(request: Request, response: Response): Promise<Response> {
         try {
-            const { token } = request.params;
+            const { token} = request.params;
+            const { userEmail } = request.body;
 
-            await this.useCase.execute(token);
+            await this.useCase.execute(token, userEmail);
 
             return response.status(200).json({ message: 'Token is valid' });
         } catch (error: any) {

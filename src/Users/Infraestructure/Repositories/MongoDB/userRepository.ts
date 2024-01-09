@@ -73,8 +73,8 @@ export class mongoDbUserRepository implements IUserRepository{
         }
     }
 
-    async findByChangePasswordToken(changePasswordToken: string): Promise<User | null> {
-        const repoUser = await MongoDbUser.findOne({changePasswordToken: changePasswordToken})
+    async findByChangePasswordToken(changePasswordToken: string, userEmail: string): Promise<User | null> {
+        const repoUser = await MongoDbUser.findOne({changePasswordToken: changePasswordToken, email: userEmail})
 
         if(!repoUser) return null;
 
