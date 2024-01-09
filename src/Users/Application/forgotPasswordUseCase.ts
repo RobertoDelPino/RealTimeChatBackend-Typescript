@@ -4,7 +4,11 @@ import { IEmailSender } from "../Domain/interfaces/emailSender";
 import { IUserRepository } from "../Domain/interfaces/userRepository";
 import { Token } from "../Domain/valueObjects/Token";
 
-export class ForgotPasswordUseCase {
+export interface IForgotPasswordUseCase {
+    execute(email: string): Promise<void>;
+}
+
+export class ForgotPasswordUseCase implements IForgotPasswordUseCase {
     constructor(
         private userRepository: IUserRepository,
         private emailSender: IEmailSender,
