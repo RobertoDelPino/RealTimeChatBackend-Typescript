@@ -1,5 +1,5 @@
 import { User } from "../../../Domain/entities/User";
-import MongoDbUser from "./Models/User";
+import MongoDbUser, { IUser } from "./Models/User";
 import { IUserRepository } from "../../../Domain/interfaces/userRepository";
 import { UserName } from "../../../Domain/valueObjects/UserName";
 import { UserEmail } from "../../../Domain/valueObjects/UserEmail";
@@ -35,18 +35,7 @@ export class mongoDbUserRepository implements IUserRepository{
 
         if(!repoUser) return null;
 
-        const user = new User(
-            UserId.createFromBussiness(repoUser._id),
-            UserName.createFromBussiness(repoUser.name),
-            UserEmail.createFromBussiness(repoUser.email),
-            Password.createFromBussiness(repoUser.password),
-            Token.createFromBussiness(repoUser.confirmAccountToken!),
-            Token.createFromBussiness(repoUser.changePasswordToken!),
-            repoUser.confirmed,
-            Avatar.createFromBussiness(repoUser.avatar)
-        )
-
-        return user;
+        return this.createUser(repoUser);
     }
     
     
@@ -61,18 +50,7 @@ export class mongoDbUserRepository implements IUserRepository{
 
         if(!repoUser) return null;
 
-        const user = new User(
-            UserId.createFromBussiness(repoUser._id),
-            UserName.createFromBussiness(repoUser.name),
-            UserEmail.createFromBussiness(repoUser.email),
-            Password.createFromBussiness(repoUser.password),
-            Token.createFromBussiness(repoUser.confirmAccountToken!),
-            Token.createFromBussiness(repoUser.changePasswordToken!),
-            repoUser.confirmed,
-            Avatar.createFromBussiness(repoUser.avatar)
-        )
-
-        return user;
+        return this.createUser(repoUser);
     }
 
     async update(user: User): Promise<void> {
@@ -94,5 +72,28 @@ export class mongoDbUserRepository implements IUserRepository{
             throw new Error(error);
         }
     }
+
+    async findByChangePasswordToken(changePasswordToken: string): Promise<User | null> {
+        const repoUser = await MongoDbUser.findOne({changePasswordToken: changePasswordToken})
+
+        if(!repoUser) return null;
+
+        return this.createUser(repoUser);
+    }
+
+    private createUser(repoUser: IUser) : User {
+        return new User(
+            UserId.createFromBussiness(repoUser._id),
+            UserName.createFromBussiness(repoUser.name),
+            UserEmail.createFromBussiness(repoUser.email),
+            Password.createFromBussiness(repoUser.password),
+            Token.createFromBussiness(repoUser.confirmAccountToken!),
+            Token.createFromBussiness(repoUser.changePasswordToken!),
+            repoUser.confirmed,
+            Avatar.createFromBussiness(repoUser.avatar)
+        );
+    }
     
 }
+
+
