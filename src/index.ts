@@ -4,15 +4,11 @@ import connectToDB from './Users/Infraestructure/Repositories/MongoDB/Connection
 import dotenv from 'dotenv';
 
 const app = express()
-
-// Configure express to only allow api calls from the client
-app.use(express.json())
-app.use(routes);
-
 dotenv.config();
-
 connectToDB();
 
+app.use(express.json())
+app.use(routes);
 
 const PORT = process.env.PORT;
 

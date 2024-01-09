@@ -1,12 +1,6 @@
 import { User } from '../../Domain/entities/User';
 import { IUserRepository } from '../../Domain/interfaces/userRepository';
 
-
-// This is the implementation of the repository
-// This way is wrong, because we are using an array to store the users
-// We should use a database to store the users
-// But just for the example, we are using an array
-// Next task to do will be to use a database
 export class userRepository implements IUserRepository {
     private users: User[];
 
@@ -14,19 +8,45 @@ export class userRepository implements IUserRepository {
         this.users = [];
     }
 
-    async save(user: User): Promise<void> {
-        this.users.push(user);
+    async save(data: User): Promise<void> {
+        this.users.push(data);
     }
 
-    async findByEmail(email: string): Promise<User> {
-        const user = this.users.find((user) => user.email.value === email);
+    async findByEmail(email: string): Promise<User | null> {
+        const user = this.users.find(user => user.email.value === email);
 
-        return user!;
+        if (!user) return null;
+
+        return user;
     }
 
-    findById(id: string): User {
-        const user = this.users.find((user) => user.id.value === id);
+    async findById(id: string): Promise<User | null> {
+        const user = this.users.find(user => user.id.value === id);
 
-        return user!;
+        if (!user) return null;
+
+        return user;
+    }
+
+    async findByConfirmAccountToken(confirmAccountToken: string): Promise<User | null> {
+        const user = this.users.find(user => user.confirmAccountToken.value === confirmAccountToken);
+
+        if (!user) return null;
+
+        return user;
+    }
+
+    async findByChangePasswordToken(changePasswordToken: string): Promise<User | null> {
+        const user = this.users.find(user => user.changePasswordToken.value === changePasswordToken);
+
+        if (!user) return null;
+
+        return user;
+    }
+
+    async update(user: User): Promise<void> {
+        const index = this.users.findIndex(u => u.id.value === user.id.value);
+
+        this.users[index] = user;
     }
 }
