@@ -29,14 +29,13 @@ export class ForgotPasswordUseCase implements IForgotPasswordUseCase {
     }
 
     private createUserWithNewPasswordChangeToken(user: User, token : Token): User {
-        user.changePasswordToken = token;
         return new User(
             user.id,
-            user.email,
             user.name,
+            user.email,
             user.password,
-            user.changePasswordToken,
             user.confirmAccountToken,
+            token,
             user.confirmed,
             user.avatar
         );
