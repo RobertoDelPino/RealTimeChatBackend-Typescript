@@ -51,14 +51,6 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
     }
 );
 
-userSchema.pre<IUser>("save", async function(this: any, next: () => void) {
-    if (!this.isModified("password")) {
-        next();
-    }
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-});
-
 userSchema.methods.checkPassword = async function(this: any, passwordForm: string) {
     return await bcrypt.compare(passwordForm, this.password);
 };

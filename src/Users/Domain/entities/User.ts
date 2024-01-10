@@ -34,4 +34,13 @@ export class User{
         this.confirmed = true;
         this.confirmAccountToken = Token.createFromBussiness('');
     }
+
+    public changePassword(password: Password): void {
+        this.password = password;
+        this.changePasswordToken = Token.createFromBussiness('');
+    }
+
+    public checkPasswordEquals(password: Password): boolean {
+        return this.password.equals(password);
+    }
 }

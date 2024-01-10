@@ -1,4 +1,5 @@
 import { Either, left, right } from 'fp-ts/lib/Either';
+import bcrypt from "bcrypt";
 
 export class Password {
     public readonly value: string;
@@ -7,7 +8,7 @@ export class Password {
         this.value = value;
     }
 
-    static create(value: string): Either<string, Password> {
+    static async create(value: string): Promise<Either<string, Password>> {
         if (typeof value !== 'string' || value.trim() === '') {
             return left('Invalid value for Password');
         }
@@ -16,10 +17,16 @@ export class Password {
             return left('Password must be at least 8 characters long');
         }
         
-        return right(new Password(value));
+        const salt = await bcrypt.genSalt(10);
+        const passwordString = await bcrypt.hash(value, salt);
+        return right(new Password(passwordString));
     }
 
     static createFromBussiness(value: string): Password {
         return new Password(value);
+    }
+
+    public equals(password: Password): boolean {
+        return this.value === password.value;
     }
 }

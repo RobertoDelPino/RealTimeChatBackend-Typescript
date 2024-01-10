@@ -28,7 +28,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
                 throw new Error('User already exists');
             }
 
-            const user: User = this.createUser(userData);
+            const user: User = await this.createUser(userData);
             await this.userRepository.save(user);
             this.emailSender.sendEmailToConfirmAccount(user.email, user.confirmAccountToken);
 
@@ -39,7 +39,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
         }
     }
 
-    private createUser(userData: UserData): User {
+    private async createUser(userData: UserData): Promise<User> {
         let errors: string[] = [];
 
         let userId: UserId;
@@ -53,7 +53,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
         const idResult = this.createRandomId();
         const nameResult = UserName.create(userData.name);
         const emailResult = UserEmail.create(userData.email);
-        const passwordResult = Password.create(userData.password);
+        const passwordResult = await Password.create(userData.password);
         const avatarResult = Avatar.create('UserPhotos/defaultAvatar.jpg');
         this.handleValueObject(idResult, (value: UserId) => userId = value, (error: string) => errors.push(error));
         this.handleValueObject(nameResult, (value: UserName) => name = value, (error: string) => errors.push(error));
