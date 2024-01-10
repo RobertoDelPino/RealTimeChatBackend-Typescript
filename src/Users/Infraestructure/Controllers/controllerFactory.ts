@@ -9,6 +9,8 @@ import { ForgotPasswordUseCase } from "../../Application/forgotPasswordUseCase";
 import { ForgotPasswordController } from "./forgotPasswordController";
 import { checkChangePasswordTokenUseCase } from "../../Application/checkChangePasswordTokenUseCase";
 import { checkChangePasswordTokenController } from "./checkChangePasswordTokenController";
+import { changePasswordUseCase } from "../../Application/changePasswordUseCase";
+import { changePasswordController } from "./changePasswordController";
 
 
 function createCreateUserController() {
@@ -39,8 +41,17 @@ function createCheckChangePasswordTokenController(){
   return new checkChangePasswordTokenController(useCase);
 }
 
+function createChangePasswordController(){
+  const repository = new mongoDbUserRepository();
+  const tokenCreator = new createToken();
+  const useCase = new changePasswordUseCase(repository, tokenCreator);
+  return new changePasswordController(useCase);
+}
+
 export { 
   createCreateUserController, 
   createConfirmUserController, 
   createForgotPasswordController,
-  createCheckChangePasswordTokenController };
+  createCheckChangePasswordTokenController,
+  createChangePasswordController
+};
