@@ -5,7 +5,7 @@ export interface ICheckChangePasswordTokenUseCase {
     execute(changePasswordToken: string): Promise<void>;
 }
 
-export class CheckChangePasswordTokenUseCase implements ICheckChangePasswordTokenUseCase {
+export class checkChangePasswordTokenUseCase implements ICheckChangePasswordTokenUseCase {
     constructor(
         private userRepository: IUserRepository,
     ) {}

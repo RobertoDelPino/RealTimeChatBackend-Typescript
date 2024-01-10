@@ -8,7 +8,7 @@ export interface IChangePasswordUseCase {
     execute(changePasswordToken: string, newPassword: string): Promise<void>;
 }
 
-export class ChangePasswordUseCase implements IChangePasswordUseCase {
+export class changePasswordUseCase implements IChangePasswordUseCase {
     constructor(
         private userRepository: IUserRepository,
         private createToken: ICreateToken,
