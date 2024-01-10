@@ -26,8 +26,17 @@ export class changePasswordUseCase implements IChangePasswordUseCase {
             throw new Error('New password must be different from the old one');
         }
 
-        user.changePasswordToken = this.createToken.createEmptyToken();
-        user.password = passwordToCheck;
+        user.update(new User(
+            user.id,
+            user.name,
+            user.email,
+            passwordToCheck,
+            this.createToken.createEmptyToken(),
+            user.confirmAccountToken,
+            user.confirmed,
+            user.avatar
+        ));
+
         await this.userRepository.update(user);
     }
 
