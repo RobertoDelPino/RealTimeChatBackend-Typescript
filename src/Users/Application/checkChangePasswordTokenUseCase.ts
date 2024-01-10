@@ -2,7 +2,7 @@ import { User } from "../Domain/entities/User";
 import { IUserRepository } from "../Domain/interfaces/userRepository";
 
 export interface ICheckChangePasswordTokenUseCase {
-    execute(email: string): Promise<void>;
+    execute(changePasswordToken: string): Promise<void>;
 }
 
 export class CheckChangePasswordTokenUseCase implements ICheckChangePasswordTokenUseCase {
@@ -15,5 +15,6 @@ export class CheckChangePasswordTokenUseCase implements ICheckChangePasswordToke
         if (!user) {
             throw new Error('User not found');
         }
+
     }
 }
