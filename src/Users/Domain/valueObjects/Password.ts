@@ -1,5 +1,5 @@
 import { Either, left, right } from 'fp-ts/lib/Either';
-import bcrypt from "bcrypt";
+import hashString from "../services/hashString";
 
 export class Password {
     public readonly value: string;
@@ -17,8 +17,7 @@ export class Password {
             return left('Password must be at least 8 characters long');
         }
         
-        const salt = await bcrypt.genSalt(10);
-        const passwordString = await bcrypt.hash(value, salt);
+        const passwordString = await hashString(value);
         return right(new Password(passwordString));
     }
 
