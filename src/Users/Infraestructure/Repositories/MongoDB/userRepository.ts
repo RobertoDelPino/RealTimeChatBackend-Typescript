@@ -41,7 +41,7 @@ export class mongoDbUserRepository implements IUserRepository{
     
     async findById(id: string): Promise<User | null> {
         const repoUser = await MongoDbUser.findOne({_id: id});
-        console.log(repoUser);
+
         if(!repoUser) return null;
 
         return this.createUser(repoUser);
@@ -51,6 +51,14 @@ export class mongoDbUserRepository implements IUserRepository{
     async findByConfirmAccountToken(confirmAccountToken: string): Promise<User | null> {
         const repoUser = await MongoDbUser.findOne({confirmAccountToken: confirmAccountToken});
 
+        if(!repoUser) return null;
+
+        return this.createUser(repoUser);
+    }
+
+    async findByUsername(username: string): Promise<User | null> {
+        const repoUser = await MongoDbUser.findOne({name: username});
+        
         if(!repoUser) return null;
 
         return this.createUser(repoUser);
