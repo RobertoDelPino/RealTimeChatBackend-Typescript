@@ -1,4 +1,3 @@
-import { Either, fold } from "fp-ts/lib/Either";
 import { User } from "../../../src/Users/Domain/entities/User";
 import { IUserRepository } from "../../../src/Users/Domain/interfaces/userRepository";
 import { Password } from "../../../src/Users/Domain/valueObjects/Password";
@@ -8,11 +7,16 @@ import { UserName } from "../../../src/Users/Domain/valueObjects/UserName";
 import { UserEmail } from "../../../src/Users/Domain/valueObjects/UserEmail";
 import { Token } from "../../../src/Users/Domain/valueObjects/Token";
 import { Avatar } from "../../../src/Users/Domain/valueObjects/Avatar";
+import { 
+    ILoginUseCase, 
+    LoginData, 
+    LoginUseCase 
+} from "../../../src/Users/Application/LoginUseCase";
 
 describe("LoginUseCase", () => {
 
     let userRepository : IUserRepository;
-    let loginUseCase : LoginUseCase;
+    let loginUseCase : ILoginUseCase;
 
     beforeEach(() => {
         userRepository = new UserRepository();
@@ -68,55 +72,6 @@ describe("LoginUseCase", () => {
         await expect(useCasePromise).rejects.toThrowError("Password must be at least 8 characters long");
     });
 })
-
-class LoginUseCase {
-    constructor(private userRepository: IUserRepository) {
-    }
-
-    async execute(request: LoginData): Promise<User> {
-        const password = this.createPassword(request.password);
-
-        const user: User | null = await this.userRepository.findByUsername(request.email);
-
-        if (!user) {
-            throw new Error('User not found');
-        }
-
-        if (!user.checkPasswordEquals(password)) {
-            throw new Error('Password is incorrect');
-        }
-
-        return user;
-    }
-
-    private createPassword(passwordRequest: string): Password {
-        let password: Password;
-        let errors: string[] = [];
-        
-        const passwordResult =  Password.create(passwordRequest);
-        this.handleValueObject(passwordResult, (value: Password) => password = value, (error: string) => errors.push(error));
-        
-        if(errors.length > 0){
-            throw new Error(errors.join(', '));
-        }
-
-        return password!;
-    }
-
-    handleValueObject<T>(result: Either<string, T>, setValue: (value: T) => void, setError: (value: string) => void): void {
-        const getValue = fold(
-          (error: string) => setError(error),
-          (value: T) => setValue(value)
-        );
-      
-        getValue(result);
-    }
-}
-
-export interface LoginData{
-    email: string;
-    password: string;
-}
 
 function createUser(): User {
     return new User(
