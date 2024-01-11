@@ -21,7 +21,7 @@ export class mongoDbUserRepository implements IUserRepository{
                     confirmed: data.confirmed,
                     avatar: data.avatar.value
                 }
-            )
+            );
 
             await user.save();
         }
@@ -31,7 +31,7 @@ export class mongoDbUserRepository implements IUserRepository{
     }
 
     async findByEmail(email: string): Promise<User | null> {
-        const repoUser = await MongoDbUser.findOne({email: email})
+        const repoUser = await MongoDbUser.findOne({email: email});
 
         if(!repoUser) return null;
 
@@ -39,14 +39,17 @@ export class mongoDbUserRepository implements IUserRepository{
     }
     
     
-    findById(id: string): Promise<User | null> {
-        console.log(id)
-        throw new Error("Method not implemented.");
+    async findById(id: string): Promise<User | null> {
+        const repoUser = await MongoDbUser.findOne({_id: id});
+        console.log(repoUser);
+        if(!repoUser) return null;
+
+        return this.createUser(repoUser);
         
     }
 
     async findByConfirmAccountToken(confirmAccountToken: string): Promise<User | null> {
-        const repoUser = await MongoDbUser.findOne({confirmAccountToken: confirmAccountToken})
+        const repoUser = await MongoDbUser.findOne({confirmAccountToken: confirmAccountToken});
 
         if(!repoUser) return null;
 
@@ -66,7 +69,7 @@ export class mongoDbUserRepository implements IUserRepository{
                     confirmed: user.confirmed,
                     avatar: user.avatar.value
                 }
-            )
+            );
         }
         catch (error: any){
             throw new Error(error);
@@ -74,7 +77,7 @@ export class mongoDbUserRepository implements IUserRepository{
     }
 
     async findByChangePasswordToken(changePasswordToken: string): Promise<User | null> {
-        const repoUser = await MongoDbUser.findOne({changePasswordToken: changePasswordToken})
+        const repoUser = await MongoDbUser.findOne({changePasswordToken: changePasswordToken});
 
         if(!repoUser) return null;
 
