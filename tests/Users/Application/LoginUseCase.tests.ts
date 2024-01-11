@@ -20,19 +20,7 @@ describe("LoginUseCase", () => {
     })
 
     test("should login user", async () => {
-        userRepository.findByUsername = jest.fn().mockReturnValue(
-            new User(
-                UserId.createFromBussiness("id"),
-                UserName.createFromBussiness("name"),
-                UserEmail.createFromBussiness("email"),
-                Password.createFromBussiness("password"),
-                Token.createFromBussiness("token"),
-                Token.createFromBussiness("token"),
-                false,
-                Avatar.createFromBussiness("avatar")
-            )
-        );
-
+        userRepository.findByUsername = jest.fn().mockReturnValue(createUser());
         const request : LoginData = {
             email: "username",
             password: "password"
@@ -46,7 +34,6 @@ describe("LoginUseCase", () => {
 
     test("throws error when user not found", async () => {
         userRepository.findByUsername = jest.fn().mockReturnValue(null);
-
         const request : LoginData = {
             email: "username",
             password: "password"
@@ -58,19 +45,7 @@ describe("LoginUseCase", () => {
     });
 
     test("throws error when password is incorrect", async () => {
-        userRepository.findByUsername = jest.fn().mockReturnValue(
-            new User(
-                UserId.createFromBussiness("id"),
-                UserName.createFromBussiness("name"),
-                UserEmail.createFromBussiness("email"),
-                Password.createFromBussiness("password"),
-                Token.createFromBussiness("token"),
-                Token.createFromBussiness("token"),
-                false,
-                Avatar.createFromBussiness("avatar")
-            )
-        );
-
+        userRepository.findByUsername = jest.fn().mockReturnValue(createUser());
         const request : LoginData = {
             email: "username",
             password: "invented_password"
@@ -82,19 +57,7 @@ describe("LoginUseCase", () => {
     });
 
     test("throws error when password is invalid", async () => {
-        userRepository.findByUsername = jest.fn().mockReturnValue(
-            new User(
-                UserId.createFromBussiness("id"),
-                UserName.createFromBussiness("name"),
-                UserEmail.createFromBussiness("email"),
-                Password.createFromBussiness("password"),
-                Token.createFromBussiness("token"),
-                Token.createFromBussiness("token"),
-                false,
-                Avatar.createFromBussiness("avatar")
-            )
-        );
-
+        userRepository.findByUsername = jest.fn().mockReturnValue(createUser());
         const request : LoginData = {
             email: "username",
             password: "pass"
@@ -153,4 +116,17 @@ class LoginUseCase {
 export interface LoginData{
     email: string;
     password: string;
+}
+
+function createUser(): User {
+    return new User(
+        UserId.createFromBussiness("id"),
+        UserName.createFromBussiness("name"),
+        UserEmail.createFromBussiness("email"),
+        Password.createFromBussiness("password"),
+        Token.createFromBussiness("token"),
+        Token.createFromBussiness("token"),
+        false,
+        Avatar.createFromBussiness("avatar")
+    );
 }
