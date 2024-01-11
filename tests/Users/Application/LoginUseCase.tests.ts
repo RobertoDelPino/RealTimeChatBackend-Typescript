@@ -1,3 +1,4 @@
+import { Either, fold } from "fp-ts/lib/Either";
 import { User } from "../../../src/Users/Domain/entities/User";
 import { IUserRepository } from "../../../src/Users/Domain/interfaces/userRepository";
 import { Password } from "../../../src/Users/Domain/valueObjects/Password";
@@ -81,13 +82,38 @@ class LoginUseCase {
     }
 
     async execute(request: LoginData): Promise<User> {
+        const password = this.createPassword(request.password);
+
         const user: User | null = await this.userRepository.findByUsername(request.email);
 
         if (!user) {
             throw new Error('User not found');
         }
 
+        if (!user.checkPasswordEquals(password)) {
+            throw new Error('Password is incorrect');
+        }
+
         return user;
+    }
+
+    private createPassword(passwordRequest: string): Password {
+        let password: Password;
+        let errors: string[] = [];
+        
+        const passwordResult =  Password.create(passwordRequest);
+        this.handleValueObject(passwordResult, (value: Password) => password = value, (error: string) => errors.push(error));
+        
+        return password!;
+    }
+
+    handleValueObject<T>(result: Either<string, T>, setValue: (value: T) => void, setError: (value: string) => void): void {
+        const getValue = fold(
+          (error: string) => setError(error),
+          (value: T) => setValue(value)
+        );
+      
+        getValue(result);
     }
 }
 
