@@ -31,10 +31,22 @@ describe("LoginUseCase", () => {
         expect(result).not.toBeNull();
         expect(userRepository.findByUsername).toHaveBeenCalledWith("username");
     });
+
+    test("throws error when user not found", async () => {
+        userRepository.findByUsername = jest.fn().mockReturnValue(null);
+
+        const request : LoginData = {
+            email: "username",
+            password: "password"
+        }
+
+        const useCasePromise = loginUseCase.execute(request);
+
+        await expect(useCasePromise).rejects.toThrowError("User not found");
+    });
 })
 
 class LoginUseCase {
-
     constructor(private userRepository: IUserRepository) {
     }
 
