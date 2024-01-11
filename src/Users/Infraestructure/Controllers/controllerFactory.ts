@@ -13,6 +13,9 @@ import { changePasswordUseCase } from "../../Application/changePasswordUseCase";
 import { changePasswordController } from "./changePasswordController";
 import { GetProfileUseCase } from "../../Application/getProfileUseCase";
 import { GetProfileController } from "./getProfileController";
+import { LoginUseCase } from "../../Application/LoginUseCase";
+import { LoginController } from "./loginController";
+import { CreateJWT } from "../Services/createJWT";
 
 
 function createCreateUserController() {
@@ -56,11 +59,19 @@ function createGetProfileController(){
   return new GetProfileController(useCase);
 }
 
+function createLoginController() {
+  const repository = new mongoDbUserRepository();
+  const createJWT = new CreateJWT();
+  const useCase = new LoginUseCase(repository, createJWT);
+  return new LoginController(useCase);
+}
+
 export { 
   createCreateUserController, 
   createConfirmUserController, 
   createForgotPasswordController,
   createCheckChangePasswordTokenController,
   createChangePasswordController,
-  createGetProfileController
+  createGetProfileController,
+  createLoginController
 };

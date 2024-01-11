@@ -10,14 +10,12 @@ import { Avatar } from "../../../src/Users/Domain/valueObjects/Avatar";
 import { 
     ILoginUseCase, 
     LoginData, 
-    LoginUseCase,
-    LoginResponse 
+    LoginUseCase
 } from "../../../src/Users/Application/LoginUseCase";
 import { ICreateJWT } from "../../../src/Users/Domain/interfaces/createJWT";
 import { CreateJWT } from "../../../src/Users/Infraestructure/Services/createJWT";
 
 describe("LoginUseCase", () => {
-
     let userRepository : IUserRepository;
     let createJWT: ICreateJWT;
     let loginUseCase : ILoginUseCase;
@@ -29,25 +27,25 @@ describe("LoginUseCase", () => {
     })
 
     test("should login user", async () => {
-        userRepository.findByUsername = jest.fn().mockReturnValue(createUser());
+        userRepository.findByEmail = jest.fn().mockReturnValue(createUser());
         const request : LoginData = {
-            email: "username",
+            email: "email@gmail.com",
             password: "password"
         }
 
         const result = await loginUseCase.execute(request);
 
         expect(result).not.toBeNull();
-        expect(userRepository.findByUsername).toHaveBeenCalledWith("username");
+        expect(userRepository.findByEmail).toHaveBeenCalledWith("email@gmail.com");
         expect(result).toHaveProperty("name");
         expect(result).toHaveProperty("email");
         expect(result).toHaveProperty("token");
     });
 
     test("throws error when user not found", async () => {
-        userRepository.findByUsername = jest.fn().mockReturnValue(null);
+        userRepository.findByEmail = jest.fn().mockReturnValue(null);
         const request : LoginData = {
-            email: "username",
+            email: "email@gmail.com",
             password: "password"
         }
 
@@ -57,7 +55,7 @@ describe("LoginUseCase", () => {
     });
 
     test("throws error when password is incorrect", async () => {
-        userRepository.findByUsername = jest.fn().mockReturnValue(createUser());
+        userRepository.findByEmail = jest.fn().mockReturnValue(createUser());
         const request : LoginData = {
             email: "username",
             password: "invented_password"
@@ -69,9 +67,9 @@ describe("LoginUseCase", () => {
     });
 
     test("throws error when password is invalid", async () => {
-        userRepository.findByUsername = jest.fn().mockReturnValue(createUser());
+        userRepository.findByEmail = jest.fn().mockReturnValue(createUser());
         const request : LoginData = {
-            email: "username",
+            email: "email@gmail.com",
             password: "pass"
         }
 
@@ -82,11 +80,13 @@ describe("LoginUseCase", () => {
 })
 
 function createUser(): User {
+    const passwordHash = "$2a$10$jq4GYds0tu4Mbvxt7mb6Se.8.raBts1FsnafM7h5ljnBfMS4DEz1G"
+
     return new User(
         UserId.createFromBussiness("id"),
         UserName.createFromBussiness("name"),
         UserEmail.createFromBussiness("email"),
-        Password.createFromBussiness("password"),
+        Password.createFromBussiness(passwordHash),
         Token.createFromBussiness("token"),
         Token.createFromBussiness("token"),
         false,

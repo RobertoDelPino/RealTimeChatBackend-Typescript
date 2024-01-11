@@ -4,6 +4,7 @@ import { ICreateToken } from "../Domain/interfaces/createToken";
 import { IUserRepository } from "../Domain/interfaces/userRepository";
 import { Password } from "../Domain/valueObjects/Password";
 import hashString from "../Domain/services/hashString";
+import { checkPassword } from "../Domain/services/checkPassword";
 
 export interface IChangePasswordUseCase {
     execute(changePasswordToken: string, newPassword: string): Promise<void>;
@@ -24,7 +25,7 @@ export class changePasswordUseCase implements IChangePasswordUseCase {
         const hashValue = await hashString(newPassword);
         let passwordToCheck : Password = this.createPassword(hashValue);
 
-        if(user.checkPasswordEquals(passwordToCheck)){
+        if(!await checkPassword(passwordToCheck, user.password)){
             throw new Error('New password must be different from the old one');
         }
 

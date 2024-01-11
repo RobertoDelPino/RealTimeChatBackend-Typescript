@@ -5,7 +5,8 @@ import {
     createConfirmUserController, 
     createCreateUserController,
     createForgotPasswordController, 
-    createGetProfileController} 
+    createGetProfileController,
+    createLoginController} 
 from './Controllers/controllerFactory';
 import { createCheckAuth } from './Middleware/middlewareFactory';
 
@@ -17,6 +18,7 @@ const forgotPasswordController = createForgotPasswordController();
 const checkChangePasswordTokenController = createCheckChangePasswordTokenController();
 const changePasswordController = createChangePasswordController();
 const getProfileController = createGetProfileController();
+const loginController = createLoginController();
 
 // middleware
 const checkAuth = createCheckAuth();
@@ -27,5 +29,6 @@ router.post('/users/forgot-password', forgotPasswordController.handle.bind(forgo
 router.post('/users/check-change-password-token/:token', checkChangePasswordTokenController.handle.bind(checkChangePasswordTokenController));
 router.post('/users/change-password/:token', changePasswordController.handle.bind(changePasswordController));
 router.get("/users/profile", checkAuth.checkAuth.bind(checkAuth), getProfileController.execute.bind(getProfileController));
+router.post("/users/login", loginController.execute.bind(loginController));
 
 export default router;  

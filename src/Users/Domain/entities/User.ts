@@ -39,8 +39,4 @@ export class User{
         this.password = password;
         this.changePasswordToken = Token.createFromBussiness('');
     }
-
-    public checkPasswordEquals(password: Password): boolean {
-        return this.password.equals(password);
-    }
 }

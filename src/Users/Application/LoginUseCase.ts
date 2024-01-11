@@ -3,6 +3,7 @@ import { User } from "../Domain/entities/User";
 import { IUserRepository } from "../Domain/interfaces/userRepository";
 import { Password } from "../Domain/valueObjects/Password";
 import { ICreateJWT, UserProfile } from "../Domain/interfaces/createJWT";
+import { checkPassword } from "../Domain/services/checkPassword";
 
 export interface ILoginUseCase {
     execute(request: LoginData): Promise<LoginResponse>;
@@ -15,13 +16,13 @@ export class LoginUseCase {
     async execute(request: LoginData): Promise<LoginResponse> {
         const password = this.createPassword(request.password);
 
-        const user: User | null = await this.userRepository.findByUsername(request.email);
+        const user: User | null = await this.userRepository.findByEmail(request.email);
 
         if (!user) {
             throw new Error('User not found');
         }
-
-        if (!user.checkPasswordEquals(password)) {
+        
+        if (!await checkPassword(password, user.password)) {
             throw new Error('Password is incorrect');
         }
 
