@@ -102,7 +102,7 @@ describe("LoginUseCase", () => {
 
         const useCasePromise = loginUseCase.execute(request);
 
-        await expect(useCasePromise).rejects.toThrowError("Password must be at least 6 characters");
+        await expect(useCasePromise).rejects.toThrowError("Password must be at least 8 characters long");
     });
 })
 
@@ -133,6 +133,10 @@ class LoginUseCase {
         const passwordResult =  Password.create(passwordRequest);
         this.handleValueObject(passwordResult, (value: Password) => password = value, (error: string) => errors.push(error));
         
+        if(errors.length > 0){
+            throw new Error(errors.join(', '));
+        }
+
         return password!;
     }
 
