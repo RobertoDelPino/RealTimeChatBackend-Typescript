@@ -20,13 +20,18 @@ describe("LoginUseCase", () => {
     })
 
     test("should login user", async () => {
-        userRepository.findByUsername = jest.fn().mockReturnValue({
-            id: "id",
-            name: "name",
-            email: "email",
-            avatar: "avatar",
-            token: "token"
-        });
+        userRepository.findByUsername = jest.fn().mockReturnValue(
+            new User(
+                UserId.createFromBussiness("id"),
+                UserName.createFromBussiness("name"),
+                UserEmail.createFromBussiness("email"),
+                Password.createFromBussiness("password"),
+                Token.createFromBussiness("token"),
+                Token.createFromBussiness("token"),
+                false,
+                Avatar.createFromBussiness("avatar")
+            )
+        );
 
         const request : LoginData = {
             email: "username",
