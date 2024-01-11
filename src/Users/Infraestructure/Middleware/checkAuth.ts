@@ -13,9 +13,15 @@ export class CheckAuthMiddleware{
         if(request.headers.authorization && request.headers.authorization.startsWith("Bearer")){
             try {
                 const jwtSecret = process.env.JWT_SECRET;
+                if(!jwtSecret) throw new Error("JWT secret not found");
+
                 const token = request.headers.authorization.split(" ")[1];
-                const decoded: string = jwt.verify(token, jwtSecret as string) as string;
-                request.user = await this.userRepository.findById(decoded);
+
+                const verification = jwt.verify(token, jwtSecret);
+                if(typeof verification === "string") throw new Error("Invalid token");
+                
+                const decoded : jwt.JwtPayload = verification;
+                request.user = await this.userRepository.findById(decoded.id);
                 next();
             } catch (error) {
                 response.status(404).json({message: "An error ocurred"});
