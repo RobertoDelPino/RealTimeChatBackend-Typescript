@@ -9,25 +9,19 @@ export class CheckAuthMiddleware{
         this.userRepository = userRepository;
     }
 
-    async checkAuth (request: Request, response: Response, next: NextFunction) {
-        let token = "";
+    async checkAuth (request: Request, response: Response, next: NextFunction): Promise<void> {
         if(request.headers.authorization && request.headers.authorization.startsWith("Bearer")){
             try {
                 const jwtSecret = process.env.JWT_SECRET;
-                token = request.headers.authorization.split(" ")[1];
+                const token = request.headers.authorization.split(" ")[1];
                 const decoded: string = jwt.verify(token, jwtSecret as string) as string;
                 request.user = await this.userRepository.findById(decoded);
                 next();
             } catch (error) {
-                return response.status(404).json({message: "An error ocurred"})
+                response.status(404).json({message: "An error ocurred"});
             }
-        };
-    
-        if(!token){
-            const error = new Error("Not valid token");
-            return response.status(401).json({error: error.message});
+        } else {
+            response.status(401).json({error: "Not valid token"});
         }
-    
-        throw new Error("Not valid token");
     }
 }
