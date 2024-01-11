@@ -1,6 +1,12 @@
 import { User } from "../../../src/Users/Domain/entities/User";
 import { IUserRepository } from "../../../src/Users/Domain/interfaces/userRepository";
+import { Password } from "../../../src/Users/Domain/valueObjects/Password";
 import { mongoDbUserRepository as UserRepository } from "../../../src/Users/Infraestructure/Repositories/MongoDB/userRepository";
+import { UserId } from "../../../src/Users/Domain/valueObjects/UserId";
+import { UserName } from "../../../src/Users/Domain/valueObjects/UserName";
+import { UserEmail } from "../../../src/Users/Domain/valueObjects/UserEmail";
+import { Token } from "../../../src/Users/Domain/valueObjects/Token";
+import { Avatar } from "../../../src/Users/Domain/valueObjects/Avatar";
 
 describe("LoginUseCase", () => {
 
@@ -43,6 +49,30 @@ describe("LoginUseCase", () => {
         const useCasePromise = loginUseCase.execute(request);
 
         await expect(useCasePromise).rejects.toThrowError("User not found");
+    });
+
+    test("throws error when password is incorrect", async () => {
+        userRepository.findByUsername = jest.fn().mockReturnValue(
+            new User(
+                UserId.createFromBussiness("id"),
+                UserName.createFromBussiness("name"),
+                UserEmail.createFromBussiness("email"),
+                Password.createFromBussiness("password"),
+                Token.createFromBussiness("token"),
+                Token.createFromBussiness("token"),
+                false,
+                Avatar.createFromBussiness("avatar")
+            )
+        );
+
+        const request : LoginData = {
+            email: "username",
+            password: "invented_password"
+        }
+
+        const useCasePromise = loginUseCase.execute(request);
+
+        await expect(useCasePromise).rejects.toThrowError("Password is incorrect");
     });
 })
 
