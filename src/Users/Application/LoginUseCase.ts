@@ -2,13 +2,14 @@ import { Either, fold } from "fp-ts/lib/Either";
 import { User } from "../Domain/entities/User";
 import { IUserRepository } from "../Domain/interfaces/userRepository";
 import { Password } from "../Domain/valueObjects/Password";
+import { ICreateJWT, UserProfile } from "../Domain/interfaces/createJWT";
 
 export interface ILoginUseCase {
     execute(request: LoginData): Promise<LoginResponse>;
 }
 
 export class LoginUseCase {
-    constructor(private userRepository: IUserRepository) {
+    constructor(private userRepository: IUserRepository, private createJWT: ICreateJWT) {
     }
 
     async execute(request: LoginData): Promise<LoginResponse> {
@@ -24,7 +25,19 @@ export class LoginUseCase {
             throw new Error('Password is incorrect');
         }
 
-        return user;
+        const userProfile : UserProfile = {
+            id: user.id.value,
+            name: user.name.value,
+            email: user.email.value
+        }
+
+        const token = await this.createJWT.execute(userProfile);
+
+        return {
+            name: user.name.value,
+            email: user.email.value,
+            token: token
+        }
     }
 
     private createPassword(passwordRequest: string): Password {

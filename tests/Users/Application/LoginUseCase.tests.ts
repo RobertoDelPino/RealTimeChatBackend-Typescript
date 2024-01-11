@@ -13,15 +13,19 @@ import {
     LoginUseCase,
     LoginResponse 
 } from "../../../src/Users/Application/LoginUseCase";
+import { ICreateJWT } from "../../../src/Users/Domain/interfaces/createJWT";
+import { CreateJWT } from "../../../src/Users/Infraestructure/Services/createJWT";
 
 describe("LoginUseCase", () => {
 
     let userRepository : IUserRepository;
+    let createJWT: ICreateJWT;
     let loginUseCase : ILoginUseCase;
 
     beforeEach(() => {
         userRepository = new UserRepository();
-        loginUseCase = new LoginUseCase(userRepository);
+        createJWT = new CreateJWT();
+        loginUseCase = new LoginUseCase(userRepository, createJWT);
     })
 
     test("should login user", async () => {
