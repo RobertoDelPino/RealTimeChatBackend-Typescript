@@ -3,6 +3,7 @@ import { User } from "../Domain/entities/User";
 import { ICreateToken } from "../Domain/interfaces/createToken";
 import { IUserRepository } from "../Domain/interfaces/userRepository";
 import { Password } from "../Domain/valueObjects/Password";
+import hashString from "../Domain/services/hashString";
 
 export interface IChangePasswordUseCase {
     execute(changePasswordToken: string, newPassword: string): Promise<void>;
@@ -20,7 +21,8 @@ export class changePasswordUseCase implements IChangePasswordUseCase {
             throw new Error('User not found');
         }
 
-        let passwordToCheck : Password = await this.createPassword(newPassword);
+        const hashValue = await hashString(newPassword);
+        let passwordToCheck : Password = this.createPassword(hashValue);
 
         if(user.checkPasswordEquals(passwordToCheck)){
             throw new Error('New password must be different from the old one');
@@ -40,12 +42,12 @@ export class changePasswordUseCase implements IChangePasswordUseCase {
         await this.userRepository.update(user);
     }
 
-    private async createPassword(newPassword: string): Promise<Password> {
+    private createPassword(newPassword: string): Password {
         let errors: string[] = [];
        
         let password: Password;
        
-        const passwordResult = await Password.create(newPassword);
+        const passwordResult = Password.create(newPassword);
         this.handleValueObject(passwordResult, (value: Password) => password = value, (error: string) => errors.push(error));
 
         if(errors.length > 0) {

@@ -1,5 +1,5 @@
 import { Either, left, right } from 'fp-ts/lib/Either';
-import hashString from "../services/hashString";
+
 
 export class Password {
     public readonly value: string;
@@ -8,7 +8,7 @@ export class Password {
         this.value = value;
     }
 
-    static async create(value: string): Promise<Either<string, Password>> {
+    static create(value: string): Either<string, Password> {
         if (typeof value !== 'string' || value.trim() === '') {
             return left('Invalid value for Password');
         }
@@ -17,8 +17,7 @@ export class Password {
             return left('Password must be at least 8 characters long');
         }
         
-        const passwordString = await hashString(value);
-        return right(new Password(passwordString));
+        return right(new Password(value));
     }
 
     static createFromBussiness(value: string): Password {
