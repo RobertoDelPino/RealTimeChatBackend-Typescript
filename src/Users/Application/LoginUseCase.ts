@@ -4,14 +4,14 @@ import { IUserRepository } from "../Domain/interfaces/userRepository";
 import { Password } from "../Domain/valueObjects/Password";
 
 export interface ILoginUseCase {
-    execute(request: LoginData): Promise<User>;
+    execute(request: LoginData): Promise<LoginResponse>;
 }
 
 export class LoginUseCase {
     constructor(private userRepository: IUserRepository) {
     }
 
-    async execute(request: LoginData): Promise<User> {
+    async execute(request: LoginData): Promise<LoginResponse> {
         const password = this.createPassword(request.password);
 
         const user: User | null = await this.userRepository.findByUsername(request.email);
@@ -55,4 +55,10 @@ export class LoginUseCase {
 export interface LoginData{
     email: string;
     password: string;
+}
+
+export interface LoginResponse{
+    name: string;
+    email: string;
+    token: string;
 }

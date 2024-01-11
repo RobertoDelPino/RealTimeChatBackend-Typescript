@@ -10,7 +10,8 @@ import { Avatar } from "../../../src/Users/Domain/valueObjects/Avatar";
 import { 
     ILoginUseCase, 
     LoginData, 
-    LoginUseCase 
+    LoginUseCase,
+    LoginResponse 
 } from "../../../src/Users/Application/LoginUseCase";
 
 describe("LoginUseCase", () => {
@@ -34,6 +35,9 @@ describe("LoginUseCase", () => {
 
         expect(result).not.toBeNull();
         expect(userRepository.findByUsername).toHaveBeenCalledWith("username");
+        expect(result).toHaveProperty("name");
+        expect(result).toHaveProperty("email");
+        expect(result).toHaveProperty("token");
     });
 
     test("throws error when user not found", async () => {
