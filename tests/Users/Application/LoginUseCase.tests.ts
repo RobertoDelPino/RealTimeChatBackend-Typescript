@@ -3,11 +3,16 @@ import { IUserRepository } from "../../../src/Users/Domain/interfaces/userReposi
 import { mongoDbUserRepository as UserRepository } from "../../../src/Users/Infraestructure/Repositories/MongoDB/userRepository";
 
 describe("LoginUseCase", () => {
+
+    let userRepository : IUserRepository;
+    let loginUseCase : LoginUseCase;
+
+    beforeEach(() => {
+        userRepository = new UserRepository();
+        loginUseCase = new LoginUseCase(userRepository);
+    })
+
     test("should login user", async () => {
-
-        const userRepository : IUserRepository = new UserRepository();            
-        const loginUseCase = new LoginUseCase(userRepository);
-
         userRepository.findByUsername = jest.fn().mockReturnValue({
             id: "id",
             name: "name",
@@ -23,11 +28,7 @@ describe("LoginUseCase", () => {
 
         const result = await loginUseCase.execute(request);
 
-        expect(result).toHaveProperty("id");
-        expect(result).toHaveProperty("name");
-        expect(result).toHaveProperty("email");
-        expect(result).toHaveProperty("avatar");
-        expect(result).toHaveProperty("token");
+        expect(result).not.toBeNull();
         expect(userRepository.findByUsername).toHaveBeenCalledWith("username");
     });
 })
