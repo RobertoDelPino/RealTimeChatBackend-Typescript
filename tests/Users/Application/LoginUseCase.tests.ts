@@ -80,6 +80,30 @@ describe("LoginUseCase", () => {
 
         await expect(useCasePromise).rejects.toThrowError("Password is incorrect");
     });
+
+    test("throws error when password is invalid", async () => {
+        userRepository.findByUsername = jest.fn().mockReturnValue(
+            new User(
+                UserId.createFromBussiness("id"),
+                UserName.createFromBussiness("name"),
+                UserEmail.createFromBussiness("email"),
+                Password.createFromBussiness("password"),
+                Token.createFromBussiness("token"),
+                Token.createFromBussiness("token"),
+                false,
+                Avatar.createFromBussiness("avatar")
+            )
+        );
+
+        const request : LoginData = {
+            email: "username",
+            password: "pass"
+        }
+
+        const useCasePromise = loginUseCase.execute(request);
+
+        await expect(useCasePromise).rejects.toThrowError("Password must be at least 6 characters");
+    });
 })
 
 class LoginUseCase {
