@@ -9,6 +9,9 @@ import { Token } from "../../../src/Users/Domain/valueObjects/Token";
 import { UserEmail } from "../../../src/Users/Domain/valueObjects/UserEmail";
 import { UserId } from "../../../src/Users/Domain/valueObjects/UserId";
 import { UserName } from "../../../src/Users/Domain/valueObjects/UserName";
+import { emailSenderMock } from "../Domain/Mocks/emailSender";
+import { createTokenMock } from "../Domain/Mocks/createToken";
+import { userRepositoryMock } from "../Domain/Mocks/userRepository";
 
 describe("Forgot Password Use Case Tests", () => {
 
@@ -18,23 +21,9 @@ describe("Forgot Password Use Case Tests", () => {
     let forgotPasswordUseCase : IForgotPasswordUseCase;
 
     beforeEach(() => {
-        userRepository = {
-            findById: jest.fn(),
-            findByEmail: jest.fn(),
-            findByUsername: jest.fn(),
-            update: jest.fn(),
-            findByConfirmAccountToken: jest.fn(),
-            findByChangePasswordToken: jest.fn(),
-            save: jest.fn()
-        }
-        emailSender = {
-            sendForgotPasswordEmail: jest.fn(),
-            sendEmailToConfirmAccount: jest.fn()
-        };
-        createToken = {
-            createToken: jest.fn().mockReturnValue("token"),
-            createEmptyToken: jest.fn()
-        };
+        userRepository = userRepositoryMock;
+        emailSender = emailSenderMock;
+        createToken = createTokenMock;
 
         forgotPasswordUseCase = new ForgotPasswordUseCase(userRepository, emailSender, createToken);
     })
