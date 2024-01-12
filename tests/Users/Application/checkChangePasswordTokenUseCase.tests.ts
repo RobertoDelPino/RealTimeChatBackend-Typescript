@@ -20,12 +20,13 @@ describe("Check Change Password Token Use Case Tests", () => {
     })
 
     it("checks change password token", async () => {
-        const user = createUser("token");
+        const changePasswordToken = "token";
+        const user = createUser(changePasswordToken);
         userRepository.findByChangePasswordToken = jest.fn().mockReturnValue(user);
 
-        await checkChangePasswordTokenUseCase.execute("token");
+        await checkChangePasswordTokenUseCase.execute(changePasswordToken);
 
-        expect(userRepository.findByChangePasswordToken).toBeCalledWith("token");
+        expect(userRepository.findByChangePasswordToken).toBeCalledWith(changePasswordToken);
         expect(userRepository.findByChangePasswordToken).toReturnWith(user);
     });
 
