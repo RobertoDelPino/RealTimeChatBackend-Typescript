@@ -59,6 +59,12 @@ describe("Forgot Password Use Case Tests", () => {
 
         await expect(useCasePromise).rejects.toThrowError("User not found");
     });
+
+    test("throws error when user email is empty", async () => {
+        const useCasePromise = forgotPasswordUseCase.execute("");
+
+        await expect(useCasePromise).rejects.toThrowError("User email is required");
+    });
 });
 
 
