@@ -7,7 +7,7 @@ import { ConfirmUserUseCase } from "../../Application/confirmUserUseCase";
 import { ConfirmUserController } from "./confirmUserController";
 import { ForgotPasswordUseCase } from "../../Application/forgotPasswordUseCase";
 import { ForgotPasswordController } from "./forgotPasswordController";
-import { checkChangePasswordTokenUseCase } from "../../Application/checkChangePasswordTokenUseCase";
+import { CheckChangePasswordTokenUseCase } from "../../Application/checkChangePasswordTokenUseCase";
 import { checkChangePasswordTokenController } from "./checkChangePasswordTokenController";
 import { changePasswordUseCase } from "../../Application/changePasswordUseCase";
 import { changePasswordController } from "./changePasswordController";
@@ -42,7 +42,7 @@ function createForgotPasswordController(){
 
 function createCheckChangePasswordTokenController(){
   const repository = new mongoDbUserRepository();
-  const useCase = new checkChangePasswordTokenUseCase(repository);
+  const useCase = new CheckChangePasswordTokenUseCase(repository);
   return new checkChangePasswordTokenController(useCase);
 }
 
