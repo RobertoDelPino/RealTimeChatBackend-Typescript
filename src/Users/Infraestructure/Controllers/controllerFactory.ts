@@ -13,7 +13,7 @@ import { changePasswordUseCase } from "../../Application/changePasswordUseCase";
 import { changePasswordController } from "./changePasswordController";
 import { GetProfileUseCase } from "../../Application/getProfileUseCase";
 import { GetProfileController } from "./getProfileController";
-import { LoginUseCase } from "../../Application/LoginUseCase";
+import { LoginUseCase } from "../../Application/loginUseCase";
 import { LoginController } from "./loginController";
 import { CreateJWT } from "../Services/createJWT";
 

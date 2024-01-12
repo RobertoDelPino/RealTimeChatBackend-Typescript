@@ -10,7 +10,7 @@ import {
     ILoginUseCase, 
     LoginData, 
     LoginUseCase
-} from "../../../src/Users/Application/LoginUseCase";
+} from "../../../src/Users/Application/loginUseCase";
 import { ICreateJWT } from "../../../src/Users/Domain/interfaces/createJWT";
 import { userRepositoryMock } from "../Domain/Mocks/userRepository";
 import { createJWTMock } from "../Domain/Mocks/createJWT";
