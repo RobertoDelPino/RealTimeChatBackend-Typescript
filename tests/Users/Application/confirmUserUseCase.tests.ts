@@ -48,7 +48,7 @@ function createUser(confirmAccountToken: string, confirmed: boolean) : User {
         Password.createFromBussiness("password"),
         Token.createFromBussiness(confirmAccountToken),
         Token.createFromBussiness("token"),
-        false,
+        confirmed,
         Avatar.createFromBussiness("avatar")
     );
 }
