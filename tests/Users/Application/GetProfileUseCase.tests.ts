@@ -7,14 +7,14 @@ import { Token } from "../../../src/Users/Domain/valueObjects/Token";
 import { UserEmail } from "../../../src/Users/Domain/valueObjects/UserEmail";
 import { UserId } from "../../../src/Users/Domain/valueObjects/UserId";
 import { UserName } from "../../../src/Users/Domain/valueObjects/UserName";
-import { mongoDbUserRepository as UserRepository } from "../../../src/Users/Infraestructure/Repositories/MongoDB/userRepository";
+import { userRepositoryMock } from "../Domain/Mocks/userRepository";
 
 describe("Get Profile Use Case Tests", () => {
     let userRepository : IUserRepository;
     let getProfileUseCase : IGetProfileUseCase;
 
     beforeEach(() => {
-        userRepository = new UserRepository();
+        userRepository = userRepositoryMock;
         getProfileUseCase = new GetProfileUseCase(userRepository);
     })
 

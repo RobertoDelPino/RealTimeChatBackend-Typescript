@@ -1,7 +1,6 @@
 import { User } from "../../../src/Users/Domain/entities/User";
 import { IUserRepository } from "../../../src/Users/Domain/interfaces/userRepository";
 import { Password } from "../../../src/Users/Domain/valueObjects/Password";
-import { mongoDbUserRepository as UserRepository } from "../../../src/Users/Infraestructure/Repositories/MongoDB/userRepository";
 import { UserId } from "../../../src/Users/Domain/valueObjects/UserId";
 import { UserName } from "../../../src/Users/Domain/valueObjects/UserName";
 import { UserEmail } from "../../../src/Users/Domain/valueObjects/UserEmail";
@@ -13,7 +12,8 @@ import {
     LoginUseCase
 } from "../../../src/Users/Application/LoginUseCase";
 import { ICreateJWT } from "../../../src/Users/Domain/interfaces/createJWT";
-import { CreateJWT } from "../../../src/Users/Infraestructure/Services/createJWT";
+import { userRepositoryMock } from "../Domain/Mocks/userRepository";
+import { createJWTMock } from "../Domain/Mocks/createJWT";
 
 describe("LoginUseCase", () => {
     let userRepository : IUserRepository;
@@ -21,8 +21,8 @@ describe("LoginUseCase", () => {
     let loginUseCase : ILoginUseCase;
 
     beforeEach(() => {
-        userRepository = new UserRepository();
-        createJWT = new CreateJWT();
+        userRepository = userRepositoryMock;
+        createJWT = createJWTMock;
         loginUseCase = new LoginUseCase(userRepository, createJWT);
     })
 
