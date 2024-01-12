@@ -30,12 +30,20 @@ describe("Confirm User Use Case Tests", () => {
     });
 
     it("throws error when user not found", async () => {
-        const confirmAccountToken = "token";
         userRepository.findByConfirmAccountToken = jest.fn().mockReturnValue(null);
+
+        const useCasePromise = confirmUserUseCase.execute("");
+
+        await expect(useCasePromise).rejects.toThrowError("User not found");
+    });
+
+    it("throws error when user is already confirmed", async () => {
+        const confirmAccountToken = "token";
+        userRepository.findByConfirmAccountToken = jest.fn().mockReturnValue(createUser(confirmAccountToken, true));
 
         const useCasePromise = confirmUserUseCase.execute(confirmAccountToken);
 
-        await expect(useCasePromise).rejects.toThrowError("User not found");
+        await expect(useCasePromise).rejects.toThrowError("User is already confirmed");
     });
 });
 
