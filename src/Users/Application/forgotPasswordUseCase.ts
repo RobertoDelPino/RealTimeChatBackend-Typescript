@@ -16,6 +16,10 @@ export class ForgotPasswordUseCase implements IForgotPasswordUseCase {
     ) {}
 
     async execute(email: string): Promise<void> {
+        if (!email) {
+            throw new Error('User email is required');
+        }
+
         const user : User | null = await this.userRepository.findByEmail(email);
 
         if (!user) {
