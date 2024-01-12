@@ -29,6 +29,11 @@ describe("Check Change Password Token Use Case Tests", () => {
         expect(userRepository.findByChangePasswordToken).toReturnWith(user);
     });
 
+    it("throws error if user not found", async () => {
+        userRepository.findByChangePasswordToken = jest.fn().mockReturnValue(null);
+
+        await expect(checkChangePasswordTokenUseCase.execute("token")).rejects.toThrowError("User not found");
+    });
 });
 
 function createUser(confirmAccountToken: string) : User {
