@@ -10,6 +10,10 @@ export class GetProfileUseCase {
     constructor(private userRepository: IUserRepository) {
     }
     async execute(userEmail: string): Promise<UserProfile> {
+        if (!userEmail) {
+            throw new Error('User email is required');
+        }
+
         const user: User | null = await this.userRepository.findByEmail(userEmail);
         if (!user) {
             throw new Error('User not found');

@@ -33,10 +33,16 @@ describe("Get Profile Use Case Tests", () => {
     test("throws error when user not found", async () => {
         userRepository.findByEmail = jest.fn().mockReturnValue(null);
 
-        const useCasePromise = getProfileUseCase.execute("");
+        const useCasePromise = getProfileUseCase.execute("noexist@gmail.com");
 
         await expect(useCasePromise).rejects.toThrowError("User not found");
     })
+
+    test("throws error when user email is empty", async () => {
+        const useCasePromise = getProfileUseCase.execute("");
+
+        await expect(useCasePromise).rejects.toThrowError("User email is required");
+    });
 })
 
 function createUser(email: string) : User {
