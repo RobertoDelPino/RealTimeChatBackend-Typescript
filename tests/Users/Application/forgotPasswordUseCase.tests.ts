@@ -52,7 +52,13 @@ describe("Forgot Password Use Case Tests", () => {
         expect(emailSender.sendForgotPasswordEmail).toBeCalled();
     });
 
+    test("throws error when user not found", async () => {
+        userRepository.findByEmail = jest.fn().mockReturnValue(null);
 
+        const useCasePromise = forgotPasswordUseCase.execute("notfound@email.com");
+
+        await expect(useCasePromise).rejects.toThrowError("User not found");
+    });
 });
 
 
