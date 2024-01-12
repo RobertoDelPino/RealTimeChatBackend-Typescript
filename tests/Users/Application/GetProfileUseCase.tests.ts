@@ -29,6 +29,14 @@ describe("Get Profile Use Case Tests", () => {
         expect(result).toHaveProperty("email");
         expect(result).toHaveProperty("avatar");
     });
+    
+    test("throws error when user not found", async () => {
+        userRepository.findByEmail = jest.fn().mockReturnValue(null);
+
+        const useCasePromise = getProfileUseCase.execute("");
+
+        await expect(useCasePromise).rejects.toThrowError("User not found");
+    })
 })
 
 function createUser(email: string) : User {
