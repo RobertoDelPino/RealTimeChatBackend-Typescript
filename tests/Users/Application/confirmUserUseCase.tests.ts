@@ -28,6 +28,15 @@ describe("Confirm User Use Case Tests", () => {
         expect(userRepository.findByConfirmAccountToken).toBeCalledWith(confirmAccountToken);
         expect(userRepository.update).toBeCalled();
     });
+
+    it("throws error when user not found", async () => {
+        const confirmAccountToken = "token";
+        userRepository.findByConfirmAccountToken = jest.fn().mockReturnValue(null);
+
+        const useCasePromise = confirmUserUseCase.execute(confirmAccountToken);
+
+        await expect(useCasePromise).rejects.toThrowError("User not found");
+    });
 });
 
 
