@@ -22,10 +22,11 @@ export class changePasswordUseCase implements IChangePasswordUseCase {
             throw new Error('User not found');
         }
 
+        
         const hashValue = await hashString(newPassword);
         let passwordToCheck : Password = this.createPassword(hashValue);
 
-        if(!await checkPassword(passwordToCheck, user.password)){
+        if(await checkPassword(passwordToCheck, user.password)){
             throw new Error('New password must be different from the old one');
         }
 
