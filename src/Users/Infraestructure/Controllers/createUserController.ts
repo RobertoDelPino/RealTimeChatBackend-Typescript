@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
 import { ICreateUserUseCase, UserData } from '../../Application/createUserUseCase';
 
-export class CreateUserController {
+export interface ICreateUserController {
+    handle(request: Request, response: Response): Promise<Response>;
+}
+
+export class CreateUserController implements ICreateUserController {
     private createUserUseCase: ICreateUserUseCase;
 
     constructor(createUserUseCase: ICreateUserUseCase) {
