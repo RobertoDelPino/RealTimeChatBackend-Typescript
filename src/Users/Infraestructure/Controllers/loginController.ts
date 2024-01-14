@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import { ILoginUseCase, LoginData } from "../../Application/loginUseCase";
 
-export class LoginController {
+export interface ILoginController {
+    execute(request: Request, response: Response);
+}
+
+export class LoginController implements ILoginController {
     constructor(private loginUseCase: ILoginUseCase) {
     }
     async execute(request: Request, response: Response) {
