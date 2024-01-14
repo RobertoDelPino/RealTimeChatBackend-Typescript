@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
 import { IConfirmUserUseCase } from '../../Application/confirmUserUseCase';
 
-export class ConfirmUserController {
+export interface IConfirmUserController {
+    handle(request: Request, response: Response): Promise<Response>;
+}
+
+export class ConfirmUserController implements IConfirmUserController {
     private confirmUserUseCase: IConfirmUserUseCase;
 
     constructor(confirmUserUseCase: IConfirmUserUseCase) {
