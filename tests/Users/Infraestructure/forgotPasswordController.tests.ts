@@ -23,4 +23,15 @@ describe("forgot Password Controller", () => {
         expect(res.status).toHaveBeenCalledWith(200);   
         expect(res.json).toHaveBeenCalledWith({message: "Password reset email sent"});
     });
+
+    it("throws an error if useCase fails", async () => {
+        const req = getMockReq();
+        const { res } = getMockRes();
+        forgotPasswordUseCase.execute = jest.fn().mockRejectedValue(new Error('User not found'));
+
+        await forgotPasswordController.handle(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({error: "User not found"});
+    });
 });
