@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
 import { IChangePasswordUseCase } from "../../Application/changePasswordUseCase";
 
+export interface IChangePasswordController {
+    handle(request: Request, response: Response): Promise<Response>;
+}
 
-export class changePasswordController {
+export class ChangePasswordController implements IChangePasswordController {
     private useCase: IChangePasswordUseCase;
 
     constructor(useCase: IChangePasswordUseCase) {
