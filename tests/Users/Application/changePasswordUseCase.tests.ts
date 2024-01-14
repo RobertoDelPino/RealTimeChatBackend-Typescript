@@ -50,6 +50,20 @@ describe('ChangePasswordUseCase', () => {
         expect(userRepository.update).not.toBeCalled();
     });
 
+    it("should throw an error if the new password is the same as the old one", async () => {
+        const passwordToken = "token";
+        const password = "password";
+        const oldPasswordHash = await hashString(password);
+        userRepository.findByChangePasswordToken = jest.fn().mockReturnValue(createUser(passwordToken, oldPasswordHash))
+
+        const useCasePromise = useCase.execute(passwordToken, password);
+
+        await expect(useCasePromise).rejects.toThrow('New password must be different from the old one');
+        expect(userRepository.findByChangePasswordToken).toBeCalledWith(passwordToken);
+        expect(userRepository.update).not.toBeCalled();
+
+    });
+
 });
 
 function createUser(changePasswordToken: string, password: string) : User {
