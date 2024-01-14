@@ -13,22 +13,21 @@ import { Avatar } from "../../../src/Users/Domain/valueObjects/Avatar";
 import hashString from "../../../src/Users/Domain/services/hashString";
 
 describe('ChangePasswordUseCase', () => {
-  let userRepository: IUserRepository;
-  let createToken : ICreateToken;
-  let useCase: IChangePasswordUseCase;
+    let userRepository: IUserRepository;
+    let createToken : ICreateToken;
+    let useCase: IChangePasswordUseCase;
 
-  beforeEach(() => {
+    beforeEach(() => {
         userRepository = userRepositoryMock;
         createToken = createTokenMock;
         useCase = new changePasswordUseCase(userRepository, createToken);
-  });
+    });
 
     it('should change the password', async () => {
         const passwordToken = "token";
         const oldPassword = "oldPassword";
         const oldPasswordHash = await hashString(oldPassword);
         const newPassword = "newPassword";
-
         userRepository.findByChangePasswordToken = jest.fn().mockReturnValue(createUser(passwordToken, oldPasswordHash))
 
         await useCase.execute(passwordToken, newPassword);
