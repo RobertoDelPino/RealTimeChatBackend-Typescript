@@ -15,8 +15,6 @@ describe("CheckChangePasswordTokenController", () => {
 
     it("should return 200 when token is valid", async () => {
         const changePasswordToken = "token";
-
-        
         const req = getMockReq({ params: { token: changePasswordToken } });
         const { res } = getMockRes();
 
