@@ -39,6 +39,18 @@ describe("Get Profile Controller", () => {
         expect(res.json).toHaveBeenCalledWith({error: "User not found"});
     
     });
+
+    it("throws an error if useCase fails", async () => {
+        const user = createUser();
+        const req = getMockReq({user: user});
+        const { res } = getMockRes();
+        getProfileUseCase.execute = jest.fn().mockRejectedValue(new Error('User not found'));
+
+        await getProfileController.execute(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({error: "User not found"});
+    });
 });
 
 function createUser() : User {
