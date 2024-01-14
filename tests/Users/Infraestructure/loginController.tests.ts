@@ -24,4 +24,15 @@ describe("login Controller", () => {
         expect(res.status).toHaveBeenCalledWith(200);
     });
 
+    it("throws an error if useCase fails", async () => {
+        const req = getMockReq();
+        const { res } = getMockRes();
+        loginUseCase.execute = jest.fn().mockRejectedValue(new Error('User not found'));
+
+        await loginController.execute(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({error: "User not found"});
+    });
+
 });
