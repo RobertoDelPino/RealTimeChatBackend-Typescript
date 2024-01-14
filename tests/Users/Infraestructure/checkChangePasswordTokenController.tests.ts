@@ -33,6 +33,5 @@ describe("CheckChangePasswordTokenController", () => {
         await checkChangePasswordTokenController.handle(req, res);
 
         expect(res.status).toHaveBeenCalledWith(400);
-    
     });
 });
