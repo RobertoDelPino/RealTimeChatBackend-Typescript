@@ -70,6 +70,20 @@ describe("createUserUseCase", () => {
 
         expect(useCasePromise).rejects.toThrow('Error: Password must be at least 8 characters long');
     });
+
+    it("throws an error when email creation fail", async () => {
+        const userData : UserData = {
+            email: '',
+            password: 'password',
+            name: "Roberto"
+        }
+
+        userRepository.findByEmail = jest.fn().mockReturnValue(null);
+
+        const useCasePromise = useCase.execute(userData);
+
+        expect(useCasePromise).rejects.toThrow('Error: Invalid value for Email');
+    });
 });
 
 function createUser() : User {
