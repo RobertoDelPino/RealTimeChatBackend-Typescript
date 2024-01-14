@@ -9,7 +9,7 @@ export class UserEmail {
 
     static create(value: string): Either<string, UserEmail> {
         if (typeof value !== 'string' || value.trim() === '') {
-            return left('Invalid value for UserEmail');
+            return left('Invalid value for Email');
         }
         
         return right(new UserEmail(value));
