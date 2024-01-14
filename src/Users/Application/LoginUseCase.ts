@@ -14,15 +14,13 @@ export class LoginUseCase {
     }
 
     async execute(request: LoginData): Promise<LoginResponse> {
-        const password = this.createPassword(request.password);
-
         const user: User | null = await this.userRepository.findByEmail(request.email);
 
         if (!user) {
             throw new Error('User not found');
         }
         
-        if (!await checkPassword(password, user.password)) {
+        if (!await checkPassword(request.password, user.password)) {
             throw new Error('Password is incorrect');
         }
 
@@ -39,20 +37,6 @@ export class LoginUseCase {
             email: user.email.value,
             token: token
         }
-    }
-
-    private createPassword(passwordRequest: string): Password {
-        let password: Password;
-        let errors: string[] = [];
-        
-        const passwordResult =  Password.create(passwordRequest);
-        this.handleValueObject(passwordResult, (value: Password) => password = value, (error: string) => errors.push(error));
-        
-        if(errors.length > 0){
-            throw new Error(errors.join(', '));
-        }
-
-        return password!;
     }
 
     handleValueObject<T>(result: Either<string, T>, setValue: (value: T) => void, setError: (value: string) => void): void {
