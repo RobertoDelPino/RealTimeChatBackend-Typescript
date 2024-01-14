@@ -23,6 +23,10 @@ describe('ChangePasswordUseCase', () => {
         useCase = new changePasswordUseCase(userRepository, createToken);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     it('should change the password', async () => {
         const passwordToken = "token";
         const oldPassword = "oldPassword";
@@ -34,6 +38,16 @@ describe('ChangePasswordUseCase', () => {
 
         expect(userRepository.findByChangePasswordToken).toBeCalledWith(passwordToken);
         expect(userRepository.update).toBeCalled();
+    });
+
+    it('should throw an error if the user is not found', async () => {
+        userRepository.findByChangePasswordToken = jest.fn().mockReturnValue(null)
+
+        const useCasePromise = useCase.execute("", "")
+
+        await expect(useCasePromise).rejects.toThrow('User not found');
+        expect(userRepository.findByChangePasswordToken).toBeCalled();
+        expect(userRepository.update).not.toBeCalled();
     });
 
 });
