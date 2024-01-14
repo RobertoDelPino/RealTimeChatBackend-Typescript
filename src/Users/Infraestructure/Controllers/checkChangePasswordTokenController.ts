@@ -6,7 +6,7 @@ export interface ICheckChangePasswordTokenController {
     handle(request: Request, response: Response): Promise<Response>;
 }
 
-export class CheckChangePasswordTokenController {
+export class CheckChangePasswordTokenController implements ICheckChangePasswordTokenController {
     private useCase: ICheckChangePasswordTokenUseCase;
 
     constructor(useCase: ICheckChangePasswordTokenUseCase) {
