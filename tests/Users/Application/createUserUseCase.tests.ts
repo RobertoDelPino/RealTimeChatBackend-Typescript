@@ -84,6 +84,20 @@ describe("createUserUseCase", () => {
 
         expect(useCasePromise).rejects.toThrow('Error: Invalid value for Email');
     });
+
+    it("throws an error when name creation fail", async () => {
+        const userData : UserData = {
+            email: 'roberto@gmail.com',
+            password: 'password',
+            name: ""
+        }
+
+        userRepository.findByEmail = jest.fn().mockReturnValue(null);
+
+        const useCasePromise = useCase.execute(userData);
+
+        expect(useCasePromise).rejects.toThrow('Error: Invalid value for Name');
+    });
 });
 
 function createUser() : User {
