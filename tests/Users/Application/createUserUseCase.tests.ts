@@ -56,6 +56,20 @@ describe("createUserUseCase", () => {
 
         await expect(useCasePromise).rejects.toThrow('User already exists');
     });
+
+    it("throws an error when password creation fail", async () => {
+        const userData : UserData = {
+            email: 'roberto@gmail.com',
+            password: 'pass',
+            name: "Roberto"
+        }
+
+        userRepository.findByEmail = jest.fn().mockReturnValue(null);
+
+        const useCasePromise = useCase.execute(userData);
+
+        expect(useCasePromise).rejects.toThrow('Password must be at least 8 characters long');
+    });
 });
 
 function createUser() : User {
