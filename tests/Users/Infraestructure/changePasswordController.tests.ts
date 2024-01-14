@@ -25,4 +25,15 @@ describe("change Password Controller", () => {
         expect(res.json).toHaveBeenCalledWith({ message: 'Password changed successfully' });
     });
 
+    it("throws an error if useCase fails", async () => {
+        const errorMessage = "User not found";
+        const req = getMockReq();
+        const { res } = getMockRes();
+        changePasswordUseCase.execute = jest.fn().mockRejectedValue(new Error(errorMessage));
+
+        await changePasswordController.handle(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({ error: errorMessage });
+    });
 });
