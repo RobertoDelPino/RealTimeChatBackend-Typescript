@@ -2,7 +2,11 @@ import { Request, Response } from "express";
 
 import { ICheckChangePasswordTokenUseCase } from '../../Application/checkChangePasswordTokenUseCase';
 
-export class checkChangePasswordTokenController {
+export interface ICheckChangePasswordTokenController {
+    handle(request: Request, response: Response): Promise<Response>;
+}
+
+export class CheckChangePasswordTokenController {
     private useCase: ICheckChangePasswordTokenUseCase;
 
     constructor(useCase: ICheckChangePasswordTokenUseCase) {
@@ -11,7 +15,7 @@ export class checkChangePasswordTokenController {
 
     async handle(request: Request, response: Response): Promise<Response> {
         try {
-            const { token} = request.params;
+            const { token } = request.params;
 
             await this.useCase.execute(token);
 
