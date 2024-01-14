@@ -68,7 +68,7 @@ describe("createUserUseCase", () => {
 
         const useCasePromise = useCase.execute(userData);
 
-        expect(useCasePromise).rejects.toThrow('Password must be at least 8 characters long');
+        expect(useCasePromise).rejects.toThrow('Error: Password must be at least 8 characters long');
     });
 });
 
