@@ -22,4 +22,15 @@ describe("confirm User Controller", () => {
 
         expect(res.status).toHaveBeenCalledWith(201)    
     });
+
+    it("throws an error if useCase fails", async () => {
+        const req = getMockReq();
+        const { res } = getMockRes();
+        confirmUserUseCase.execute = jest.fn().mockRejectedValue(new Error('User not found'));
+
+        await confirmUserController.handle(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({error: "User not found"});
+    });
 });
