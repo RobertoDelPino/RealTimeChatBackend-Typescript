@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import { IGetProfileUseCase } from "../../Application/getProfileUseCase";
 
-export class GetProfileController {
+export interface IGetProfileController {
+    execute(request: Request, response: Response): Promise<void>;
+}
+
+export class GetProfileController implements IGetProfileController {
     constructor(private getProfileUseCase: IGetProfileUseCase) {
     }
     async execute(request: Request, response: Response) {
