@@ -20,14 +20,24 @@ describe("Get Profile Controller", () => {
     });
 
     it("should get a profile", async () => {
-        const changePasswordToken = "token";
         const user = createUser();
-        const req = getMockReq({ params: { token: changePasswordToken}, user: user });
+        const req = getMockReq({user: user });
         const { res } = getMockRes();
 
         await getProfileController.execute(req, res);
 
         expect(res.status).toHaveBeenCalledWith(200)
+    });
+
+    it("throws an error if user does not exist in request", async () => {
+        const req = getMockReq();
+        const { res } = getMockRes();
+
+        await getProfileController.execute(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({error: "User not found"});
+    
     });
 });
 
