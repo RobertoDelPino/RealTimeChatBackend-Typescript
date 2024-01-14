@@ -22,4 +22,17 @@ describe("CheckChangePasswordTokenController", () => {
 
         expect(res.status).toHaveBeenCalledWith(200);
     });
+
+    it("should return 400 when token is invalid", async () => {
+        const changePasswordTokenError = new Error("Token is invalid");
+        const changePasswordToken = "token";
+        const req = getMockReq({ params: { token: changePasswordToken } });
+        const { res } = getMockRes();
+        checkChangePasswordTokenUseCase.execute = jest.fn().mockRejectedValue(changePasswordTokenError);
+
+        await checkChangePasswordTokenController.handle(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+    
+    });
 });
