@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
 import { IForgotPasswordUseCase } from '../../Application/forgotPasswordUseCase';
 
-export class ForgotPasswordController {
+export interface IForgotPasswordController {
+    handle(request: Request, response: Response): Promise<Response>;
+}
+
+export class ForgotPasswordController implements IForgotPasswordController {
     private forgotPasswordUseCase: IForgotPasswordUseCase;
 
     constructor(forgotPasswordUseCase: IForgotPasswordUseCase) {
