@@ -7,7 +7,7 @@ export class Token {
         this.value = value;
     }
 
-    static create(value: string): Either<string, Token> {
+    static create(value: any): Either<string, Token> {
         if (typeof value !== 'string') {
             return left('Invalid value for Token');
         }
