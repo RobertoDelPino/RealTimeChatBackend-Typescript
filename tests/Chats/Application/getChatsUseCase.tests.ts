@@ -1,3 +1,5 @@
+import { Chat, Message, User, IGetChatsUseCase, GetChatsUseCase } from "../../../src/Chats/Application/getChatsUseCase";
+import { IChatsRepository } from "../../../src/Chats/Domain/interfaces/chatsRepository";
 import { chatsRepositoryMock } from "../Domain/Mocks/chatRepositoryMock";
 
 describe("get chats use Case", () => {
@@ -25,45 +27,4 @@ function createChat(userId: string): Chat {
     const user = new User(userId, "name", "email");
     const message = new Message("1", "content", user, user);
     return new Chat("1", [user], [message]);
-}
-
-export class GetChatsUseCase implements IGetChatsUseCase {
-    constructor(private chatsRepository: IChatsRepository) {}
-
-    async execute(userId: string): Promise<Chat[]> {
-        return this.chatsRepository.findAll(userId);
-    }
-}
-
-export interface IChatsRepository {
-    findAll(userId: string): Promise<Chat[]>;
-}
-
-export interface IGetChatsUseCase {
-    execute(userId: string): Promise<Chat[]>;
-}
-
-export class Chat {
-    constructor(
-        public _id: string,
-        public users: User[],
-        public messages: Message[]
-    ) {}
-}
-
-export class User {
-    constructor(
-        public _id?: string,
-        public name?: string,
-        public email?: string
-    ) {}
-}
-
-export class Message {
-    constructor(
-        public _id?: string,
-        public content?: string,
-        public sender?: User,
-        public receiver?: User
-    ) {}
 }
