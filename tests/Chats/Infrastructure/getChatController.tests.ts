@@ -33,6 +33,8 @@ describe("getChat Controller", () => {
         const req = getMockReq({params: { chatId: chatId }});
         const { res } = getMockRes();
 
+        getChatUseCase.execute = jest.fn().mockRejectedValue(new Error('ChatId is required'));
+
         await getChatController.execute(req, res);
 
         expect(res.status).toHaveBeenCalledWith(400);
@@ -48,8 +50,13 @@ export class GetChatController {
     constructor(private getChatUseCase: IGetChatUseCase) {}
 
     async execute(req: Request, res: Response) {
-        const chatId = req.params.chatId;
-        const chat = await this.getChatUseCase.execute(chatId);
-        res.status(200).json(chat);
+        try{
+            const chatId = req.params.chatId;
+            const chat = await this.getChatUseCase.execute(chatId);
+            res.status(200).json(chat);
+        }
+        catch(error){
+            res.status(400).json({error: error.message});
+        }
     }
 }
