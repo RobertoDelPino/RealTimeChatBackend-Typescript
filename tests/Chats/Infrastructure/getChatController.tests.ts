@@ -27,6 +27,17 @@ describe("getChat Controller", () => {
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith(chat);
     });
+
+    it("throws an error if chatId is empty", async () => {
+        const chatId = "";
+        const req = getMockReq({params: { chatId: chatId }});
+        const { res } = getMockRes();
+
+        await getChatController.execute(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({error: "ChatId is required"});
+    });
 });
 
 export interface IGetChatController {
