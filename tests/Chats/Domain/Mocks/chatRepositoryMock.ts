@@ -3,6 +3,7 @@ import { IChatsRepository } from "../../../../src/Chats/Domain/interfaces/chatsR
 let chatsRepositoryMock : IChatsRepository = {
     findAll: jest.fn().mockReturnValue(true),
     findBy: jest.fn().mockReturnValue(true),
+    save: jest.fn().mockReturnValue(true),
 };
 
 export { chatsRepositoryMock };
