@@ -1,6 +1,6 @@
 import { CreateChatUseCase, ICreateChatUseCase } from "../../../src/Chats/Application/createChatUseCase";
-import { Chat } from "../../../src/Chats/Application/getChatsUseCase";
 import { IChatsRepository } from "../../../src/Chats/Domain/interfaces/chatsRepository";
+import { Chat } from "../../../src/Chats/Domain/temporalObjects/Chat";
 import { chatsRepositoryMock } from "../Domain/Mocks/chatRepositoryMock"
 
 describe('createChatUseCase', () => {

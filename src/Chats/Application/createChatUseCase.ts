@@ -1,5 +1,5 @@
 import { IChatsRepository } from "../Domain/interfaces/chatsRepository";
-import { Chat } from "./getChatsUseCase";
+import { Chat } from "../Domain/temporalObjects/Chat";
 
 export interface ICreateChatUseCase {
     execute(chat: Chat): Promise<void>;

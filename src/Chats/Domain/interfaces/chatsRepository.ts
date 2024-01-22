@@ -1,4 +1,4 @@
-import { Chat } from "../../Application/getChatsUseCase";
+import { Chat } from "../temporalObjects/Chat";
 
 export interface IChatsRepository {
     findAll(userId: string): Promise<Chat[]>;

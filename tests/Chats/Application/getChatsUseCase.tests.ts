@@ -1,5 +1,8 @@
-import { Chat, Message, User, IGetChatsUseCase, GetChatsUseCase } from "../../../src/Chats/Application/getChatsUseCase";
+import { IGetChatsUseCase, GetChatsUseCase } from "../../../src/Chats/Application/getChatsUseCase";
 import { IChatsRepository } from "../../../src/Chats/Domain/interfaces/chatsRepository";
+import { Chat } from "../../../src/Chats/Domain/temporalObjects/Chat";
+import { Message } from "../../../src/Chats/Domain/temporalObjects/Message";
+import { User } from "../../../src/Chats/Domain/temporalObjects/User";
 import { chatsRepositoryMock } from "../Domain/Mocks/chatRepositoryMock";
 
 describe("get chats use Case", () => {
