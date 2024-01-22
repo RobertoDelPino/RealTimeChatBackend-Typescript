@@ -1,5 +1,5 @@
 import { GetChatUseCase } from "../../Application/getChatUseCase";
-import { mongoDbChatRepository } from "../MongoDB/chatRepository";
+import { mongoDbChatRepository } from "../Repositories/MongoDB/chatRepository";
 import { GetChatController } from "./getChatController";
 
 function createGetChatController() {

@@ -1,7 +1,7 @@
-import { IChatsRepository } from "../../Domain/interfaces/chatsRepository";
-import { Chat } from "../../Domain/temporalObjects/Chat";
-import { Message } from "../../Domain/temporalObjects/Message";
-import { User } from "../../Domain/temporalObjects/User";
+import { IChatsRepository } from "../../../Domain/interfaces/chatsRepository";
+import { Chat } from "../../../Domain/temporalObjects/Chat";
+import { Message } from "../../../Domain/temporalObjects/Message";
+import { User } from "../../../Domain/temporalObjects/User";
 
 export class mongoDbChatRepository implements IChatsRepository{
     findAll(userId: string): Promise<Chat[]> {
