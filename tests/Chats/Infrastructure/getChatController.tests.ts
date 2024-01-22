@@ -2,7 +2,7 @@ import { getMockReq, getMockRes } from "@jest-mock/express";
 import { IGetChatUseCase } from "../../../src/Chats/Application/getChatUseCase";
 import { getChatUseCaseMock } from "../Application/mock/getChatUseCaseMock";
 import { Chat } from "../../../src/Chats/Domain/temporalObjects/Chat";
-import { Request, Response } from "express";
+import { GetChatController, IGetChatController } from "../../../src/Chats/Infrastructure/Controllers/getChatController";
 
 describe("getChat Controller", () => {
 
@@ -41,22 +41,3 @@ describe("getChat Controller", () => {
         expect(res.json).toHaveBeenCalledWith({error: "ChatId is required"});
     });
 });
-
-export interface IGetChatController {
-    execute(req: Request, res: Response): Promise<void>;
-}
-
-export class GetChatController {
-    constructor(private getChatUseCase: IGetChatUseCase) {}
-
-    async execute(req: Request, res: Response) {
-        try{
-            const chatId = req.params.chatId;
-            const chat = await this.getChatUseCase.execute(chatId);
-            res.status(200).json(chat);
-        }
-        catch(error){
-            res.status(400).json({error: error.message});
-        }
-    }
-}
