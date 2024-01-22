@@ -22,6 +22,13 @@ describe('getChatUseCase', () => {
         expect(chatsRepository.findBy).toBeCalled();
         expect(result).toBe(chat);
     });
+
+    it('throws an error if chat is not found', async () => {
+        const chatId = '1';
+        chatsRepository.findBy = jest.fn().mockRejectedValue(new Error('Chat not found'));
+
+        await expect(getChatUseCase.execute(chatId)).rejects.toThrowError('Chat not found');
+    });
 });
 
 function createChat(chatId: string): Chat {
