@@ -1,3 +1,5 @@
+import { chatsRepositoryMock } from "../Domain/Mocks/chatRepositoryMock";
+
 describe("get chats use Case", () => {
     let chatsRepository : IChatsRepository; 
     let getChatsUseCase : IGetChatsUseCase;
@@ -18,6 +20,20 @@ describe("get chats use Case", () => {
         expect(chatsRepository.findAll).toReturnWith(chats);
     });
 })
+
+function createChat(userId: string): Chat {
+    const user = new User(userId, "name", "email");
+    const message = new Message("1", "content", user, user);
+    return new Chat("1", [user], [message]);
+}
+
+export class GetChatsUseCase implements IGetChatsUseCase {
+    constructor(private chatsRepository: IChatsRepository) {}
+
+    async execute(userId: string): Promise<Chat[]> {
+        return this.chatsRepository.findAll(userId);
+    }
+}
 
 export interface IChatsRepository {
     findAll(userId: string): Promise<Chat[]>;
