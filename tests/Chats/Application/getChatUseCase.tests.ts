@@ -29,6 +29,12 @@ describe('getChatUseCase', () => {
 
         await expect(getChatUseCase.execute(chatId)).rejects.toThrowError('Chat not found');
     });
+
+    it('throws an error if chatId is empty', async () => {
+        const chatId = '';
+
+        await expect(getChatUseCase.execute(chatId)).rejects.toThrowError('ChatId is required');
+    });
 });
 
 function createChat(chatId: string): Chat {
