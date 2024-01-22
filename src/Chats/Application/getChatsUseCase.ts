@@ -1,10 +1,8 @@
 import { IChatsRepository } from "../Domain/interfaces/chatsRepository";
 
-
 export interface IGetChatsUseCase {
     execute(userId: string): Promise<Chat[]>;
 }
-
 
 export class GetChatsUseCase implements IGetChatsUseCase {
     constructor(private chatsRepository: IChatsRepository) {}
@@ -16,7 +14,6 @@ export class GetChatsUseCase implements IGetChatsUseCase {
         return this.chatsRepository.findAll(userId);
     }
 }
-
 
 export class Chat {
     constructor(
