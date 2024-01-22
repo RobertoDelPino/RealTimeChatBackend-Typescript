@@ -12,7 +12,7 @@ describe('createChatUseCase', () => {
         createChatUseCase = new CreateChatUseCase(chatRepository);
     });
 
-    it('should create a chat', async () => {
+    it('creates a chat', async () => {
         const chat = new Chat('1', [], []);
 
         await createChatUseCase.execute(chat);
