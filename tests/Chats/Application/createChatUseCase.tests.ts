@@ -1,6 +1,8 @@
 import { CreateChatUseCase, ICreateChatUseCase } from "../../../src/Chats/Application/createChatUseCase";
 import { IChatsRepository } from "../../../src/Chats/Domain/interfaces/chatsRepository";
 import { Chat } from "../../../src/Chats/Domain/temporalObjects/Chat";
+import { Message } from "../../../src/Chats/Domain/temporalObjects/Message";
+import { User } from "../../../src/Chats/Domain/temporalObjects/User";
 import { chatsRepositoryMock } from "../Domain/Mocks/chatRepositoryMock"
 
 describe('createChatUseCase', () => {
@@ -14,11 +16,12 @@ describe('createChatUseCase', () => {
     });
 
     it('creates a chat', async () => {
-        const chat = new Chat('1', [], []);
+        const users : User[] = [];
+        const messages : Message[] = [];
 
-        await createChatUseCase.execute(chat);
+        await createChatUseCase.execute(users, messages);
     
-        expect(chatRepository.save).toBeCalledWith(chat);
+        expect(chatRepository.save).toBeCalledWith(messages, users);
     });
 });
 

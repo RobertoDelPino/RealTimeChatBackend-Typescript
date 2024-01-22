@@ -1,15 +1,17 @@
 import { IChatsRepository } from "../Domain/interfaces/chatsRepository";
 import { Chat } from "../Domain/temporalObjects/Chat";
+import { Message } from "../Domain/temporalObjects/Message";
+import { User } from "../Domain/temporalObjects/User";
 
 export interface ICreateChatUseCase {
-    execute(chat: Chat): Promise<void>;
+    execute(users: User[], messages: Message[]): Promise<void>;
 }
 
 export class CreateChatUseCase implements ICreateChatUseCase {
     constructor(private chatsRepository: IChatsRepository) {}
 
-    async execute(chat: Chat): Promise<void> {
-        return this.chatsRepository.save(chat);
+    async execute(users: User[], messages: Message[]): Promise<void> {
+        return this.chatsRepository.save(users, messages);
     }
 }
 
