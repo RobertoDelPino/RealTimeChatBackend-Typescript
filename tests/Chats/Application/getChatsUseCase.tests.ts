@@ -21,6 +21,19 @@ describe("get chats use Case", () => {
         expect(chatsRepository.findAll).toBeCalled();
         expect(chatsRepository.findAll).toReturnWith(chats);
     });
+
+    it("throws an error if repository fails", async () => {
+        const userId = "1";
+        chatsRepository.findAll = jest.fn().mockRejectedValue(new Error('User not found'));
+
+        await expect(getChatsUseCase.execute(userId)).rejects.toThrowError('User not found');
+    });
+
+    it("throws an error if userId is empty", async () => {
+        const userId = "";
+
+        await expect(getChatsUseCase.execute(userId)).rejects.toThrowError('UserId is required');
+    });
 })
 
 function createChat(userId: string): Chat {
