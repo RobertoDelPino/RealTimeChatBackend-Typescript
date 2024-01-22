@@ -8,9 +8,9 @@ import { ConfirmUserController } from "./confirmUserController";
 import { ForgotPasswordUseCase } from "../../Application/forgotPasswordUseCase";
 import { ForgotPasswordController } from "./forgotPasswordController";
 import { CheckChangePasswordTokenUseCase } from "../../Application/checkChangePasswordTokenUseCase";
-import { checkChangePasswordTokenController } from "./checkChangePasswordTokenController";
+import { CheckChangePasswordTokenController } from "./checkChangePasswordTokenController";
 import { changePasswordUseCase } from "../../Application/changePasswordUseCase";
-import { changePasswordController } from "./changePasswordController";
+import { ChangePasswordController } from "./changePasswordController";
 import { GetProfileUseCase } from "../../Application/getProfileUseCase";
 import { GetProfileController } from "./getProfileController";
 import { LoginUseCase } from "../../Application/loginUseCase";
@@ -43,14 +43,14 @@ function createForgotPasswordController(){
 function createCheckChangePasswordTokenController(){
   const repository = new mongoDbUserRepository();
   const useCase = new CheckChangePasswordTokenUseCase(repository);
-  return new checkChangePasswordTokenController(useCase);
+  return new CheckChangePasswordTokenController(useCase);
 }
 
 function createChangePasswordController(){
   const repository = new mongoDbUserRepository();
   const tokenCreator = new createToken();
   const useCase = new changePasswordUseCase(repository, tokenCreator);
-  return new changePasswordController(useCase);
+  return new ChangePasswordController(useCase);
 }
 
 function createGetProfileController(){
