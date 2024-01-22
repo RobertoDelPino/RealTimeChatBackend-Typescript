@@ -1,6 +1,6 @@
 import { getMockReq, getMockRes } from "@jest-mock/express";
 import { IConfirmUserUseCase } from "../../../src/Users/Application/confirmUserUseCase";
-import { ConfirmUserController, IConfirmUserController } from "../../../src/Users/Infraestructure/Controllers/confirmUserController";
+import { ConfirmUserController, IConfirmUserController } from "../../../src/Users/Infrastructure/Controllers/confirmUserController";
 import { confirmUserUseCaseMock } from "../Application/mocks/confirmUserUseCaseMock";
 
 describe("confirm User Controller", () => {

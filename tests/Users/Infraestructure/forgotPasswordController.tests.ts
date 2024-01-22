@@ -1,6 +1,6 @@
 import { getMockReq, getMockRes } from "@jest-mock/express";
 import { IForgotPasswordUseCase } from "../../../src/Users/Application/forgotPasswordUseCase";
-import { ForgotPasswordController, IForgotPasswordController } from "../../../src/Users/Infraestructure/Controllers/forgotPasswordController";
+import { ForgotPasswordController, IForgotPasswordController } from "../../../src/Users/Infrastructure/Controllers/forgotPasswordController";
 import { forgotPasswordUseCaseMock } from "../Application/mocks/forgotPasswordUseCaseMock";
 
 describe("forgot Password Controller", () => {

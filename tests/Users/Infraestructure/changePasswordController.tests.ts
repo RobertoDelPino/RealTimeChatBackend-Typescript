@@ -1,6 +1,6 @@
 import { getMockReq, getMockRes } from "@jest-mock/express";
 import { IChangePasswordUseCase } from "../../../src/Users/Application/changePasswordUseCase";
-import { IChangePasswordController, ChangePasswordController } from "../../../src/Users/Infraestructure/Controllers/changePasswordController";
+import { IChangePasswordController, ChangePasswordController } from "../../../src/Users/Infrastructure/Controllers/changePasswordController";
 import { changePasswordUseCaseMock } from "../Application/mocks/changePasswordUseCaseMock";
 
 describe("change Password Controller", () => {

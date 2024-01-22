@@ -1,6 +1,6 @@
 import { getMockReq, getMockRes } from "@jest-mock/express";
 import { ICreateUserUseCase } from "../../../src/Users/Application/createUserUseCase"
-import { CreateUserController, ICreateUserController } from "../../../src/Users/Infraestructure/Controllers/createUserController";
+import { CreateUserController, ICreateUserController } from "../../../src/Users/Infrastructure/Controllers/createUserController";
 import { createUserUseCaseMock } from "../Application/mocks/createUserUseCaseMock";
 
 describe("create User Controller", () => {

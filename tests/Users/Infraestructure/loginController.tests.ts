@@ -1,6 +1,6 @@
 import { getMockReq, getMockRes } from "@jest-mock/express";
 import { ILoginUseCase } from "../../../src/Users/Application/loginUseCase";
-import { ILoginController, LoginController } from "../../../src/Users/Infraestructure/Controllers/loginController";
+import { ILoginController, LoginController } from "../../../src/Users/Infrastructure/Controllers/loginController";
 import { loginUseCaseMock } from "../Application/mocks/loginUseCaseMock";
 
 describe("login Controller", () => {

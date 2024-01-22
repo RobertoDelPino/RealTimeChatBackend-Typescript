@@ -1,4 +1,3 @@
-import { GetProfileController, IGetProfileController } from "../../../src/Users/Infraestructure/Controllers/getProfileController";
 import { IGetProfileUseCase } from "../../../src/Users/Application/getProfileUseCase";
 import { getProfileUseCaseMock as GetProfileUseCase } from "../Application/mocks/getProfileUseCaseMock";
 import { getMockReq, getMockRes } from "@jest-mock/express";
@@ -9,6 +8,7 @@ import { UserEmail } from "../../../src/Users/Domain/valueObjects/UserEmail";
 import { Password } from "../../../src/Users/Domain/valueObjects/Password";
 import { Token } from "../../../src/Users/Domain/valueObjects/Token";
 import { Avatar } from "../../../src/Users/Domain/valueObjects/Avatar";
+import { GetProfileController, IGetProfileController } from "../../../src/Users/Infrastructure/Controllers/getProfileController";
 
 describe("Get Profile Controller", () => {
     let getProfileUseCase : IGetProfileUseCase;

@@ -1,7 +1,7 @@
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import { ICheckChangePasswordTokenUseCase } from "../../../src/Users/Application/checkChangePasswordTokenUseCase";
 import { CheckChangePasswordTokenMock } from "../Application/mocks/checkChangePasswordTokenMock";
-import { ICheckChangePasswordTokenController, CheckChangePasswordTokenController } from "../../../src/Users/Infraestructure/Controllers/checkChangePasswordTokenController"
+import { ICheckChangePasswordTokenController, CheckChangePasswordTokenController } from "../../../src/Users/Infrastructure/Controllers/checkChangePasswordTokenController"
 
 describe("CheckChangePasswordTokenController", () => {
 
