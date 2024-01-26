@@ -1,6 +1,6 @@
 import express from 'express'
-import routes from './Users/Infraestructure/routes';
-import connectToDB from './Users/Infraestructure/Repositories/MongoDB/Connections/connectToDB';
+import routes from './Users/Infrastructure/routes';
+import connectToDB from './Users/Infrastructure/Repositories/MongoDB/Connections/connectToDB';
 import dotenv from 'dotenv';
 
 const app = express()
