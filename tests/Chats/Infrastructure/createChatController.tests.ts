@@ -3,6 +3,7 @@ import { ICreateChatUseCase } from "../../../src/Chats/Application/createChatUse
 import { createChatUseCaseMock } from "../Application/mock/createChatUseCaseMock";
 import { Chat } from "../../../src/Chats/Domain/temporalObjects/Chat";
 import { User } from "../../../src/Chats/Domain/temporalObjects/User";
+import { CreateChatController, ICreateChatController } from "../../../src/Chats/Infrastructure/Controllers/createChatController";
 
 describe("createChat Controller", () => {
 
@@ -43,17 +44,3 @@ describe("createChat Controller", () => {
     });
 
 });
-
-export interface ICreateChatController {
-    execute(req: any, res: any): Promise<void>
-}
-
-export class CreateChatController implements ICreateChatController {
-    constructor(private createChatUseCase: ICreateChatUseCase) {}
-
-    async execute(req: any, res: any): Promise<void> {
-        const users = req.body.users;
-        const chat = await this.createChatUseCase.execute(users);
-        res.status(200).json(chat);
-    }
-}
