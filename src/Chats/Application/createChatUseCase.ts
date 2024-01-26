@@ -4,13 +4,13 @@ import { Message } from "../Domain/temporalObjects/Message";
 import { User } from "../Domain/temporalObjects/User";
 
 export interface ICreateChatUseCase {
-    execute(users: User[]): Promise<void>;
+    execute(users: User[]): Promise<Chat>;
 }
 
 export class CreateChatUseCase implements ICreateChatUseCase {
     constructor(private chatsRepository: IChatsRepository) {}
 
-    async execute(users: User[]): Promise<void> {
+    async execute(users: User[]): Promise<Chat> {
         return this.chatsRepository.save(users);
     }
 }
