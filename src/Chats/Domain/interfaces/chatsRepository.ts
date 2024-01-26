@@ -5,5 +5,5 @@ import { User } from "../temporalObjects/User";
 export interface IChatsRepository {
     findAll(userId: string): Promise<Chat[]>;
     findBy(chatId: string): Promise<Chat>;
-    save(users: User[], messages: Message[]): Promise<void>;
+    save(users: User[]): Promise<void>;
 }

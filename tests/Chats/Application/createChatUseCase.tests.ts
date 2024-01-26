@@ -16,11 +16,10 @@ describe('createChatUseCase', () => {
 
     it('creates a chat', async () => {
         const users : User[] = [];
-        const messages : Message[] = [];
 
-        await createChatUseCase.execute(users, messages);
+        await createChatUseCase.execute(users);
     
-        expect(chatRepository.save).toBeCalledWith(messages, users);
+        expect(chatRepository.save).toBeCalledWith(users);
     });
 });
 
