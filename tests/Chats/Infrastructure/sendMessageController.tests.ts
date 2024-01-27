@@ -32,6 +32,26 @@ describe('sendMessageController', () => {
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith(newMessage);
     });
+
+    it("throws an error if chat does not exists", async () => {
+        const newMessage = new Message(
+            "messageId",
+            "content of the message",
+            new User("userId", "userName", "userEmail"),
+            new Date(),
+            false
+        );
+        const req = getMockReq({body: { chatId: newMessage._id, sender: newMessage.sender, message: newMessage.content }});
+        const { res } = getMockRes();
+        sendMessageUseCase.execute = jest.fn().mockImplementation(() => {
+            throw new Error("Chat does not exists");
+        });
+
+        await sendMessageController.execute(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({error: "Chat does not exists"});
+    });
 });
 
 export interface ISendMessageController {
@@ -43,18 +63,21 @@ export class SendMessageController implements ISendMessageController {
     constructor(private sendMessageUseCase: ISendMessageUseCase) {}
 
     async execute(req: Request, res: Response): Promise<void> {
-        const { chatId, message, sender } = req.body;
+        try{
+            const { chatId, message, sender } = req.body;
 
-        const newMessage = new Message(
-            "",
-            message,
-            new User(sender, "", ""),
-            new Date(),
-            false
-        );
-
-        const result = await this.sendMessageUseCase.execute(chatId, newMessage);
-        res.status(200).json(result);
+            const newMessage = new Message(
+                "",
+                message,
+                new User(sender, "", ""),
+                new Date(),
+                false
+            );
+    
+            const result = await this.sendMessageUseCase.execute(chatId, newMessage);
+            res.status(200).json(result);
+        }catch(error){
+            res.status(400).json({error: error.message});
+        }
     }
-
 }
