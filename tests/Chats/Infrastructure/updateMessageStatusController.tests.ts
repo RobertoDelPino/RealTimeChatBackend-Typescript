@@ -14,9 +14,9 @@ describe("updateMessageStatus Controller", () => {
     });
 
     it("updates message status", async () => {
-        const messageId = "12345678";
+        const userId = "12345678";
         const chatId = "123";
-        const req = getMockReq({body: { chatId: chatId, messageId: messageId }});
+        const req = getMockReq({body: { chatId: chatId, userId: userId }});
         const { res } = getMockRes();
         updateMessageStatusUseCase.execute = jest.fn().mockReturnValue("Messages status updated");
 
@@ -27,16 +27,27 @@ describe("updateMessageStatus Controller", () => {
     });
 
     it("throws an error if chatId is empty", async () => {
-        const messageId = "12345678";
+        const userId = "12345678";
         const chatId = "";
-        const req = getMockReq({body: { chatId: chatId, messageId: messageId }});
+        const req = getMockReq({body: { chatId: chatId, userId: userId }});
         const { res } = getMockRes();
-        updateMessageStatusUseCase.execute = jest.fn().mockRejectedValue(new Error('ChatId is required'));
 
         await updateMessageStatusController.execute(req, res);
 
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.json).toHaveBeenCalledWith({error: "ChatId is required"});
+    });
+
+    it("throws an error if userId is empty", async () => {
+        const userId = "";
+        const chatId = "123";
+        const req = getMockReq({body: { chatId: chatId, userId: userId }});
+        const { res } = getMockRes();
+
+        await updateMessageStatusController.execute(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({error: "UserId is required"});
     });
 });
 
@@ -48,9 +59,12 @@ export class UpdateMessageStatusController implements IUpdateMessageStatusContro
     constructor(private updateMessageStatusUseCase: IUpdateMessageStatusUseCase) {}
 
     async execute(req: Request, res: Response): Promise<void> {
-        const { chatId, messageId } = req.body;
+        const { chatId, userId } = req.body;
+        if(!chatId) res.status(400).json({error: "ChatId is required"});
+        if(!userId) res.status(400).json({error: "UserId is required"});
+
         try {
-            const result = await this.updateMessageStatusUseCase.execute(chatId, messageId);
+            const result = await this.updateMessageStatusUseCase.execute(chatId, userId);
             res.status(200).json(result);
         } catch (error) {
             res.status(400).json({error: error.message});
