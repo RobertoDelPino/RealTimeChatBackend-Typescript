@@ -26,7 +26,10 @@ export const chatSchema: Schema<IChat> = new mongoose.Schema(
     }
 );
 
-mongoose.model<IMessage>("Message", messageSchema);
+const Message = mongoose.model<IMessage>("Message", messageSchema);
 
 const Chat = mongoose.model<IChat>("Chat", chatSchema);
-export default Chat;
+export {
+    Chat,
+    Message
+};

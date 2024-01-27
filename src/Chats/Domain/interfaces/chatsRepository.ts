@@ -8,5 +8,5 @@ export interface IChatsRepository {
     save(users: User[]): Promise<Chat>;
     sendMessage(chatId: string, message: Message): Promise<Message>;
     exists(chatId: string): Promise<boolean>;
-    updateMessageStatus(chatId: string, messageId: string): Promise<void>;
+    updateMessageStatus(chatId: string, userId: string): Promise<void>;
 }

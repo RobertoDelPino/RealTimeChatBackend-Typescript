@@ -2,7 +2,7 @@ import { IChatsRepository } from "../../../Domain/interfaces/chatsRepository";
 import { Chat } from "../../../Domain/Entities/Chat";
 import { Message } from "../../../Domain/Entities/Message";
 import { User } from "../../../Domain/Entities/User";
-import MongoDbChat, { IChat } from "./Models/Chat";
+import { IChat, Chat as MongoDbChat, Message as MongoDbMessage } from "./Models/Chat";
 
 export class mongoDbChatRepository implements IChatsRepository{
     async findAll(userId: string): Promise<Chat[]> {
@@ -92,7 +92,14 @@ export class mongoDbChatRepository implements IChatsRepository{
         return false;
     }
 
-    async updateMessageStatus(chatId: string, messageId: string): Promise<void> {
-        throw new Error("Method not implemented.");
+    async updateMessageStatus(chatId: string, userId: string): Promise<void> {
+        const chat = await MongoDbChat.findById(chatId)
+                    .select("messages");
+
+        if(!chat){
+            throw new Error("Chat does not exists");
+        }
+
+        await MongoDbMessage.updateMany({_id: {$in: chat.messages}, sender: userId}, {readed: true})
     }
 }
