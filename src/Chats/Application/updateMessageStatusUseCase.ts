@@ -11,6 +11,10 @@ export class UpdateMessageStatusUseCase implements IUpdateMessageStatusUseCase {
     ) {}
 
     async execute(chatId: string, userId: string): Promise<string> {
+        if(!chatId) {
+            throw new Error("ChatId is required");
+        }
+
         if(!await this.chatRepository.exists(chatId)) {
             throw new Error("Chat does not exists");
         }

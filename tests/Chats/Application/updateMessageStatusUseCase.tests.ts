@@ -37,4 +37,11 @@ describe("updateMessageStatusUseCase", () => {
 
         await expect(updateMessageStatusUseCase.execute(chatId, userId)).rejects.toThrow("UserId is required");
     });
+
+    it("throws an error if chatId is empty", async () => {
+        const chatId = "";
+        const userId = "userId";
+
+        await expect(updateMessageStatusUseCase.execute(chatId, userId)).rejects.toThrow("ChatId is required");
+    });
 });
