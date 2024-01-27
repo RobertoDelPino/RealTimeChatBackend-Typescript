@@ -1,8 +1,8 @@
 import { getMockReq, getMockRes } from "@jest-mock/express";
 import { ICreateChatUseCase } from "../../../src/Chats/Application/createChatUseCase";
 import { createChatUseCaseMock } from "../Application/mock/createChatUseCaseMock";
-import { Chat } from "../../../src/Chats/Domain/temporalObjects/Chat";
-import { User } from "../../../src/Chats/Domain/temporalObjects/User";
+import { Chat } from "../../../src/Chats/Domain/Entities/Chat";
+import { User } from "../../../src/Chats/Domain/Entities/User";
 import { CreateChatController, ICreateChatController } from "../../../src/Chats/Infrastructure/Controllers/createChatController";
 
 describe("createChat Controller", () => {

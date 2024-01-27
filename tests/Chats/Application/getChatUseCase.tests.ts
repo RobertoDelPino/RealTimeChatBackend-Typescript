@@ -1,8 +1,8 @@
 import { GetChatUseCase, IGetChatUseCase } from "../../../src/Chats/Application/getChatUseCase";
 import { IChatsRepository } from "../../../src/Chats/Domain/interfaces/chatsRepository";
-import { Chat } from "../../../src/Chats/Domain/temporalObjects/Chat";
-import { Message } from "../../../src/Chats/Domain/temporalObjects/Message";
-import { User } from "../../../src/Chats/Domain/temporalObjects/User";
+import { Chat } from "../../../src/Chats/Domain/Entities/Chat";
+import { Message } from "../../../src/Chats/Domain/Entities/Message";
+import { User } from "../../../src/Chats/Domain/Entities/User";
 import { chatsRepositoryMock } from "../Domain/Mocks/chatRepositoryMock";
 
 describe('getChatUseCase', () => {

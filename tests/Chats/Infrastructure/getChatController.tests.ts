@@ -1,7 +1,7 @@
 import { getMockReq, getMockRes } from "@jest-mock/express";
 import { IGetChatUseCase } from "../../../src/Chats/Application/getChatUseCase";
 import { getChatUseCaseMock } from "../Application/mock/getChatUseCaseMock";
-import { Chat } from "../../../src/Chats/Domain/temporalObjects/Chat";
+import { Chat } from "../../../src/Chats/Domain/Entities/Chat";
 import { GetChatController, IGetChatController } from "../../../src/Chats/Infrastructure/Controllers/getChatController";
 
 describe("getChat Controller", () => {
