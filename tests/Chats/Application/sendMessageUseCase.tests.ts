@@ -1,3 +1,4 @@
+import { ISendMessageUseCase, SendMessageUseCase } from "../../../src/Chats/Application/sendMessageUseCase";
 import { Message } from "../../../src/Chats/Domain/Entities/Message";
 import { User } from "../../../src/Chats/Domain/Entities/User";
 import { IChatsRepository } from "../../../src/Chats/Domain/interfaces/chatsRepository";
@@ -44,24 +45,3 @@ describe('sendMessageUseCase', () => {
         await expect(sendMessageUseCase.execute(chatId, message)).rejects.toThrow("Chat does not exists");
     });
 });
-
-
-export interface ISendMessageUseCase {
-    execute(chatId: string, message: Message): Promise<Message>;
-}
-
-export class SendMessageUseCase implements ISendMessageUseCase {
-
-    constructor(
-        private chatRepository: IChatsRepository
-    ) {}
-
-    async execute(chatId: string, message: Message): Promise<Message> {
-        if(!await this.chatRepository.exists(chatId)) {
-            throw new Error("Chat does not exists");
-        }
-
-        return await this.chatRepository.sendMessage(chatId, message);
-    }
-
-}
