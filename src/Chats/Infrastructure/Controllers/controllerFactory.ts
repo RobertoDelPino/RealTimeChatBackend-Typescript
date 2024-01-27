@@ -3,6 +3,10 @@ import { GetChatsUseCase } from "../../Application/getChatsUseCase";
 import { mongoDbChatRepository } from "../Repositories/MongoDB/chatRepository";
 import { GetChatController } from "./getChatController";
 import { GetChatsController } from "./getChatsController";
+import { CreateChatController } from "./createChatController";
+import { CreateChatUseCase } from "../../Application/createChatUseCase";
+import { UpdateMessageStatusUseCase } from "../../Application/updateMessageStatusUseCase";
+import { UpdateMessageStatusController } from "./updateMessageStatusController";
 
 function createGetChatController() {
     const repository = new mongoDbChatRepository();
@@ -16,4 +20,21 @@ function createGetChatsController() {
     return new GetChatsController(useCase);
 }
 
-export { createGetChatController, createGetChatsController };
+function createCreateChatController() {
+    const repository = new mongoDbChatRepository();
+    const useCase = new CreateChatUseCase(repository);
+    return new CreateChatController(useCase);
+}
+
+function createUpdateMessageStatusController() {
+    const repository = new mongoDbChatRepository();
+    const useCase = new UpdateMessageStatusUseCase(repository);
+    return new UpdateMessageStatusController(useCase);
+}
+
+export { 
+    createGetChatController, 
+    createGetChatsController, 
+    createCreateChatController, 
+    createUpdateMessageStatusController
+};
