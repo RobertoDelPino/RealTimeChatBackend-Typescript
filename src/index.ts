@@ -3,6 +3,7 @@ import usersRoutes from './Users/Infrastructure/routes';
 import chatsRoutes from './Chats/Infrastructure/routes';
 import connectToDB from './Users/Infrastructure/Repositories/MongoDB/Connections/connectToDB';
 import dotenv from 'dotenv';
+import { connectToSocket } from './Chats/Infrastructure/Websocket/connection';
 
 const app = express()
 dotenv.config();
@@ -17,3 +18,5 @@ const PORT = process.env.PORT;
 export const server = app.listen(PORT, () => {
     console.log(`Sever running on Port ${PORT}`)
 })
+
+connectToSocket(server);
