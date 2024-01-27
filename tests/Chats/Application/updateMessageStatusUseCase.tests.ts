@@ -20,6 +20,14 @@ describe("updateMessageStatusUseCase", () => {
 
         expect(result).toEqual("message status updated");
     });
+
+    it("throws an error if chat does not exists", async () => {
+        const chatId = "chatId";
+        const userId = "userId";
+        chatRepository.exists = jest.fn().mockReturnValue(false);
+
+        await expect(updateMessageStatusUseCase.execute(chatId, userId)).rejects.toThrow("Chat does not exists");
+    });
 });
 
 export interface IUpdateMessageStatusUseCase {
