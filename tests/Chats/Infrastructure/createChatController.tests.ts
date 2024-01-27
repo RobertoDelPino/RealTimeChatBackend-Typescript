@@ -21,13 +21,13 @@ describe("createChat Controller", () => {
 
         const user : User = {
             _id: "12345678",
-            name: "test",
-            email: "prueba@gmail.com"
+            name: "",
+            email: ""
         }
         const user2 : User = {
             _id: "87654321",
-            name: "test2",
-            email: "prueba2@gmail.com"
+            name: "",
+            email: ""
         }
 
         const chat = new Chat("12345678", [user, user2], []);
