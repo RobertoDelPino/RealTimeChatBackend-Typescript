@@ -1,4 +1,3 @@
-import { id } from "fp-ts/lib/Refinement";
 import { IChatsRepository } from "../../../Domain/interfaces/chatsRepository";
 import { Chat } from "../../../Domain/temporalObjects/Chat";
 import { Message } from "../../../Domain/temporalObjects/Message";
@@ -6,12 +5,58 @@ import { User } from "../../../Domain/temporalObjects/User";
 import MongoDbChat, { IChat } from "./Models/Chat";
 
 export class mongoDbChatRepository implements IChatsRepository{
-    findAll(userId: string): Promise<Chat[]> {
-        throw new Error("Method not implemented.");
+    async findAll(userId: string): Promise<Chat[]> {
+        const chats = await MongoDbChat.find({users: userId})
+                            .select({messages: { $slice: -1 }})
+                            .select("-createdAt -updatedAt -__v")
+                            .populate({path: "messages", select: "_id readed message sender"})
+                            .populate({path: "users", select: "-password -confirmed -createdAt -updatedAt -token -__v -confirmAccountToken -changePasswordToken"});
+        
+        return chats.map(createChat);
+
+        function createChat(chat){
+            return new Chat(
+                chat._id,
+                chat.users.map(user => new User(
+                    user._id,
+                    user.name,
+                    user.email
+                )),
+                chat.messages.map(message => new Message(
+                    message._id,
+                    message.message,
+                    message.sender,
+                    message.readed
+                ))
+            );
+        }
     }
 
-    findBy(chatId: string): Promise<Chat> {
-        throw new Error("Method not implemented.");
+    async findBy(chatId: string): Promise<Chat> {
+        const chat = await MongoDbChat.findById(chatId)
+                            .select({messages: { $slice: -100 }})
+                            .select("-__v -createdAt -updatedAt")
+                            .populate({path: "messages", select: "_id readed message sender createdAt"})
+                            .populate({path: "users", select: "_id name email"});
+        
+        return createChat(chat);
+
+        function createChat(chat: any){
+            return new Chat(
+                chat._id,
+                chat.users.map(user => new User(
+                    user._id,
+                    user.name,
+                    user.email
+                )),
+                chat.messages.map(message => new Message(
+                    message._id,
+                    message.message,
+                    message.sender,
+                    message.readed
+                ))
+            );
+        }
     }
 
     async save(users: User[]): Promise<Chat> {
