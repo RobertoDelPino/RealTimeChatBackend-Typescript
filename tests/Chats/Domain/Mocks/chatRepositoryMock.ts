@@ -5,7 +5,8 @@ let chatsRepositoryMock : IChatsRepository = {
     findBy: jest.fn().mockReturnValue(true),
     save: jest.fn().mockReturnValue(true),
     exists: jest.fn().mockReturnValue(true),
-    sendMessage: jest.fn().mockReturnValue(true)
+    sendMessage: jest.fn().mockReturnValue(true),
+    updateMessageStatus: jest.fn().mockReturnValue(true)
 };
 
 export { chatsRepositoryMock };
