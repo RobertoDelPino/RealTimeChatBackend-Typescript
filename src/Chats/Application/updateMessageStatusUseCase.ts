@@ -15,6 +15,10 @@ export class UpdateMessageStatusUseCase implements IUpdateMessageStatusUseCase {
             throw new Error("Chat does not exists");
         }
 
+        if(!userId) {
+            throw new Error("UserId is required");
+        }
+
         return "message status updated" ;
     }
 }

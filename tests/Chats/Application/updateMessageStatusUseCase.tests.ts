@@ -29,4 +29,12 @@ describe("updateMessageStatusUseCase", () => {
 
         await expect(updateMessageStatusUseCase.execute(chatId, userId)).rejects.toThrow("Chat does not exists");
     });
+
+    it("throws an error if userId is empty", async () => {
+        const chatId = "chatId";
+        const userId = "";
+        chatRepository.exists = jest.fn().mockReturnValue(true);
+
+        await expect(updateMessageStatusUseCase.execute(chatId, userId)).rejects.toThrow("UserId is required");
+    });
 });
