@@ -1,5 +1,5 @@
-import { Chat } from "../temporalObjects/Chat";
-import { User } from "../temporalObjects/User";
+import { Chat } from "../Entities/Chat";
+import { User } from "../Entities/User";
 
 export interface IChatsRepository {
     findAll(userId: string): Promise<Chat[]>;

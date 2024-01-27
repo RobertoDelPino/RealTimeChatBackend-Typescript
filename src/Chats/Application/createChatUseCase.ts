@@ -1,7 +1,6 @@
 import { IChatsRepository } from "../Domain/interfaces/chatsRepository";
-import { Chat } from "../Domain/temporalObjects/Chat";
-import { Message } from "../Domain/temporalObjects/Message";
-import { User } from "../Domain/temporalObjects/User";
+import { Chat } from "../Domain/Entities/Chat";
+import { User } from "../Domain/Entities/User";
 
 export interface ICreateChatUseCase {
     execute(users: User[]): Promise<Chat>;
