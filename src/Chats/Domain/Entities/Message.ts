@@ -5,6 +5,7 @@ export class Message {
         public _id?: string,
         public content?: string,
         public sender?: User,
-        public receiver?: User
+        public createdAt?: Date,
+        public readed: boolean = false,
     ) {}
 }

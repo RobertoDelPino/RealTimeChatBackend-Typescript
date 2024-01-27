@@ -26,6 +26,7 @@ export class mongoDbChatRepository implements IChatsRepository{
                     message._id,
                     message.message,
                     message.sender,
+                    undefined,
                     message.readed
                 ))
             );
@@ -33,7 +34,6 @@ export class mongoDbChatRepository implements IChatsRepository{
     }
 
     async findBy(chatId: string): Promise<Chat> {
-        console.log("hola")
         const chat = await MongoDbChat.findById(chatId)
                             .select({messages: { $slice: -100 }})
                             .select("-__v -createdAt -updatedAt")
@@ -54,6 +54,7 @@ export class mongoDbChatRepository implements IChatsRepository{
                     message._id,
                     message.message,
                     message.sender,
+                    undefined,
                     message.readed
                 ))
             );
