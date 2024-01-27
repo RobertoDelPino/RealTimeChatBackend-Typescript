@@ -16,9 +16,7 @@ describe("createChat Controller", () => {
     });
 
     it("creates a chat", async () => {
-
         const users = ["12345678", "87654321"];
-
         const user : User = {
             _id: "12345678",
             name: "",
@@ -29,12 +27,9 @@ describe("createChat Controller", () => {
             name: "",
             email: ""
         }
-
         const chat = new Chat("12345678", [user, user2], []);
-
         const req = getMockReq({body: { users: users }});
         const { res } = getMockRes();
-
         createChatUseCase.execute = jest.fn().mockReturnValue(chat);
 
         await createChatController.execute(req, res);

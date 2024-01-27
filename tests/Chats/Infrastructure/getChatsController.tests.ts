@@ -19,7 +19,6 @@ describe("getChats Controller", () => {
         const userId = "12345678";
         const req = getMockReq({params: { userId: userId }});
         const { res } = getMockRes();
-
         getChatUseCase.execute = jest.fn().mockReturnValue(chats);
 
         await getChatController.execute(req, res);
@@ -32,7 +31,6 @@ describe("getChats Controller", () => {
         const userId = "";
         const req = getMockReq({params: { userId: userId }});
         const { res } = getMockRes();
-
         getChatUseCase.execute = jest.fn().mockRejectedValue(new Error('userId is required'));
 
         await getChatController.execute(req, res);
