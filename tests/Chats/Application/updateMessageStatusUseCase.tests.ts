@@ -1,3 +1,4 @@
+import { IUpdateMessageStatusUseCase, UpdateMessageStatusUseCase } from "../../../src/Chats/Application/updateMessageStatusUseCase";
 import { IChatsRepository } from "../../../src/Chats/Domain/interfaces/chatsRepository";
 import { chatsRepositoryMock } from "../Domain/Mocks/chatRepositoryMock";
 
@@ -29,23 +30,3 @@ describe("updateMessageStatusUseCase", () => {
         await expect(updateMessageStatusUseCase.execute(chatId, userId)).rejects.toThrow("Chat does not exists");
     });
 });
-
-export interface IUpdateMessageStatusUseCase {
-    execute(chatId: string, userId: string): Promise<string>;
-}
-
-export class UpdateMessageStatusUseCase implements IUpdateMessageStatusUseCase {
-
-    constructor(
-        private chatRepository: IChatsRepository
-    ) {}
-
-    async execute(chatId: string, userId: string): Promise<string> {
-        if(!await this.chatRepository.exists(chatId)) {
-            throw new Error("Chat does not exists");
-        }
-
-        return "message status updated" ;
-    }
-
-}
