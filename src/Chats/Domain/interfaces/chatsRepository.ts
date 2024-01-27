@@ -1,5 +1,4 @@
 import { Chat } from "../temporalObjects/Chat";
-import { Message } from "../temporalObjects/Message";
 import { User } from "../temporalObjects/User";
 
 export interface IChatsRepository {

@@ -9,8 +9,8 @@ export class mongoDbChatRepository implements IChatsRepository{
         const chats = await MongoDbChat.find({users: userId})
                             .select({messages: { $slice: -1 }})
                             .select("-createdAt -updatedAt -__v")
+                            .populate({path: "users", select: "-password -confirmed -createdAt -updatedAt -token -__v -confirmAccountToken -changePasswordToken"})
                             .populate({path: "messages", select: "_id readed message sender"})
-                            .populate({path: "users", select: "-password -confirmed -createdAt -updatedAt -token -__v -confirmAccountToken -changePasswordToken"});
         
         return chats.map(createChat);
 
@@ -33,11 +33,12 @@ export class mongoDbChatRepository implements IChatsRepository{
     }
 
     async findBy(chatId: string): Promise<Chat> {
+        console.log("hola")
         const chat = await MongoDbChat.findById(chatId)
                             .select({messages: { $slice: -100 }})
                             .select("-__v -createdAt -updatedAt")
+                            .populate({path: "users", select: "_id name email"})
                             .populate({path: "messages", select: "_id readed message sender createdAt"})
-                            .populate({path: "users", select: "_id name email"});
         
         return createChat(chat);
 

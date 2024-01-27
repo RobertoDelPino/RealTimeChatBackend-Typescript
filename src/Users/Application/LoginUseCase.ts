@@ -1,7 +1,6 @@
 import { Either, fold } from "fp-ts/lib/Either";
 import { User } from "../Domain/entities/User";
 import { IUserRepository } from "../Domain/interfaces/userRepository";
-import { Password } from "../Domain/valueObjects/Password";
 import { ICreateJWT, UserProfile } from "../Domain/interfaces/createJWT";
 import { checkPassword } from "../Domain/services/checkPassword";
 

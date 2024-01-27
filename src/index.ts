@@ -1,5 +1,6 @@
 import express from 'express'
-import routes from './Users/Infrastructure/routes';
+import usersRoutes from './Users/Infrastructure/routes';
+import chatsRoutes from './Chats/Infrastructure/routes';
 import connectToDB from './Users/Infrastructure/Repositories/MongoDB/Connections/connectToDB';
 import dotenv from 'dotenv';
 
@@ -8,7 +9,8 @@ dotenv.config();
 connectToDB();
 
 app.use(express.json())
-app.use(routes);
+app.use(usersRoutes);
+app.use(chatsRoutes);
 
 const PORT = process.env.PORT;
 
