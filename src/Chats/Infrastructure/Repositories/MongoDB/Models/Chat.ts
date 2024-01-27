@@ -1,11 +1,12 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
+import { IMessage, messageSchema } from "./Message";
 
 export interface IChat extends Document {
-    users: string[];
-    messages: string[];
+    users: Schema.Types.ObjectId[];
+    messages: Schema.Types.ObjectId[];
 }
 
-const chatSchema: Schema<IChat> = new mongoose.Schema(
+export const chatSchema: Schema<IChat> = new mongoose.Schema(
     {
         users: [
             {
@@ -25,5 +26,7 @@ const chatSchema: Schema<IChat> = new mongoose.Schema(
     }
 );
 
-const Chat: Model<IChat> = mongoose.model<IChat>("Chat", chatSchema);
+mongoose.model<IMessage>("Message", messageSchema);
+
+const Chat = mongoose.model<IChat>("Chat", chatSchema);
 export default Chat;

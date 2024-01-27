@@ -71,7 +71,7 @@ export class mongoDbChatRepository implements IChatsRepository{
             return new Chat(
                 chat._id,
                 users = chat.users.map(id => new User(
-                    id,
+                    id.toString(),
                     "",
                     "",
                 )),

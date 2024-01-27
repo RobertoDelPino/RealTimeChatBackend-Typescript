@@ -1,13 +1,13 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
 export interface IMessage extends Document {
-    sender?: string;
+    sender: Schema.Types.ObjectId;
     message: string;
-    readTime?: Date;
+    readTime: Date;
     readed: boolean;
 }
 
-const messageSchema: Schema<IMessage> = new mongoose.Schema(
+export const messageSchema: Schema<IMessage> = new mongoose.Schema(
     {
         sender: {
             type: mongoose.Schema.Types.ObjectId,
@@ -20,17 +20,15 @@ const messageSchema: Schema<IMessage> = new mongoose.Schema(
         },
         readTime: {
             type: Date,
+            default: null
         },
-        readed: {
+        readed: { 
             type: Boolean,
             default: false
-        },
+        }
     },
     {
         timestamps: true
     }
 );
 
-
-const Message: Model<IMessage> = mongoose.model<IMessage>("Message", messageSchema);
-export default Message;
