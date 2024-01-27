@@ -80,4 +80,15 @@ export class mongoDbChatRepository implements IChatsRepository{
             );
         }
     }
+
+    async sendMessage(chatId: string, message: Message): Promise<Message> {
+        throw new Error("Method not implemented.");
+    }
+
+    async exists(chatId: string): Promise<boolean> {
+        if(await MongoDbChat.exists({_id: chatId})){
+            return true;
+        }
+        return false;
+    }
 }
