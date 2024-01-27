@@ -23,10 +23,7 @@ describe('sendMessageController', () => {
             new Date(),
             false
         );
-        const userId = "";
-        const chatId = "123";
-        const message = "message";
-        const req = getMockReq({body: { chatId: chatId, sender: userId, message: message }});
+        const req = getMockReq({body: { chatId: newMessage._id, sender: newMessage.sender, message: newMessage.content }});
         const { res } = getMockRes();
         sendMessageUseCase.execute = jest.fn().mockReturnValue(newMessage);
 
