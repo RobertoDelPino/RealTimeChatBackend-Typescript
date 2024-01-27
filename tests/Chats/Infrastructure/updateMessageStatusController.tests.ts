@@ -25,6 +25,19 @@ describe("updateMessageStatus Controller", () => {
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith("Messages status updated");
     });
+
+    it("throws an error if chatId is empty", async () => {
+        const messageId = "12345678";
+        const chatId = "";
+        const req = getMockReq({body: { chatId: chatId, messageId: messageId }});
+        const { res } = getMockRes();
+        updateMessageStatusUseCase.execute = jest.fn().mockRejectedValue(new Error('ChatId is required'));
+
+        await updateMessageStatusController.execute(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({error: "ChatId is required"});
+    });
 });
 
 export interface IUpdateMessageStatusController {
