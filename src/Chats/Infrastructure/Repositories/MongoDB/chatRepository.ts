@@ -1,7 +1,7 @@
 import { IChatsRepository } from "../../../Domain/interfaces/chatsRepository";
-import { Chat } from "../../../Domain/temporalObjects/Chat";
-import { Message } from "../../../Domain/temporalObjects/Message";
-import { User } from "../../../Domain/temporalObjects/User";
+import { Chat } from "../../../Domain/Entities/Chat";
+import { Message } from "../../../Domain/Entities/Message";
+import { User } from "../../../Domain/Entities/User";
 import MongoDbChat, { IChat } from "./Models/Chat";
 
 export class mongoDbChatRepository implements IChatsRepository{
