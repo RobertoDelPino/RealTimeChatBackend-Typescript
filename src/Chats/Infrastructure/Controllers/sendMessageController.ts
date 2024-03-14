@@ -15,17 +15,9 @@ export class SendMessageController implements ISendMessageController {
         try{
             const { chatId, message, sender } = req.body;
 
-            if(!chatId){
-                throw new Error("ChatId is required");
-            }
-
-            if(!message){
-                throw new Error("Message is required");
-            }
-
-            if(!sender){
-                throw new Error("SenderId is required");
-            }
+            if(!chatId) throw new Error("ChatId is required");
+            if(!message) throw new Error("Message is required");
+            if(!sender) throw new Error("SenderId is required");
 
             const newMessage = new Message(
                 "",
