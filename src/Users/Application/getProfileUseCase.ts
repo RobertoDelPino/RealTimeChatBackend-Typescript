@@ -18,6 +18,10 @@ export class GetProfileUseCase {
         if (!user) {
             throw new Error('User not found');
         }
-        return new UserProfile(user.name.value, user.email.value, user.avatar.value);
+        return new UserProfile(
+            user.id.value,
+            user.name.value, 
+            user.email.value, 
+            user.avatar.value);
     }
 }

@@ -32,6 +32,7 @@ export class LoginUseCase {
         const token = await this.createJWT.execute(userProfile);
 
         return {
+            _id: user.id.value,
             name: user.name.value,
             email: user.email.value,
             token: token
@@ -55,6 +56,7 @@ export interface LoginData{
 }
 
 export interface LoginResponse{
+    _id: string;
     name: string;
     email: string;
     token: string;
