@@ -29,7 +29,7 @@ describe("getChat Controller", () => {
 
     it("throws an error if chatId is empty", async () => {
         const chatId = "";
-        const req = getMockReq({params: { chatId: chatId }});
+        const req = getMockReq({user: { chatId: chatId }});
         const { res } = getMockRes();
         getChatUseCase.execute = jest.fn().mockRejectedValue(new Error('ChatId is required'));
 

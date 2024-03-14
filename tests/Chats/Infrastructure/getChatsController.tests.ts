@@ -17,7 +17,7 @@ describe("getChats Controller", () => {
     it("gets chat from user", async () => {
         const chats = [new Chat("12345678", [], [])];
         const userId = "12345678";
-        const req = getMockReq({params: { userId: userId }});
+        const req = getMockReq({user: { id: userId }});
         const { res } = getMockRes();
         getChatUseCase.execute = jest.fn().mockReturnValue(chats);
 
@@ -29,7 +29,7 @@ describe("getChats Controller", () => {
 
     it("throws an error if userId is empty", async () => {
         const userId = "";
-        const req = getMockReq({params: { userId: userId }});
+        const req = getMockReq({user: { id: userId }});
         const { res } = getMockRes();
         getChatUseCase.execute = jest.fn().mockRejectedValue(new Error('userId is required'));
 

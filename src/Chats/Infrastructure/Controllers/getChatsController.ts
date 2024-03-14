@@ -10,7 +10,7 @@ export class GetChatsController {
 
     async execute(req: Request, res: Response) {
         try{
-            const userId = req.params.userId;
+            const userId = req.user.id.value;
             const chats = await this.getChatUseCase.execute(userId);
             res.status(200).json(chats);
         }
