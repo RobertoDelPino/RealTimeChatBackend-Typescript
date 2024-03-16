@@ -10,7 +10,7 @@ export class mongoDbChatRepository implements IChatsRepository{
                             .select({messages: { $slice: -1 }})
                             .select("-createdAt -updatedAt -__v")
                             .populate({path: "users", select: "-password -confirmed -createdAt -updatedAt -token -__v -confirmAccountToken -changePasswordToken"})
-                            .populate({path: "messages", select: "_id readed message sender"})
+                            .populate({path: "messages", select: "_id readed message sender createdAt"})
         
         return chats.map(createChat);
 
@@ -26,7 +26,7 @@ export class mongoDbChatRepository implements IChatsRepository{
                     message._id,
                     message.message,
                     message.sender,
-                    undefined,
+                    message.createdAt,
                     message.readed
                 ))
             );
@@ -54,7 +54,7 @@ export class mongoDbChatRepository implements IChatsRepository{
                     message._id,
                     message.message,
                     message.sender,
-                    undefined,
+                    message.createdAt,
                     message.readed
                 ))
             );
