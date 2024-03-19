@@ -1,5 +1,6 @@
 import { getMockReq, getMockRes } from "@jest-mock/express";
 import { getProfilePhotoUseCaseMock } from "../Application/mocks/getProfilePhotoUseCaseMock";
+import { GetProfilePhotoController, IGetProfilePhotoController } from "../../../src/Users/Infrastructure/Controllers/getProfilePhotoController";
 
 describe('getProfilePhotoController Controller', () => {
 
@@ -8,7 +9,7 @@ describe('getProfilePhotoController Controller', () => {
 
     beforeEach(() => {
         useCase = getProfilePhotoUseCaseMock;
-        controller = new ProfilePhotoController(useCase);
+        controller = new GetProfilePhotoController(useCase);
     });
 
     it('gets a profile photo', async () => {
@@ -22,25 +23,7 @@ describe('getProfilePhotoController Controller', () => {
 
 });
 
-export interface IGetProfilePhotoController {
-    execute(req: any, res: any): Promise<void>;
-}
-
 export interface IGetProfilePhotoUseCase {
     execute(userId: string): Promise<void>;
 }
 
-export class ProfilePhotoController implements IGetProfilePhotoController {
-    constructor(private useCase: IGetProfilePhotoUseCase) {}
-
-    async execute(req: any, res: any): Promise<void> {
-        const { userId } = req.user;
-
-        try {
-            const userAvatar = await this.useCase.execute(userId);
-            res.status(200).sendFile(userAvatar);
-        } catch (error) {
-            res.status(400).json({error: error.message});
-        }
-    }
-}
