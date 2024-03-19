@@ -1,6 +1,7 @@
 import { getMockReq, getMockRes } from "@jest-mock/express";
 import { getProfilePhotoUseCaseMock } from "../Application/mocks/getProfilePhotoUseCaseMock";
 import { GetProfilePhotoController, IGetProfilePhotoController } from "../../../src/Users/Infrastructure/Controllers/getProfilePhotoController";
+import { IGetProfilePhotoUseCase } from "../Application/getProfilePhotoUseCase.tests";
 
 describe('getProfilePhotoController Controller', () => {
 
@@ -32,8 +33,3 @@ describe('getProfilePhotoController Controller', () => {
         expect(res.json).toHaveBeenCalledWith({error: "User not found"});
     });
 });
-
-export interface IGetProfilePhotoUseCase {
-    execute(userId: string): Promise<string>;
-}
-
