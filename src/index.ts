@@ -4,6 +4,7 @@ import chatsRoutes from './Chats/Infrastructure/routes';
 import connectToDB from './Users/Infrastructure/Repositories/MongoDB/Connections/connectToDB';
 import dotenv from 'dotenv';
 import { connectToSocket } from './Chats/Infrastructure/Websocket/connection';
+import cors from 'cors';
 
 const app = express()
 dotenv.config();
