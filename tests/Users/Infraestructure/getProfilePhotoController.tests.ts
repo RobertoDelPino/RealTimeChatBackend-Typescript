@@ -22,18 +22,18 @@ describe('getProfilePhotoController Controller', () => {
     });
 
     it("throws an error if user does not exist in request", async () => {
-        const req = getMockReq();
+        const req = getMockReq({user: {userId: ""}});
         const { res } = getMockRes();
+        useCase.execute = jest.fn().mockRejectedValue(new Error("User not found"));
 
         await controller.execute(req, res);
 
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.json).toHaveBeenCalledWith({error: "User not found"});
-    
     });
 });
 
 export interface IGetProfilePhotoUseCase {
-    execute(userId: string): Promise<void>;
+    execute(userId: string): Promise<string>;
 }
 
