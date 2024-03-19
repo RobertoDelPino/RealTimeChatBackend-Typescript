@@ -28,6 +28,14 @@ describe("Get Profile Photo Use Case Tests", () => {
 
         expect(userAvatar).toBe(path.resolve("UserPhotos/defaultAvatar.jpg"));
     });
+    
+    test("Should return the user avatar", async () => {
+        userRepository.findById = jest.fn().mockReturnValue(createUser());
+
+        const userAvatar = await getProfilePhotoUseCase.execute("1");
+
+        expect(userAvatar).toBe(path.resolve("UserPhotos/defaultAvatar.jpg"));
+    });
 
 });
 
