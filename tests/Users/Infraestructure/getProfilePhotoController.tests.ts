@@ -21,6 +21,16 @@ describe('getProfilePhotoController Controller', () => {
         expect(res.status).toHaveBeenCalledWith(200);
     });
 
+    it("throws an error if user does not exist in request", async () => {
+        const req = getMockReq();
+        const { res } = getMockRes();
+
+        await controller.execute(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({error: "User not found"});
+    
+    });
 });
 
 export interface IGetProfilePhotoUseCase {
