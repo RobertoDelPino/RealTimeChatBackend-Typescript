@@ -82,8 +82,28 @@ export class mongoDbChatRepository implements IChatsRepository{
     }
 
     async sendMessage(chatId: string, message: Message): Promise<Message> {
-        console.log(chatId, message);
-        throw new Error("Method not implemented.");
+        
+        let chat = await MongoDbChat.findById(chatId);
+        if(!chat){
+            throw new Error("Chat does not exists");
+        }
+        
+        const newMessage = new MongoDbMessage({
+            message: message.message,
+            sender: message.sender,
+            chat: chatId
+        });
+        await newMessage.save();
+        chat.messages = [...chat.messages, newMessage._id];
+        await chat.save();
+
+        return new Message(
+            newMessage._id,
+            newMessage.message,
+            new User(newMessage.sender.toString(), "", ""),
+            new Date(),
+            newMessage.readed
+        );
     }
 
     async exists(chatId: string): Promise<boolean> {
