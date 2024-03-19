@@ -37,6 +37,14 @@ describe("Get Profile Photo Use Case Tests", () => {
         expect(userAvatar).toBe(path.resolve("UserPhotos/defaultAvatar.jpg"));
     });
 
+    test("Should throw an error when the user is not found", async () => {
+        userRepository.findById = jest.fn().mockReturnValue(null);
+
+        const getProfilePhotoPromise = getProfilePhotoUseCase.execute("1");
+
+        await expect(getProfilePhotoPromise).rejects.toThrow("User not found");
+    });
+
 });
 
 export interface IGetProfilePhotoUseCase {
