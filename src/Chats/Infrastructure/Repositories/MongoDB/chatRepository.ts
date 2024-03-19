@@ -82,6 +82,7 @@ export class mongoDbChatRepository implements IChatsRepository{
     }
 
     async sendMessage(chatId: string, message: Message): Promise<Message> {
+        console.log(chatId, message);
         throw new Error("Method not implemented.");
     }
 
