@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IGetProfilePhotoUseCase } from "../../../../tests/Users/Infraestructure/getprofilePhotoController.tests";
+import { IGetProfilePhotoUseCase } from "../../Application/getProfilePhotoUseCase";
 
 export interface IGetProfilePhotoController {
     execute(req: any, res: any): Promise<void>;
