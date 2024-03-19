@@ -2,13 +2,13 @@ import { User } from "../../../src/Users/Domain/entities/User";
 import { IUserRepository } from "../../../src/Users/Domain/interfaces/userRepository";
 import { UserId } from "../../../src/Users/Domain/valueObjects/UserId";
 import { userRepositoryMock } from "../Domain/Mocks/userRepository";
-import fs from "fs"
-import path from "path"
 import { UserName } from "../../../src/Users/Domain/valueObjects/UserName";
 import { UserEmail } from "../../../src/Users/Domain/valueObjects/UserEmail";
 import { Password } from "../../../src/Users/Domain/valueObjects/Password";
 import { Token } from "../../../src/Users/Domain/valueObjects/Token";
 import { Avatar } from "../../../src/Users/Domain/valueObjects/Avatar";
+import { GetProfilePhotoUseCase, IGetProfilePhotoUseCase } from "../../../src/Users/Application/getProfilePhotoUseCase";
+import path from "path"
 
 describe("Get Profile Photo Use Case Tests", () => {
     
@@ -46,35 +46,6 @@ describe("Get Profile Photo Use Case Tests", () => {
     });
 
 });
-
-export interface IGetProfilePhotoUseCase {
-    execute(userId: string): Promise<string>;
-}
-
-export class GetProfilePhotoUseCase implements IGetProfilePhotoUseCase {
-    constructor(private userRepository: IUserRepository) {}
-
-    async execute(userId: string): Promise<string> {
-        try{
-            const defaultAvatar = path.resolve("UserPhotos/defaultAvatar.jpg");
-
-            const user: User | null = await this.userRepository.findById(userId);
-            if (!user) throw new Error("User not found");
-
-            if(user.avatar.value === "UserPhotos/defaultAvatar.jpg"){
-                return path.resolve("UserPhotos/defaultAvatar.jpg");
-            }
-
-            const userAvatar = path.resolve(user.avatar.value.replace("\\", "/"));
-            if(!userAvatar){
-                return defaultAvatar;
-            }
-            return defaultAvatar;
-        } catch (error) {
-            throw new Error(error.message);
-        }
-    }
-}
 
 function createUser() : User {
     return new User(

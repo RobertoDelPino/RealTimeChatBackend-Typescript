@@ -1,7 +1,7 @@
 import { getMockReq, getMockRes } from "@jest-mock/express";
 import { getProfilePhotoUseCaseMock } from "../Application/mocks/getProfilePhotoUseCaseMock";
 import { GetProfilePhotoController, IGetProfilePhotoController } from "../../../src/Users/Infrastructure/Controllers/getProfilePhotoController";
-import { IGetProfilePhotoUseCase } from "../Application/getProfilePhotoUseCase.tests";
+import { IGetProfilePhotoUseCase } from "../../../src/Users/Application/getProfilePhotoUseCase";
 
 describe('getProfilePhotoController Controller', () => {
 
