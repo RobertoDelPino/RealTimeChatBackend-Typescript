@@ -11,13 +11,13 @@ export class GetProfilePhotoUseCase implements IGetProfilePhotoUseCase {
 
     async execute(userId: string): Promise<string> {
         try{
-            const defaultAvatar = path.resolve("UserPhotos/defaultAvatar.jpg");
+            const defaultAvatar = path.resolve("src/UserPhotos/defaultAvatar.webp");
 
             const user: User | null = await this.userRepository.findById(userId);
             if (!user) throw new Error("User not found");
 
-            if(user.avatar.value === "UserPhotos/defaultAvatar.jpg"){
-                return path.resolve("UserPhotos/defaultAvatar.jpg");
+            if(user.avatar.value === "UserPhotos/defaultAvatar.webp"){
+                return path.resolve("src/UserPhotos/defaultAvatar.webp");
             }
 
             const userAvatar = path.resolve(user.avatar.value.replace("\\", "/"));
