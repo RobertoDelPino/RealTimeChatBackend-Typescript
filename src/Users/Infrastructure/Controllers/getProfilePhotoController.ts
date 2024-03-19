@@ -9,10 +9,10 @@ export class GetProfilePhotoController implements IGetProfilePhotoController {
     constructor(private useCase: IGetProfilePhotoUseCase) {}
 
     async execute(req: Request, res: Response): Promise<void> {
-        const { userId } = req.user;
+        const { id } = req.user;
 
         try {
-            const userAvatar: string = await this.useCase.execute(userId);
+            const userAvatar: string = await this.useCase.execute(id.value);
             res.status(200).sendFile(userAvatar);
         } catch (error) {
             res.status(400).json({error: error.message});
