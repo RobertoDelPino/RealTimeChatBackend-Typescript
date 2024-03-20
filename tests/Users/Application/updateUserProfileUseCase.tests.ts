@@ -8,15 +8,21 @@ import { User } from "../../../src/Users/Domain/entities/User";
 import { UserId } from "../../../src/Users/Domain/valueObjects/UserId";
 import { UserEmail } from "../../../src/Users/Domain/valueObjects/UserEmail";
 import { Token } from "../../../src/Users/Domain/valueObjects/Token";
+import { IUploadPhotoService } from "../../../src/Users/Domain/interfaces/uploadPhoto";
+import { uploadPhotoServiceMock } from "../Domain/Mocks/uploadPhotoService";
 
 describe("Update User Profile Use Case", () => {
 
     let updateUserProfileUseCase: IUpdateUserProfileUseCase;
     let userRepository: IUserRepository;
+    let uploadPhotoService: IUploadPhotoService;
 
     beforeAll(() => {
         userRepository = userRepositoryMock;
-        updateUserProfileUseCase = new UpdateUserProfileUseCase(userRepository);
+        uploadPhotoService = uploadPhotoServiceMock;
+        updateUserProfileUseCase = new UpdateUserProfileUseCase(
+            userRepository,
+            uploadPhotoServiceMock);
     });
 
     it("Updates user profile", async () => {
@@ -32,6 +38,7 @@ describe("Update User Profile Use Case", () => {
 
         expect(userRepository.findById).toHaveBeenCalledWith(request.id);
         expect(userRepository.save).toHaveBeenCalled();
+        expect(uploadPhotoService.uploadPhoto).toHaveBeenCalledWith(request.avatar);
     });
 
     it("throws an error if the user does not exist", async () => {
@@ -59,7 +66,7 @@ function createUser() : User {
         Token.createFromBussiness("token"),
         Token.createFromBussiness("token"),
         true,
-        Avatar.createFromBussiness("avatar")
+        Avatar.createFromBussiness("src/UserPhotos/defaultAvatar.webp")
     );
 }
 

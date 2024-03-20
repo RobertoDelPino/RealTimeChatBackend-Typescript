@@ -3,12 +3,14 @@ import { IUserRepository } from "../Domain/interfaces/userRepository";
 import { Password } from "../Domain/valueObjects/Password";
 import { Avatar } from "../Domain/valueObjects/Avatar";
 import { UserName } from "../Domain/valueObjects/UserName";
+import { IUploadPhotoService } from "../Domain/interfaces/uploadPhoto";
+import fs from "fs"
 
 export interface IUpdateUserProfileUseCaseProps{
     id: string,
     name: string,
     password: string,
-    avatar: any
+    avatar: string
 }
 
 export interface IUpdateUserProfileUseCase{
@@ -17,22 +19,30 @@ export interface IUpdateUserProfileUseCase{
 
 export class UpdateUserProfileUseCase implements IUpdateUserProfileUseCase{
     constructor(
-        private userRepository: IUserRepository) {
+        private userRepository: IUserRepository,
+        private uploadPhotoService: IUploadPhotoService) {
     }
 
-    async execute(props: IUpdateUserProfileUseCaseProps): Promise<void> {
-        const request = createRequest(props.name, props.password, props.avatar);
-        
+    async execute(props: IUpdateUserProfileUseCaseProps): Promise<void> {      
         const user = await this.userRepository.findById(props.id);
         if (!user) {
             throw new Error("User not found");
         }
 
+        const oldAvatar = user.avatar.value.replace("\\", "/")
+        if(oldAvatar !== "src/UserPhotos/defaultAvatar.webp"){
+            fs.unlink(oldAvatar, (err) => {
+                if (err) {console.error(err); return}
+            })
+        }
+
+        const request = createRequest(props.name, props.password, props.avatar);
         user.name = request.name;
         user.password = request.password;
         user.avatar = request.avatar;
 
         await this.userRepository.save(user);
+        await this.uploadPhotoService.uploadPhoto(props.avatar);
 
         function createRequest(
             newName: string, 
