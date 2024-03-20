@@ -26,7 +26,7 @@ describe("Get Profile Photo Use Case Tests", () => {
 
         const userAvatar = await getProfilePhotoUseCase.execute("1");
 
-        expect(userAvatar).toBe(path.resolve("UserPhotos/defaultAvatar.jpg"));
+        expect(userAvatar).toBe(path.resolve("src/UserPhotos/defaultAvatar.webp"));
     });
     
     test("Should return the user avatar", async () => {
@@ -34,7 +34,7 @@ describe("Get Profile Photo Use Case Tests", () => {
 
         const userAvatar = await getProfilePhotoUseCase.execute("1");
 
-        expect(userAvatar).toBe(path.resolve("UserPhotos/defaultAvatar.jpg"));
+        expect(userAvatar).toBe(path.resolve("src/UserPhotos/defaultAvatar.webp"));
     });
 
     test("Should throw an error when the user is not found", async () => {
@@ -56,6 +56,6 @@ function createUser() : User {
         Token.createFromBussiness("token"),
         Token.createFromBussiness("token"),
         true,
-        Avatar.createFromBussiness("UserPhotos/defaultAvatar.jpg")
+        Avatar.createFromBussiness("src/UserPhotos/defaultAvatar.webp")
     );
 }

@@ -23,7 +23,7 @@ describe('sendMessageController', () => {
             new Date(),
             false
         );
-        const req = getMockReq({body: { chatId: newMessage._id, sender: newMessage.sender, message: newMessage.content }});
+        const req = getMockReq({body: { chatId: newMessage._id, sender: newMessage.sender, message: newMessage.message }});
         const { res } = getMockRes();
         sendMessageUseCase.execute = jest.fn().mockReturnValue(newMessage);
 
@@ -41,7 +41,7 @@ describe('sendMessageController', () => {
             new Date(),
             false
         );
-        const req = getMockReq({body: { chatId: newMessage._id, sender: newMessage.sender, message: newMessage.content }});
+        const req = getMockReq({body: { chatId: newMessage._id, sender: newMessage.sender, message: newMessage.message }});
         const { res } = getMockRes();
         sendMessageUseCase.execute = jest.fn().mockImplementation(() => {
             throw new Error("Chat does not exists");
@@ -61,7 +61,7 @@ describe('sendMessageController', () => {
             new Date(),
             false
         );
-        const req = getMockReq({body: { chatId: "", sender: newMessage.sender, message: newMessage.content }});
+        const req = getMockReq({body: { chatId: "", sender: newMessage.sender, message: newMessage.message }});
         const { res } = getMockRes();
 
         await sendMessageController.execute(req, res);
@@ -78,7 +78,7 @@ describe('sendMessageController', () => {
             new Date(),
             false
         );
-        const req = getMockReq({body: { chatId: newMessage._id, sender: "", message: newMessage.content }});
+        const req = getMockReq({body: { chatId: newMessage._id, sender: "", message: newMessage.message }});
         const { res } = getMockRes();
 
         await sendMessageController.execute(req, res);

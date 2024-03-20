@@ -14,7 +14,7 @@ describe('getProfilePhotoController Controller', () => {
     });
 
     it('gets a profile photo', async () => {
-        const req = getMockReq({user: {userId: "123"}});
+        const req = getMockReq({user: {id: "123"}});
         const { res } = getMockRes();
 
         await controller.execute(req, res);
@@ -23,7 +23,7 @@ describe('getProfilePhotoController Controller', () => {
     });
 
     it("throws an error if user does not exist in request", async () => {
-        const req = getMockReq({user: {userId: ""}});
+        const req = getMockReq({user: {id: ""}});
         const { res } = getMockRes();
         useCase.execute = jest.fn().mockRejectedValue(new Error("User not found"));
 
