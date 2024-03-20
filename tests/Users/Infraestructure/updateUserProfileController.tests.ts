@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { updateUserProfileUseCaseMock } from "../Application/mocks/updateUserProfileUseCaseMock";
 import { getMockReq, getMockRes } from "@jest-mock/express";
-import multer from 'multer';
 
 describe("Update User Profile Controller", () => {
 
