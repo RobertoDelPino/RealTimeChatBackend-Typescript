@@ -1,3 +1,11 @@
+export interface IUpdateUserProfileUseCaseProps{
+    id: string,
+    name: string,
+    password: string,
+    avatar: any
+}
+
+
 export interface IUpdateUserProfileUseCase{
-    execute(name: string, password: string, avatar: string): Promise<void>;
+    execute(request: IUpdateUserProfileUseCaseProps): Promise<void>;
 }

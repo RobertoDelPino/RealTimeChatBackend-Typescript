@@ -14,7 +14,7 @@ describe("Update User Profile Controller", () => {
     });
 
     it("Returns status code 200", async () => {
-        const request = getMockReq({ body: { name: "name", password: "password" }, file: { path: "path" }});
+        const request = getMockReq({ body: {id: "1", name: "name", password: "password" }, file: { path: "path" }});
         const response = getMockRes().res;
 
         await updateUserProfileController.execute(request, response);
@@ -23,7 +23,7 @@ describe("Update User Profile Controller", () => {
     });
 
     it("Returns status code 400 when usecase fail", async () => {
-        const request = getMockReq({ body: { name: "name", password: "password" }, file: { path: "path" }});
+        const request = getMockReq({ body: {id: "1", name: "name", password: "password" }, file: { path: "path" }});
         const response = getMockRes().res;
         updateUserProfileUseCase.execute = jest.fn().mockRejectedValue(new Error("Error saving user profile"))
    
