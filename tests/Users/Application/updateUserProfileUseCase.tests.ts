@@ -35,6 +35,20 @@ describe("Update User Profile Use Case", () => {
         expect(userRepository.save).toHaveBeenCalled();
     });
 
+    it("throws an error if the user does not exist", async () => {
+        const request: IUpdateUserProfileUseCaseProps = {
+            id: "1",
+            name: "John Doe",
+            password: "password",
+            avatar: "avatar"
+        };
+        userRepository.findById = jest.fn().mockResolvedValue(null);
+
+        const useCasePromise = updateUserProfileUseCase.execute(request);
+
+        await expect(useCasePromise).rejects.toThrow('User not found');
+    });
+
 });
 
 export class UpdateUserProfileUseCase implements IUpdateUserProfileUseCase{
