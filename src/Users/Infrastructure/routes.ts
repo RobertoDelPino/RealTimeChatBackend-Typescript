@@ -11,7 +11,7 @@ import {
     createUpdateUserProfileController} 
 from './Controllers/controllerFactory';
 import { createCheckAuth } from './Middleware/middlewareFactory';
-
+import multer from 'multer';
 const router = express.Router();
 
 const createUserController = createCreateUserController();
@@ -26,6 +26,9 @@ const updateUserProfileController = createUpdateUserProfileController();
 
 // middleware
 const checkAuth = createCheckAuth();
+const upload = multer({
+    storage: multer.memoryStorage()
+});
 
 router.post('/api/users/create', createUserController.handle.bind(createUserController));
 router.post('/api/users/confirm/:token', confirmUserController.handle.bind(confirmUserController));
@@ -35,6 +38,6 @@ router.post('/api/users/change-password/:token', changePasswordController.handle
 router.get("/api/users/profile", checkAuth.checkAuth.bind(checkAuth), getProfileController.execute.bind(getProfileController));
 router.post("/api/users/login", loginController.execute.bind(loginController));
 router.get("/api/users/profile-photo", checkAuth.checkAuth.bind(checkAuth), getProfilePhotoController.execute.bind(getProfilePhotoController));
-router.post("/api/users/profile", checkAuth.checkAuth.bind(checkAuth), updateUserProfileController.execute.bind(updateUserProfileController));
+router.post("/api/users/profile", checkAuth.checkAuth.bind(checkAuth), upload.any(),  updateUserProfileController.execute.bind(updateUserProfileController));
 
 export default router;  

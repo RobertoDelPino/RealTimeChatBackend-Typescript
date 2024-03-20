@@ -6,7 +6,7 @@ export interface IUpdateUserProfileController{
 }
 
 interface MulterRequest extends Request {
-    file: any;
+    files: any[];
 }
 
 export class UpdateUserProfileController implements IUpdateUserProfileController{
@@ -17,7 +17,7 @@ export class UpdateUserProfileController implements IUpdateUserProfileController
     async execute(request: MulterRequest, response: Response) {
         try {
             const { id, name, password } = request.body;
-            const avatar = request.file ? request.file.path : null;
+            const avatar = request.files ? request.files[0] : null;
             const useCaseProps : IUpdateUserProfileUseCaseProps = { id, name, password, avatar };
 
             await this.updateUserProfileUseCase.execute(useCaseProps);

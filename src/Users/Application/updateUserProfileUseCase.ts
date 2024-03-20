@@ -5,12 +5,13 @@ import { Avatar } from "../Domain/valueObjects/Avatar";
 import { UserName } from "../Domain/valueObjects/UserName";
 import { IUploadPhotoService } from "../Domain/interfaces/uploadPhoto";
 import fs from "fs"
+import hashString from "../Domain/services/hashString";
 
 export interface IUpdateUserProfileUseCaseProps{
     id: string,
     name: string,
     password: string,
-    avatar: string
+    avatar: any
 }
 
 export interface IUpdateUserProfileUseCase{
@@ -22,6 +23,8 @@ export class UpdateUserProfileUseCase implements IUpdateUserProfileUseCase{
         private userRepository: IUserRepository,
         private uploadPhotoService: IUploadPhotoService) {
     }
+
+    FOLDER_NAME = "src/UserPhotos/"
 
     async execute(props: IUpdateUserProfileUseCaseProps): Promise<void> {      
         const user = await this.userRepository.findById(props.id);
@@ -36,12 +39,14 @@ export class UpdateUserProfileUseCase implements IUpdateUserProfileUseCase{
             })
         }
 
-        const request = createRequest(props.name, props.password, props.avatar);
+        const avatarName = this.FOLDER_NAME + props.avatar.originalname;
+        const newPassword = await hashString(props.password);
+        const request = createRequest(props.name, newPassword,  avatarName);
         user.name = request.name;
         user.password = request.password;
         user.avatar = request.avatar;
 
-        await this.userRepository.save(user);
+        await this.userRepository.update(user);
         await this.uploadPhotoService.uploadPhoto(props.avatar);
 
         function createRequest(
