@@ -37,7 +37,7 @@ describe("Update User Profile Use Case", () => {
         await updateUserProfileUseCase.execute(request);
 
         expect(userRepository.findById).toHaveBeenCalledWith(request.id);
-        expect(userRepository.save).toHaveBeenCalled();
+        expect(userRepository.update).toHaveBeenCalled();
         expect(uploadPhotoService.uploadPhoto).toHaveBeenCalledWith(request.avatar);
     });
 

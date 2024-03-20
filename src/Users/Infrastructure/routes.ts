@@ -37,7 +37,7 @@ router.post('/api/users/check-change-password-token/:token', checkChangePassword
 router.post('/api/users/change-password/:token', changePasswordController.handle.bind(changePasswordController));
 router.get("/api/users/profile", checkAuth.checkAuth.bind(checkAuth), getProfileController.execute.bind(getProfileController));
 router.post("/api/users/login", loginController.execute.bind(loginController));
-router.get("/api/users/profile-photo", checkAuth.checkAuth.bind(checkAuth), getProfilePhotoController.execute.bind(getProfilePhotoController));
+router.get("/api/users/profile-photo/:id", checkAuth.checkAuth.bind(checkAuth), getProfilePhotoController.execute.bind(getProfilePhotoController));
 router.post("/api/users/profile", checkAuth.checkAuth.bind(checkAuth), upload.any(),  updateUserProfileController.execute.bind(updateUserProfileController));
 
 export default router;  

@@ -21,11 +21,10 @@ export class GetProfilePhotoUseCase implements IGetProfilePhotoUseCase {
             }
 
             const userAvatar = path.resolve(user.avatar.value.replace("\\", "/"));
-            
             if(!userAvatar){
                 return defaultAvatar;
             }
-            return defaultAvatar;
+            return userAvatar;
         } catch (error) {
             throw new Error(error.message);
         }
