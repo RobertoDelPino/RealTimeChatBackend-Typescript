@@ -1,4 +1,5 @@
-import { Request, Response } from "express";
+import { IUpdateUserProfileUseCase } from "../../../src/Users/Application/updateUserProfileUseCase";
+import { IUpdateUserProfileController, UpdateUserProfileController } from "../../../src/Users/Infrastructure/Controllers/updateUserProfileController";
 import { updateUserProfileUseCaseMock } from "../Application/mocks/updateUserProfileUseCaseMock";
 import { getMockReq, getMockRes } from "@jest-mock/express";
 
@@ -21,35 +22,3 @@ describe("Update User Profile Controller", () => {
         expect(response.status).toHaveBeenCalledWith(200);
     });
 });
-
-export interface IUpdateUserProfileController{
-    execute(request: Request, response: Response): Promise<void>;
-}
-
-interface MulterRequest extends Request {
-    file: any;
-}
-
-export class UpdateUserProfileController implements IUpdateUserProfileController{
-    constructor(
-        private updateUserProfileUseCase: IUpdateUserProfileUseCase) {
-    }
-
-    async execute(request: MulterRequest, response: Response) {
-        try {
-            const { name, password } = request.body;
-            const avatar = request.file ? request.file.path : null;
-
-            await this.updateUserProfileUseCase.execute(name, password, avatar);
-
-            response.status(200).json({ message: 'Profile updated successfully' });
-        }
-        catch (error) {
-            response.status(400).json({ error: error.message });
-        }
-    }
-}
-
-export interface IUpdateUserProfileUseCase{
-    execute(name: string, password: string, avatar: string): Promise<void>;
-}
