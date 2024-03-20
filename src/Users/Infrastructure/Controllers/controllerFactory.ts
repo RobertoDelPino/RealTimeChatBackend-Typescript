@@ -18,6 +18,9 @@ import { LoginController } from "./loginController";
 import { CreateJWT } from "../Services/createJWT";
 import { GetProfilePhotoUseCase } from "../../Application/getProfilePhotoUseCase";
 import { GetProfilePhotoController } from "./getProfilePhotoController";
+import { UpdateUserProfileUseCase } from "../../Application/updateUserProfileUseCase";
+import { UpdateUserProfileController } from "../../Infrastructure/Controllers/updateUserProfileController";
+import { UploadPhoto } from "../Services/uploadPhoto";
 
 
 function createCreateUserController() {
@@ -74,6 +77,13 @@ function createGetProfilePhotoController() {
   return new GetProfilePhotoController(useCase);
 }
 
+function createUpdateUserProfileController(){
+  const repository = new mongoDbUserRepository();
+  const uploadPhotoService = new UploadPhoto();
+  const useCase = new UpdateUserProfileUseCase(repository, uploadPhotoService);
+  return new UpdateUserProfileController(useCase);
+}
+
 export { 
   createCreateUserController, 
   createConfirmUserController, 
@@ -82,5 +92,6 @@ export {
   createChangePasswordController,
   createGetProfileController,
   createLoginController,
-  createGetProfilePhotoController
+  createGetProfilePhotoController,
+  createUpdateUserProfileController
 };

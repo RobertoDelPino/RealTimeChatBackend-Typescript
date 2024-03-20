@@ -7,7 +7,8 @@ import {
     createForgotPasswordController, 
     createGetProfileController,
     createLoginController,
-    createGetProfilePhotoController} 
+    createGetProfilePhotoController,
+    createUpdateUserProfileController} 
 from './Controllers/controllerFactory';
 import { createCheckAuth } from './Middleware/middlewareFactory';
 
@@ -21,6 +22,7 @@ const changePasswordController = createChangePasswordController();
 const getProfileController = createGetProfileController();
 const loginController = createLoginController();
 const getProfilePhotoController = createGetProfilePhotoController();
+const updateUserProfileController = createUpdateUserProfileController();
 
 // middleware
 const checkAuth = createCheckAuth();
@@ -33,5 +35,6 @@ router.post('/api/users/change-password/:token', changePasswordController.handle
 router.get("/api/users/profile", checkAuth.checkAuth.bind(checkAuth), getProfileController.execute.bind(getProfileController));
 router.post("/api/users/login", loginController.execute.bind(loginController));
 router.get("/api/users/profile-photo", checkAuth.checkAuth.bind(checkAuth), getProfilePhotoController.execute.bind(getProfilePhotoController));
+router.post("/api/users/profile", checkAuth.checkAuth.bind(checkAuth), updateUserProfileController.execute.bind(updateUserProfileController));
 
 export default router;  
