@@ -32,53 +32,86 @@ export class UpdateUserProfileUseCase implements IUpdateUserProfileUseCase{
             throw new Error("User not found");
         }
 
-        const oldAvatar = user.avatar.value.replace("\\", "/")
-        if(oldAvatar !== "src/UserPhotos/defaultAvatar.webp"){
-            fs.unlink(oldAvatar, (err) => {
-                if (err) {console.error(err); return}
-            })
+        if(props.avatar){
+            const oldAvatar = user.avatar.value.replace("\\", "/")
+            if(oldAvatar !== "src/UserPhotos/defaultAvatar.webp"){
+                fs.unlink(oldAvatar, (err) => {
+                    if (err) {console.error(err); return}
+                })
+            }
+    
+            const avatarName = this.FOLDER_NAME + props.avatar.originalname;
+            const avatar = createAvatar(avatarName);
+            user.avatar = avatar;
+            await this.uploadPhotoService.uploadPhoto(props.avatar);
+        } 
+
+        if(props.password){
+            const passwordHashed = await hashString(props.password);
+            const password = createPassword(passwordHashed);
+            user.password = password;
         }
-
-        const avatarName = this.FOLDER_NAME + props.avatar.originalname;
-        const newPassword = await hashString(props.password);
-        const request = createRequest(props.name, newPassword,  avatarName);
-        user.name = request.name;
-        if(request.password) user.password = request.password;
-        if (request.avatar) user.avatar = request.avatar;
-
+        
+        const name = createUserName(props.name);
+        user.name = name;
+        
         await this.userRepository.update(user);
-        await this.uploadPhotoService.uploadPhoto(props.avatar);
 
-        function createRequest(
-            newName: string, 
-            newPassword: string, 
-            newAvatar: any
-        ) : {name: UserName, password: Password, avatar: Avatar}{
-            
+        function createUserName(newName: string) : UserName{
             let errors: string[] = [];
-
             let name: UserName;
-            let password: Password;
-            let avatar: Avatar;
-
-            if(newAvatar){
-                const avatarResult = Avatar.create(newAvatar);
-                handleValueObject(avatarResult, (value: Avatar) => avatar = value, (error: string) => errors.push(error));
-            }
-
-            if(newPassword){
-                const passwordResult = Password.create(newPassword);
-                handleValueObject(passwordResult, (value: Password) => password = value, (error: string) => errors.push(error));
-            }
-
+            
             const nameResult = UserName.create(newName);
             handleValueObject(nameResult, (value: UserName) => name = value, (error: string) => errors.push(error));
 
             if(errors.length > 0) {
                 throw new Error(errors.join(', '));
             }
+            return name!;
 
-            return {name: name!, password: password!, avatar: avatar!};
+            function handleValueObject<T>(result: Either<string, T>, setValue: (value: T) => void, setError: (value: string) => void): void {
+                const getValue = fold(
+                  (error: string) => setError(error),
+                  (value: T) => setValue(value)
+                );
+              
+                getValue(result);
+            }
+        }
+
+        function createPassword(newPassword: string) : Password{
+            let errors: string[] = [];
+            let password: Password;
+            
+            const passwordResult = Password.create(newPassword);
+            handleValueObject(passwordResult, (value: Password) => password = value, (error: string) => errors.push(error));
+
+            if(errors.length > 0) {
+                throw new Error(errors.join(', '));
+            }
+            return password!;
+
+            function handleValueObject<T>(result: Either<string, T>, setValue: (value: T) => void, setError: (value: string) => void): void {
+                const getValue = fold(
+                  (error: string) => setError(error),
+                  (value: T) => setValue(value)
+                );
+              
+                getValue(result);
+            }
+        }
+
+        function createAvatar(newAvatar: any) : Avatar{
+            let errors: string[] = [];
+            let avatar: Avatar;
+            
+            const avatarResult = Avatar.create(newAvatar);
+            handleValueObject(avatarResult, (value: Avatar) => avatar = value, (error: string) => errors.push(error));
+
+            if(errors.length > 0) {
+                throw new Error(errors.join(', '));
+            }
+            return avatar!;
 
             function handleValueObject<T>(result: Either<string, T>, setValue: (value: T) => void, setError: (value: string) => void): void {
                 const getValue = fold(
