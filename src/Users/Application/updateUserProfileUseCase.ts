@@ -43,8 +43,8 @@ export class UpdateUserProfileUseCase implements IUpdateUserProfileUseCase{
         const newPassword = await hashString(props.password);
         const request = createRequest(props.name, newPassword,  avatarName);
         user.name = request.name;
-        user.password = request.password;
-        user.avatar = request.avatar;
+        if(request.password) user.password = request.password;
+        if (request.avatar) user.avatar = request.avatar;
 
         await this.userRepository.update(user);
         await this.uploadPhotoService.uploadPhoto(props.avatar);
@@ -61,12 +61,18 @@ export class UpdateUserProfileUseCase implements IUpdateUserProfileUseCase{
             let password: Password;
             let avatar: Avatar;
 
+            if(newAvatar){
+                const avatarResult = Avatar.create(newAvatar);
+                handleValueObject(avatarResult, (value: Avatar) => avatar = value, (error: string) => errors.push(error));
+            }
+
+            if(newPassword){
+                const passwordResult = Password.create(newPassword);
+                handleValueObject(passwordResult, (value: Password) => password = value, (error: string) => errors.push(error));
+            }
+
             const nameResult = UserName.create(newName);
-            const passwordResult = Password.create(newPassword);
-            const avatarResult = Avatar.create(newAvatar);
             handleValueObject(nameResult, (value: UserName) => name = value, (error: string) => errors.push(error));
-            handleValueObject(passwordResult, (value: Password) => password = value, (error: string) => errors.push(error));
-            handleValueObject(avatarResult, (value: Avatar) => avatar = value, (error: string) => errors.push(error));
 
             if(errors.length > 0) {
                 throw new Error(errors.join(', '));
