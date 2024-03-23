@@ -1,6 +1,5 @@
 import { CreateChatUseCase, ICreateChatUseCase } from "../../../src/Chats/Application/createChatUseCase";
 import { IChatsRepository } from "../../../src/Chats/Domain/interfaces/chatsRepository";
-import { User } from "../../../src/Chats/Domain/Entities/User";
 import { chatsRepositoryMock } from "../Domain/Mocks/chatRepositoryMock"
 
 describe('createChatUseCase', () => {
