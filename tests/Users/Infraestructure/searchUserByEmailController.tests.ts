@@ -1,5 +1,7 @@
 import { getMockReq, getMockRes } from "@jest-mock/express";
-import { Request, Response } from "express";
+import { ISearchUserByEmailUseCase } from "../../../src/Users/Application/searchUserByEmailUseCase";
+import { searchUseByEmailUseCaseMock } from "../Application/mocks/searchUserByEmailUseCaseMock";
+import { ISearchUserByEmailController, SearchUserByEmailController } from "../../../src/Users/Infrastructure/Controllers/searchUserByEmailController";
 
 describe('Search User By Email Controller', () => {
 
@@ -46,34 +48,3 @@ describe('Search User By Email Controller', () => {
     });
 });
 
-interface ISearchUserByEmailUseCase {
-    execute(email: string): Promise<boolean>;
-}
-
-const searchUseByEmailUseCaseMock : ISearchUserByEmailUseCase = {
-    execute: jest.fn().mockReturnValue(true)
-};
-
-interface ISearchUserByEmailController {
-    execute(request: Request, response: Response): Promise<void>;
-}
-
-class SearchUserByEmailController implements ISearchUserByEmailController {
-    constructor(private searchUserByEmailUseCase: ISearchUserByEmailUseCase) { }
-
-    async execute(request: Request, response: Response): Promise<void> {
-        try{
-            const { email } = request.params;
-            const user = await this.searchUserByEmailUseCase.execute(email);
-            if (!user) {
-                response.status(404).json({ message: 'User not found' });
-                return;
-            }
-    
-            response.status(200).json(user);
-        }
-        catch(error){
-            response.status(500).send({error: error.message});
-        }
-    }
-}
