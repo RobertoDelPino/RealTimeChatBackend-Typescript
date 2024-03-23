@@ -43,6 +43,6 @@ describe('getChatUseCase', () => {
 function createChat(chatId: string): Chat {
     const user1 = new User("1", "name", "email");
     const user2 = new User("2", "name", "email");
-    const message = new Message("1", "content", user1, user2);
-    return new Chat(chatId, [user1, user2], [message]);
+    const message = new Message("1", "content", user1, new Date(), false);
+    return new Chat(chatId, [user1, user2], [message], false, "");
 }
