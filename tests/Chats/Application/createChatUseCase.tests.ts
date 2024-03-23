@@ -20,5 +20,13 @@ describe('createChatUseCase', () => {
     
         expect(chatRepository.save).toBeCalled();
     });
+
+    it('throws an error when creating a chat with less than 2 users', async () => {
+        const users: string[] = ["12345678"];
+
+        await expect(createChatUseCase.execute(users)).rejects.toThrow("A chat must have at least 2 users");
+    });
+
+    
 });
 
