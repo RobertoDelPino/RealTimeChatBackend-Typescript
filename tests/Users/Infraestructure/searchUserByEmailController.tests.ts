@@ -22,6 +22,17 @@ describe('Search User By Email Controller', () => {
         expect(response.status).toHaveBeenCalledWith(200);
         expect(response.json).toHaveBeenCalledWith(user);
     });
+
+    it('returns 404 when user is not found', async () => {
+        const request = getMockReq({ params: { email: 'prueba@test.com'}});
+        const response = getMockRes().res;
+        searchUseByEmailUseCase.execute = jest.fn().mockResolvedValue(null);
+
+        await searchUserByEmailController.execute(request, response);
+
+        expect(response.status).toHaveBeenCalledWith(404);
+        expect(response.json).toHaveBeenCalledWith({ message: 'User not found' });
+    });
 });
 
 interface ISearchUserByEmailUseCase {
