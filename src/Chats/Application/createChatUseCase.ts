@@ -3,13 +3,13 @@ import { Chat } from "../Domain/Entities/Chat";
 import { User } from "../Domain/Entities/User";
 
 export interface ICreateChatUseCase {
-    execute(users: string[], chatName?: string): Promise<Chat>;
+    execute(users: string[], chatName: string): Promise<Chat>;
 }
 
 export class CreateChatUseCase implements ICreateChatUseCase {
     constructor(private chatsRepository: IChatsRepository) {}
 
-    async execute(users: string[], chatName?: string): Promise<Chat> {
+    async execute(users: string[], chatName: string = ""): Promise<Chat> {
         if(users.length < 2) { throw new Error("A chat must have at least 2 users"); }
         if(users.length > 2 && chatName == "") { throw new Error("A group chat must have a name"); }
 

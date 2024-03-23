@@ -16,7 +16,7 @@ describe('createChatUseCase', () => {
     it('creates a chat', async () => {
         const users: string[] = ["12345678", "87654321"];
 
-        await createChatUseCase.execute(users);
+        await createChatUseCase.execute(users, "");
     
         expect(chatRepository.save).toBeCalled();
     });
@@ -24,9 +24,13 @@ describe('createChatUseCase', () => {
     it('throws an error when creating a chat with less than 2 users', async () => {
         const users: string[] = ["12345678"];
 
-        await expect(createChatUseCase.execute(users)).rejects.toThrow("A chat must have at least 2 users");
+        await expect(createChatUseCase.execute(users, "")).rejects.toThrow("A chat must have at least 2 users");
     });
 
-    
+    it('throws an error when creating a group chat without a name', async () => {
+        const users: string[] = ["12345678", "87654321", "12348765"];
+
+        await expect(createChatUseCase.execute(users, "")).rejects.toThrow("A group chat must have a name");
+    });
 });
 
