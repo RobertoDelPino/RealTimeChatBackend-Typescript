@@ -4,14 +4,24 @@ import { IMessage, messageSchema } from "./Message";
 export interface IChat extends Document {
     users: Schema.Types.ObjectId[];
     messages: Schema.Types.ObjectId[];
+    isGroup: boolean;
+    groupName: string;
 }
 
 export const chatSchema: Schema<IChat> = new mongoose.Schema(
     {
+        isGroup: {
+            type: Boolean,
+            default: false
+        },
+        groupName: {
+            type: String,
+            default: ''
+        },
         users: [
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'User'
+                ref: "User"
             }
         ],
         messages: [
@@ -19,7 +29,7 @@ export const chatSchema: Schema<IChat> = new mongoose.Schema(
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Message'
             }
-        ],
+        ]
     },
     {
         timestamps: true

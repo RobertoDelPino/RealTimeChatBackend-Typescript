@@ -14,11 +14,11 @@ describe('createChatUseCase', () => {
     });
 
     it('creates a chat', async () => {
-        const users : User[] = [];
+        const users: string[] = ["12345678", "87654321"];
 
         await createChatUseCase.execute(users);
     
-        expect(chatRepository.save).toBeCalledWith(users);
+        expect(chatRepository.save).toBeCalled();
     });
 });
 

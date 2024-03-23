@@ -28,7 +28,9 @@ export class mongoDbChatRepository implements IChatsRepository{
                     message.sender,
                     message.createdAt,
                     message.readed
-                ))
+                )),
+                false,
+                ""
             );
         }
     }
@@ -56,27 +58,35 @@ export class mongoDbChatRepository implements IChatsRepository{
                     message.sender,
                     message.createdAt,
                     message.readed
-                ))
+                )),
+                false,
+                ""
             );
         }
     }
 
-    async save(users: User[]): Promise<Chat> {
-        const chat = new MongoDbChat({users: users});
+    async save(chat: Chat): Promise<Chat> {
+        const newChat = new MongoDbChat({
+            users: chat.users.map(user => user._id), 
+            isGroup: chat.isGroup, 
+            groupName: chat.groupName
+        });
         
-        await chat.save();
+        await newChat.save();
         
-        return createChat(chat);
+        return createChat(newChat);
 
         function createChat(chat: IChat){
             return new Chat(
-                chat._id,
-                users = chat.users.map(id => new User(
+                newChat._id,
+                chat.users.map(id => new User(
                     id.toString(),
                     "",
                     "",
                 )),
-                []
+                [],
+                false,
+                ""
             );
         }
     }

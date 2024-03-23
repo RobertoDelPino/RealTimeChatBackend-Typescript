@@ -5,6 +5,8 @@ export class Chat {
     constructor(
         public _id: string,
         public users: User[],
-        public messages: Message[]
+        public messages: Message[],
+        public isGroup: boolean,
+        public groupName: string
     ) {}
 }

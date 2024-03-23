@@ -27,8 +27,26 @@ describe("createChat Controller", () => {
             name: "",
             email: ""
         }
-        const chat = new Chat("12345678", [user, user2], []);
+        const chat = new Chat("12345678", [user, user2], [], false, "");
         const req = getMockReq({body: { users: users }});
+        const { res } = getMockRes();
+        createChatUseCase.execute = jest.fn().mockReturnValue(chat);
+
+        await createChatController.execute(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(chat);
+    });
+
+    it("creates a group chat if more than 2 users are provided", async () => {
+        const users = ["12345678", "87654321", "12312312"];
+        
+        const user1 : User = { _id: "12345678", name: "", email: ""}
+        const user2 : User = { _id: "87654321", name: "", email: ""}
+        const user3 : User = { _id: "12312312", name: "", email: ""}
+
+        const chat = new Chat("12345678", [user1, user2, user3], [], true, "");
+        const req = getMockReq({body: { name: "group name",  users: users }});
         const { res } = getMockRes();
         createChatUseCase.execute = jest.fn().mockReturnValue(chat);
 
