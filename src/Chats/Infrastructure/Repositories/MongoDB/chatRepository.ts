@@ -29,8 +29,8 @@ export class mongoDbChatRepository implements IChatsRepository{
                     message.createdAt,
                     message.readed
                 )),
-                false,
-                ""
+                chat.isGroup,
+                chat.groupName
             );
         }
     }
@@ -78,15 +78,15 @@ export class mongoDbChatRepository implements IChatsRepository{
 
         function createChat(chat: IChat){
             return new Chat(
-                newChat._id,
+                chat._id,
                 chat.users.map(id => new User(
                     id.toString(),
                     "",
                     "",
                 )),
                 [],
-                false,
-                ""
+                chat.isGroup,
+                chat.groupName
             );
         }
     }
