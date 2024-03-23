@@ -32,5 +32,13 @@ describe('createChatUseCase', () => {
 
         await expect(createChatUseCase.execute(users, "")).rejects.toThrow("A group chat must have a name");
     });
+
+    it('creates a group chat', async () => {
+        const users: string[] = ["12345678", "87654321", "12348765"];
+
+        await createChatUseCase.execute(users, "Group Chat");
+    
+        expect(chatRepository.save).toBeCalled();
+    });
 });
 
