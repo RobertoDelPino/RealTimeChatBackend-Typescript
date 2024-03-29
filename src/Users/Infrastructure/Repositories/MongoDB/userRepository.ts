@@ -7,6 +7,7 @@ import { UserId } from "../../../Domain/valueObjects/UserId";
 import { Password } from "../../../Domain/valueObjects/Password";
 import { Token } from "../../../Domain/valueObjects/Token";
 import { Avatar } from "../../../Domain/valueObjects/Avatar";
+import { UserDTO } from "../../../Application/searchUserByEmailUseCase";
 
 export class mongoDbUserRepository implements IUserRepository{
     async save(data: User): Promise<void> {
@@ -92,6 +93,19 @@ export class mongoDbUserRepository implements IUserRepository{
         return this.createUser(repoUser);
     }
 
+    async searchByEmail(email: string): Promise<UserDTO | null> {
+        const repoUser = await MongoDbUser.findOne({email: email});
+
+        if(!repoUser) return null;
+
+        return {
+            id: repoUser._id,
+            name: repoUser.name,
+            email: repoUser.email,
+            avatar: repoUser.avatar
+        };
+    }
+
     private createUser(repoUser: IUser) : User {
         return new User(
             UserId.createFromBussiness(repoUser._id),
@@ -104,7 +118,6 @@ export class mongoDbUserRepository implements IUserRepository{
             Avatar.createFromBussiness(repoUser.avatar)
         );
     }
-    
 }
 
 
