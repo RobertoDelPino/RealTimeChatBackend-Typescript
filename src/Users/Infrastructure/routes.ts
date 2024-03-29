@@ -8,7 +8,8 @@ import {
     createGetProfileController,
     createLoginController,
     createGetProfilePhotoController,
-    createUpdateUserProfileController} 
+    createUpdateUserProfileController,
+    createSearchUserByEmailController} 
 from './Controllers/controllerFactory';
 import { createCheckAuth } from './Middleware/middlewareFactory';
 import multer from 'multer';
@@ -23,6 +24,7 @@ const getProfileController = createGetProfileController();
 const loginController = createLoginController();
 const getProfilePhotoController = createGetProfilePhotoController();
 const updateUserProfileController = createUpdateUserProfileController();
+const searchUserByEmailController = createSearchUserByEmailController();
 
 // middleware
 const checkAuth = createCheckAuth();
@@ -39,5 +41,6 @@ router.get("/api/users/profile", checkAuth.checkAuth.bind(checkAuth), getProfile
 router.post("/api/users/login", loginController.execute.bind(loginController));
 router.get("/api/users/profile-photo/:id", checkAuth.checkAuth.bind(checkAuth), getProfilePhotoController.execute.bind(getProfilePhotoController));
 router.post("/api/users/profile", checkAuth.checkAuth.bind(checkAuth), upload.any(),  updateUserProfileController.execute.bind(updateUserProfileController));
+router.get("/api/users/search/:email", checkAuth.checkAuth.bind(checkAuth), searchUserByEmailController.execute.bind(searchUserByEmailController));
 
 export default router;  

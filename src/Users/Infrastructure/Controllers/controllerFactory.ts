@@ -21,6 +21,8 @@ import { GetProfilePhotoController } from "./getProfilePhotoController";
 import { UpdateUserProfileUseCase } from "../../Application/updateUserProfileUseCase";
 import { UpdateUserProfileController } from "../../Infrastructure/Controllers/updateUserProfileController";
 import { UploadPhoto } from "../Services/uploadPhoto";
+import { SearchUserByEmailUseCase } from "../../Application/searchUserByEmailUseCase";
+import { SearchUserByEmailController } from "./searchUserByEmailController";
 
 
 function createCreateUserController() {
@@ -84,6 +86,12 @@ function createUpdateUserProfileController(){
   return new UpdateUserProfileController(useCase);
 }
 
+function createSearchUserByEmailController(){
+  const repository = new mongoDbUserRepository();
+  const useCase = new SearchUserByEmailUseCase(repository);
+  return new SearchUserByEmailController(useCase);
+}
+
 export { 
   createCreateUserController, 
   createConfirmUserController, 
@@ -93,5 +101,6 @@ export {
   createGetProfileController,
   createLoginController,
   createGetProfilePhotoController,
-  createUpdateUserProfileController
+  createUpdateUserProfileController,
+  createSearchUserByEmailController
 };
