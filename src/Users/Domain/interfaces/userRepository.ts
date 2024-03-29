@@ -1,3 +1,4 @@
+import { UserDTO } from "../../Application/searchUserByEmailUseCase";
 import { User } from "../entities/User";
 
 export interface IUserRepository {
@@ -8,4 +9,5 @@ export interface IUserRepository {
     findByUsername(username: string): Promise<User | null>;
     save(user: User): Promise<void>;
     update(user: User): Promise<void>;
+    searchByEmail(email: string): Promise<UserDTO | null>;
 }

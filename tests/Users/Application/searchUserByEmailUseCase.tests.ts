@@ -1,7 +1,7 @@
 import { ISearchUserByEmailUseCase, SearchUserByEmailUseCase } from "../../../src/Users/Application/searchUserByEmailUseCase";
 import { IUserRepository } from "../../../src/Users/Domain/interfaces/userRepository";
 import { userRepositoryMock } from "../Domain/Mocks/userRepository";
-import { createUser } from "./builders/createUser";
+import { createUserDTO } from "./builders/createUserDTO";
 
 describe('searchUserByEmailUseCase', () => {
 
@@ -14,8 +14,8 @@ describe('searchUserByEmailUseCase', () => {
     });
 
     it('returns a user', async () => {
-        const expectedUser = createUser();
-        userRepository.findByEmail = jest.fn().mockReturnValue(expectedUser);
+        const expectedUser = createUserDTO();
+        userRepository.searchByEmail = jest.fn().mockReturnValue(expectedUser);
 
         const user = await searchUserByEmailUseCase.execute("email");
 
