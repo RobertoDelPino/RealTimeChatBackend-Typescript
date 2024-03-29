@@ -21,5 +21,9 @@ describe('searchUserByEmailUseCase', () => {
 
         expect(user).toEqual(expectedUser);
     });
+
+    it('throws an error if email is empty', async () => {
+        await expect(searchUserByEmailUseCase.execute("")).rejects.toThrow('Email is required');
+    });
 });
 
