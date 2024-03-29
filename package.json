@@ -8,7 +8,7 @@
     "test-watch": "jest --watchAll",
     "tsc": "tsc",
     "start": "node build/index.js",
-    "dev": "ts-node-dev src/index.ts"
+    "dev": "ts-node-dev --respawn --watch src src/index.ts"
   },
   "keywords": [],
   "author": "",
