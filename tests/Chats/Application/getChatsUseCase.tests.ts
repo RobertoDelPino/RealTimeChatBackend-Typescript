@@ -42,5 +42,5 @@ describe("get chats use Case", () => {
 function createChat(userId: string): Chat {
     const user = new User(userId, "name", "email");
     const message = new Message("1", "content", user, new Date(), false);
-    return new Chat("1", [user], [message], false, "");
+    return new Chat("1", [user], [message], false, "", new Date());
 }

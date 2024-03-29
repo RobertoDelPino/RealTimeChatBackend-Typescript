@@ -8,7 +8,7 @@ export class mongoDbChatRepository implements IChatsRepository{
     async findAll(userId: string): Promise<Chat[]> {
         const chats = await MongoDbChat.find({users: userId})
                             .select({messages: { $slice: -1 }})
-                            .select("-createdAt -updatedAt -__v")
+                            .select("-updatedAt -__v")
                             .populate({path: "users", select: "-password -confirmed -createdAt -updatedAt -token -__v -confirmAccountToken -changePasswordToken"})
                             .populate({path: "messages", select: "_id readed message sender createdAt"})
         
@@ -30,7 +30,8 @@ export class mongoDbChatRepository implements IChatsRepository{
                     message.readed
                 )),
                 chat.isGroup,
-                chat.groupName
+                chat.groupName,
+                chat.createdAt
             );
         }
     }
@@ -60,7 +61,8 @@ export class mongoDbChatRepository implements IChatsRepository{
                     message.readed
                 )),
                 false,
-                ""
+                "",
+                new Date()
             );
         }
     }
@@ -86,7 +88,8 @@ export class mongoDbChatRepository implements IChatsRepository{
                 )),
                 [],
                 chat.isGroup,
-                chat.groupName
+                chat.groupName,
+                chat.createdAt
             );
         }
     }

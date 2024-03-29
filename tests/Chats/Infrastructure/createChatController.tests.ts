@@ -27,7 +27,7 @@ describe("createChat Controller", () => {
             name: "",
             email: ""
         }
-        const chat = new Chat("12345678", [user, user2], [], false, "");
+        const chat = new Chat("12345678", [user, user2], [], false, "", new Date());
         const req = getMockReq({body: { users: users }});
         const { res } = getMockRes();
         createChatUseCase.execute = jest.fn().mockReturnValue(chat);
@@ -45,7 +45,7 @@ describe("createChat Controller", () => {
         const user2 : User = { _id: "87654321", name: "", email: ""}
         const user3 : User = { _id: "12312312", name: "", email: ""}
 
-        const chat = new Chat("12345678", [user1, user2, user3], [], true, "");
+        const chat = new Chat("12345678", [user1, user2, user3], [], true, "", new Date());
         const req = getMockReq({body: { name: "group name",  users: users }});
         const { res } = getMockRes();
         createChatUseCase.execute = jest.fn().mockReturnValue(chat);

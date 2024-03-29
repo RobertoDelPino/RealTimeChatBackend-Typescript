@@ -7,6 +7,7 @@ export class Chat {
         public users: User[],
         public messages: Message[],
         public isGroup: boolean,
-        public groupName: string
+        public groupName: string,
+        public createdAt: Date
     ) {}
 }

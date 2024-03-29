@@ -15,7 +15,7 @@ export class CreateChatUseCase implements ICreateChatUseCase {
 
         const isGroup: boolean = users.length > 2;
         const newUsers: User[] = users.map(userId => new User(userId, "", ""));
-        const chat = new Chat("", newUsers, [], isGroup, chatName || "");
+        const chat = new Chat("", newUsers, [], isGroup, chatName || "", new Date());
 
         return this.chatsRepository.save(chat);
     }
