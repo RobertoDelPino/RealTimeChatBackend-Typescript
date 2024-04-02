@@ -60,8 +60,8 @@ export class mongoDbChatRepository implements IChatsRepository{
                     message.createdAt,
                     message.readed
                 )),
-                false,
-                "",
+                chat.isGroup,
+                chat.groupName,
                 new Date()
             );
         }
