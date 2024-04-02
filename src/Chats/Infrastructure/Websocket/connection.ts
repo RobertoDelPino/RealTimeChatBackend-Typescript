@@ -20,7 +20,6 @@ export function connectToSocket(server){
             const sender = message.sender;
             if(!message.isGroup){
                 const receiver = message.receivers[0];
-                message.readed = true;
                 socket.to(receiver).to(sender).emit("Message sent", message)
                 return;
             }
@@ -36,7 +35,7 @@ export function connectToSocket(server){
         socket.on("Update Messages Status", (message) => {
             const sender = message.sender;
             if(!message.isGroup){
-                const receiver = message.receivers[0];
+                const receiver = message.receivers.find(receiver => receiver._id != sender)._id;
                 message.readed = true;
                 socket.to(receiver).to(sender).emit("Message Chat Status Updated", message)
                 return;
