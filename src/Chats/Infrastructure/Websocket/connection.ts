@@ -18,17 +18,34 @@ export function connectToSocket(server){
     
         socket.on("Send Message", (message) => {
             const sender = message.sender;
-            const receiver = message.receiver;
-            socket.to(receiver).to(sender).emit("Message sent", message)
+            if(!message.isGroup){
+                const receiver = message.receivers[0];
+                message.readed = true;
+                socket.to(receiver).to(sender).emit("Message sent", message)
+                return;
+            }
+            
+            message.receivers.forEach((receiver: string) => {
+                socket.to(receiver).emit("Message sent", message)
+            })
+            socket.to(sender).emit("Message sent", message)
         })
     
         // Cuando llegue este mensaje se publicará un mensaje para el receiver y el sender
         // y se enviará un mensaje con el chat actualizado con su último mensaje
         socket.on("Update Messages Status", (message) => {
             const sender = message.sender;
-            const receiver = message.receiver;
-            message.readed = true;
-            socket.to(receiver).to(sender).emit("Message Chat Status Updated", message)
+            if(!message.isGroup){
+                const receiver = message.receivers[0];
+                message.readed = true;
+                socket.to(receiver).to(sender).emit("Message Chat Status Updated", message)
+                return;
+            }
+            
+            message.receivers.forEach((receiver: string) => {
+                socket.to(receiver).emit("Message Chat Status Updated", message)
+            })
+            socket.to(sender).emit("Message Chat Status Updated", message)
         })
     });
 
