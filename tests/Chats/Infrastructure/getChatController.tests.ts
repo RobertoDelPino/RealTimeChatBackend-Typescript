@@ -15,7 +15,7 @@ describe("getChat Controller", () => {
     });
 
     it("gets a chat", async () => {
-        const chat = new Chat("12345678", [], [], false, "");
+        const chat = new Chat("12345678", [], [], false, "", new Date());
         const chatId = "12345678";
         const req = getMockReq({params: { chatId: chatId }});
         const { res } = getMockRes();
