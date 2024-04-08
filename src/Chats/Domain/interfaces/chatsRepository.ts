@@ -9,4 +9,5 @@ export interface IChatsRepository {
     sendMessage(chatId: string, message: Message): Promise<Message>;
     exists(chatId: string): Promise<boolean>;
     updateMessageStatus(chatId: string, userId: string): Promise<void>;
+    findChatByUsers(users: string[]): Promise<boolean>;
 }

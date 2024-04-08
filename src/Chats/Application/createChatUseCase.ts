@@ -12,6 +12,11 @@ export class CreateChatUseCase implements ICreateChatUseCase {
     async execute(users: string[], chatName: string = ""): Promise<Chat> {
         if(users.length < 2) { throw new Error("A chat must have at least 2 users"); }
         if(users.length > 2 && chatName == "") { throw new Error("A group chat must have a name"); }
+        
+        if(users.length == 2) {
+            const chatExists = await this.chatsRepository.findChatByUsers(users);
+            if(chatExists) { throw new Error("Chat already exist"); }
+        }
 
         const isGroup: boolean = users.length > 2;
         const newUsers: User[] = users.map(userId => new User(userId, "", ""));

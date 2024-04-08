@@ -14,6 +14,7 @@ describe('createChatUseCase', () => {
 
     it('creates a chat', async () => {
         const users: string[] = ["12345678", "87654321"];
+        chatRepository.findChatByUsers = jest.fn().mockReturnValue(false);
 
         await createChatUseCase.execute(users, "");
     
@@ -38,6 +39,13 @@ describe('createChatUseCase', () => {
         await createChatUseCase.execute(users, "Group Chat");
     
         expect(chatRepository.save).toBeCalled();
+    });
+
+    it('throws an error when creating a chat that already exists', async () => {
+        const users: string[] = ["12345678", "87654321"];
+        chatRepository.findChatByUsers = jest.fn().mockReturnValue(true);
+
+        await expect(createChatUseCase.execute(users, "")).rejects.toThrow("Chat already exist");
     });
 });
 
