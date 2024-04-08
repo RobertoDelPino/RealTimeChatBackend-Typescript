@@ -136,4 +136,9 @@ export class mongoDbChatRepository implements IChatsRepository{
 
         await MongoDbMessage.updateMany({_id: {$in: chat.messages}, sender: userId}, {readed: true})
     }
+
+    async findChatByUsers(users: string[]): Promise<boolean> {
+        var result = await MongoDbChat.findOne({users: {$all: users}});
+        return result != null;
+    }
 }
