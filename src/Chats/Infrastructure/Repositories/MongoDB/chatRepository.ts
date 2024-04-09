@@ -75,22 +75,31 @@ export class mongoDbChatRepository implements IChatsRepository{
         });
         
         await newChat.save();
-        
-        return createChat(newChat);
 
-        function createChat(chat: IChat){
-            return new Chat(
+        return await createChat(newChat);
+
+        async function createChat(chat: IChat) {
+            const result = await MongoDbChat.findById(chat._id)
+            .select("-__v -createdAt -updatedAt")
+            .populate({path: "users", select: "_id name email"})
+            .populate({path: "messages", select: "_id readed message sender createdAt"})
+
+            return createChat(result);
+
+            function createChat(chat: any){
+                return new Chat(
                 chat._id,
-                chat.users.map(id => new User(
-                    id.toString(),
-                    "",
-                    "",
+                chat.users.map(user => new User(
+                    user._id,
+                    user.name,
+                    user.email
                 )),
                 [],
                 chat.isGroup,
                 chat.groupName,
-                chat.createdAt
-            );
+                new Date()
+                );
+            }
         }
     }
 
