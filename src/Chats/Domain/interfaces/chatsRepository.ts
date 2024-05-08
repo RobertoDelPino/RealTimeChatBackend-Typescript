@@ -1,6 +1,5 @@
 import { Chat } from "../Entities/Chat";
 import { Message } from "../Entities/Message";
-import { User } from "../Entities/User";
 
 export interface IChatsRepository {
     findAll(userId: string): Promise<Chat[]>;

@@ -15,3 +15,4 @@ export class GetChatUseCase implements IGetChatUseCase {
         return this.chatsRepository.findBy(chatId);
     }
 }
+
